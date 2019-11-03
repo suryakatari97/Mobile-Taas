@@ -1,0 +1,4 @@
+hostname: ec2-34-209-73-50.us-west-2.compute.amazonaws.com
+admin user: Admin
+admin email: admin@cmpe280.com
+admin password: admin123
