@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 const {bugzillaToken, bugzillaBaseURL} = require("../config/constants");
 
 const login = (req, res, next)=>{
+    console.log(req.body);
     const email = req.body.email;
     const password = req.body.password;
 
@@ -37,6 +38,7 @@ const login = (req, res, next)=>{
 };
 
 const signup = (req, res, next) => {
+    console.log(req.body);
     const email = req.body.email;
     const password = req.body.password;
     const firstname = req.body.firstname;
