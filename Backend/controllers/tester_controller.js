@@ -18,7 +18,24 @@ const getTesterProjects = (req,res,next) =>{
     });
 };
 
+const getProjectUrl = (req,res,next) =>{
+    console.log(req.query);
+    var projectid = req.query.id;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('SELECT project_url FROM cmpe_project WHERE projectid=?',
+        [projectid], (err, rowsOfTable, fieldsOfTable)=>{
+            if(err){
+                console.log(err);
+                res.status(500).json({ responseMessage: 'Database not responding' });
+            } else {
+                  console.log(rowsOfTable);
+                  res.status(200).json({ url: rowsOfTable[0].project_url });
+                }
+    });
+};
+
 module.exports = {
     testlogin,
-    getTesterProjects
+    getTesterProjects,
+    getProjectUrl
 };
