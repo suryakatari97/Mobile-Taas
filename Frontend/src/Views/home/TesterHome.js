@@ -65,12 +65,19 @@ class TesterHome extends Component {
         return (
             <div>
                 {redirectVar}
+               
                 <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
                     <div className="container">
+                    {this.state.projects.length > 0 ?
                         <div className="row mt-5">
                             {projectsDiv} 
                             </div>
-                </div>
+                            :
+                            <div>
+                                <h2 style={{margin: "3em"}}>Welcome to MTAAS Application!</h2>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         )
