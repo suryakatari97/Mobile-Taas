@@ -6,6 +6,7 @@ import Signin from "./auth/Signin";
 import Dashboard from "./dashboard/Dashboard";
 import TestRunner from './testerViews/TestRunner';
 import NewProjects from './testerViews/NewProjects';
+import JoinRequests from './projectManagerViews/JoinRequests';
 
 class Main extends Component {
     render(){
@@ -17,7 +18,7 @@ class Main extends Component {
                     <Route exact path="/tester/home" component={TesterHome} />
                     <Route exact path="/tester/newProjects" component={NewProjects} />
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
-                    
+                    <Route exact path="/pm/requests" component={JoinRequests}/>
                 </div>
             )
         } else {

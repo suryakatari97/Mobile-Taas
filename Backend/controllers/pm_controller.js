@@ -81,7 +81,25 @@ const createProject = (req, res, next) => {
     
 }
 
+
+const getProjectJoinRequests = (req,res,next) =>{
+    console.log(req.query);
+    var pmid = req.query.id;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('SELECT j.userid,j.projectid,p.projectname FROM cmpe_join_request as j LEFT JOIN cmpe_project as p ON j.projectid = p.projectid WHERE p.ownerid=?',
+      [pmid] , (err, rowsOfTable, fieldsOfTable)=>{
+            if(err){
+                console.log(err);
+                res.status(500).json({ responseMessage: 'Database not responding' });
+            } else {
+                  console.log(rowsOfTable);
+                  res.status(200).json({ requests: rowsOfTable });
+                }
+    });
+};
+
 module.exports = {
     testlogin,
-    createProject
+    createProject,
+    getProjectJoinRequests
 };
