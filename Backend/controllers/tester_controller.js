@@ -51,9 +51,28 @@ const getNewProjects = (req,res,next) =>{
     });
 };
 
+const postJoinRequest = (req,res,next) => {
+    console.log("In post join request:");
+    console.log(req.body);
+    let testerid = req.body.testerid;
+    let projectid = req.body.projectid;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('INSERT INTO cmpe_join_request (userid, projectid) VALUES(?,?)',
+    [testerid,projectid], (err, result) => {
+        if(err){
+            console.log(err);
+            res.status(500).json({ success: false, responseMessage: 'Unable to send request. Please try again!' });
+        } else {
+              console.log(result);
+              res.status(200).json({ success: true, responseMessage: 'Successfully sent request to project manager.' });
+        }
+    });
+};
+
 module.exports = {
     testlogin,
     getTesterProjects,
     getProjectUrl,
-    getNewProjects
+    getNewProjects,
+    postJoinRequest
 };

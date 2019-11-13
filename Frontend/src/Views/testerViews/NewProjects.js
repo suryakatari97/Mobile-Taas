@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
+import swal from 'sweetalert';
 import {hostaddress} from '../../config/settings';
 
 
@@ -10,7 +11,9 @@ class NewProjects extends Component {
     constructor(){
         super();
         this.state = {  
-            projects : []
+            projects : [],
+            displayAck : false,
+            success: false
         }
     }  
 
@@ -37,6 +40,40 @@ class NewProjects extends Component {
             });
     }
 
+    sendRequest = async (event,projectid) => {
+        event.preventDefault();
+        let testerid = localStorage.getItem('userid');
+        let token = localStorage.getItem('jwtToken');
+        await axios({
+            method: 'post',
+            url: 'http://'+hostaddress+':3001/tester/joinRequest',     
+            data: {testerid : testerid, projectid : projectid},
+            config: { headers: { 'Content-Type': 'application/json' } },
+            headers: {"Authorization" : `Bearer ${token}`}
+        })
+            .then((response) => {
+                if (response.status >= 500) {
+                    this.setState({
+                        displayAck: true,
+                        success: false
+                    });
+                    throw new Error("Bad response from server");
+                }
+                console.log(response);
+                return response.data;
+            })
+            .then((responseData) => {
+                //console.log(responseData);
+                //swal(responseData.responseMessage);
+                this.setState({
+                    displayAck: true,
+                    success: true
+                });
+                //window.location.reload();
+            }).catch(function (err) {
+                console.log(err)
+            }); 
+    }
 
     render() {
         
@@ -53,24 +90,30 @@ class NewProjects extends Component {
                     <td>{project.projectname}</td>
                     <td>{project.description}</td>
                     <td>{date} &nbsp; {time}</td>
-                    <td><input type="button" className="btn btn-primary btn-small" value="Send Request"/></td>
+                    <td><input type="button" className="btn btn-primary btn-sm" onClick={(e)=>this.sendRequest(e,project.projectid)} value="Send Request"/></td>
                 </tr>
             )
         });
-        let redirectVar = '';
-        /*if (!cookie.load('cookie1')) {
-            redirectVar = <Redirect to="/login" />
-        }*/
+        let ackDiv = null;
+        if(this.state.displayAck && this.state.success){
+            ackDiv = <div class="alert alert-success">
+            <strong>Success!</strong> Successfully sent request.
+          </div>;
+        }
+        if(this.state.displayAck && !this.state.success){
+            ackDiv = <div class="alert alert-warning">
+                Unable to send request. Please try again later.
+            </div>;
+        }
         return (
             <div>
-                {redirectVar}  
                 <div className="container">
                 <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
                 <div className="col-12">
                             <div className="border-bottom row" style={{ marginBottom: "3%" }}>
                                 <h3>New Projects Open to Join</h3>
                             </div>
-                    
+                    {ackDiv}
                     {this.state.projects.length > 0 ?
                         <div className="col-10">
                                     <div>
