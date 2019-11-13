@@ -5,6 +5,7 @@ import TesterHome from './home/TesterHome';
 import Signin from "./auth/Signin";
 import Dashboard from "./dashboard/Dashboard";
 import TestRunner from './testerViews/TestRunner';
+import NewProjects from './testerViews/NewProjects';
 
 class Main extends Component {
     render(){
@@ -14,7 +15,9 @@ class Main extends Component {
                     <Route exact path = "/" component = {Sidebar} />
                     <Route path = "/dashboard" component = {Dashboard} />
                     <Route exact path="/tester/home" component={TesterHome} />
+                    <Route exact path="/tester/newProjects" component={NewProjects} />
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
+                    
                 </div>
             )
         } else {

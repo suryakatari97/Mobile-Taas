@@ -165,7 +165,7 @@ class TestRunner extends Component {
                             <img className="imageResult" style={{marginLeft:"1em"}} src={TestSuite} alt="testsuite"/>&nbsp;<label className="labelResult">Test Suites: 1</label>
                             <img className="imageResult" src={TestCase} alt="testcases"/>&nbsp;<label className="labelResult">Test Cases: {this.state.results.total}</label>
                             <img className="imageResult" src={Passed} alt="passedtestcases"/>&nbsp;<label className="labelResult">Passed: {this.state.results.passed}</label>
-                            <img className="imageResult" src={Failed} alt="failedtestcases"/>&nbsp;<label className="labelResult">Failed: {this.state.results.passed}</label>
+                            <img className="imageResult" src={Failed} alt="failedtestcases"/>&nbsp;<label className="labelResult">Failed: {this.state.results.failed}</label>
                             </div>
                             <div id="accordion">
                                     {testSuitesDiv}
