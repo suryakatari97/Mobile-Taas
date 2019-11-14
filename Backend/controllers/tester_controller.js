@@ -18,61 +18,7 @@ const getTesterProjects = (req,res,next) =>{
     });
 };
 
-const getProjectUrl = (req,res,next) =>{
-    console.log(req.query);
-    var projectid = req.query.id;
-    const mysqlconnection = req.db;
-    mysqlconnection.query('SELECT project_url FROM cmpe_project WHERE projectid=?',
-        [projectid], (err, rowsOfTable, fieldsOfTable)=>{
-            if(err){
-                console.log(err);
-                res.status(500).json({ responseMessage: 'Database not responding' });
-            } else {
-                  console.log(rowsOfTable);
-                  res.status(200).json({ url: rowsOfTable[0].project_url });
-                }
-    });
-};
-
-
-const getNewProjects = (req,res,next) =>{
-    console.log(req.query);
-    var testerid = req.query.id;
-    const mysqlconnection = req.db;
-    mysqlconnection.query('SELECT p.projectid,p.projectname,p.description,p.timestamp FROM cmpe_project as p LEFT JOIN cmpe_project_members as m ON m.projectid = p.projectid LEFT JOIN cmpe_join_request as j ON p.projectid = j.projectid WHERE p.status="new" AND (m.userid IS NULL OR m.userid!=?) AND (j.userid IS NULL OR j.userid!=?)',
-    [testerid,testerid] , (err, rowsOfTable, fieldsOfTable)=>{
-            if(err){
-                console.log(err);
-                res.status(500).json({ responseMessage: 'Database not responding' });
-            } else {
-                  console.log(rowsOfTable);
-                  res.status(200).json({ projects: rowsOfTable });
-                }
-    });
-};
-
-const postJoinRequest = (req,res,next) => {
-    console.log("In post join request:");
-    console.log(req.body);
-    let testerid = req.body.testerid;
-    let projectid = req.body.projectid;
-    const mysqlconnection = req.db;
-    mysqlconnection.query('INSERT INTO cmpe_join_request (userid, projectid) VALUES(?,?)',
-    [testerid,projectid], (err, result) => {
-        if(err){
-            console.log(err);
-            res.status(500).json({ success: false, responseMessage: 'Unable to send request. Please try again!' });
-        } else {
-              console.log(result);
-              res.status(200).json({ success: true, responseMessage: 'Successfully sent request to project manager.' });
-        }
-    });
-};
-
 module.exports = {
     testlogin,
-    getTesterProjects,
-    getProjectUrl,
-    getNewProjects,
-    postJoinRequest
+    getTesterProjects
 };

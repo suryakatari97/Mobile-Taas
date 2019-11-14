@@ -1,0 +1,27 @@
+.modal-popup{
+    max-width: 50%;
+    overflow: hidden;
+    height: 80%;
+    background-color: black;
+}
+
+#past-projects{
+    margin-left: 300px;
+    margin-top: 50px;
+    /* max-width: 1500px; */
+    /* max-width: 18rem; */
+}
+
+#add-project-button{
+    margin-top: 50px;
+    /* float: right; */
+}
+#ptoject-title{
+    float: left;
+}
+
+#project-id{
+    float: left;
+    margin-right: 500px;
+}
+
