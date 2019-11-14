@@ -13,6 +13,7 @@ import BugsPerDayTesterGraph from './dashboard/TesterGraphs/BugsPerdayForTesterG
 import ProjectsWorkedOnPerCategoryTesterGraph from './dashboard/TesterGraphs/ProjectsWorkedOnPerCategoryTesterGraph';
 import BugsDiscoveredCategoryTesterGraph from './dashboard/TesterGraphs/BugsDiscoveredCategoryTesterGraph';
 import TesterDashboard from './dashboard/TesterDashboard';
+import TesterProfile from "./Profile/Tester_Profile";
 
 class Main extends Component {
     render(){
@@ -33,6 +34,8 @@ class Main extends Component {
                     <Route exact path="/tester/graph3" component={BugsPerDayTesterGraph}/>
                     <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph}/>
                     <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph}/>
+                    <Route path="/tester/home" component={TesterHome} />
+                    <Route path="/tester/profile" component={TesterProfile} />
                 </div>
             )
         } else {

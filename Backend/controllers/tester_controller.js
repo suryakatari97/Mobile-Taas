@@ -69,10 +69,54 @@ const postJoinRequest = (req,res,next) => {
     });
 };
 
+const tester_getProfile = (req, res) => {
+    console.log("In get method of tester profile");
+    const query = 'select * FROM cmpe_users WHERE userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [currentuserid], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({success:true, data:JSON.stringify(rowsOfTable)});
+        }
+    });
+}
+
+const tester_getskills = (req, res) => {
+
+    console.log("In get method of tester profile");
+    const query = 'select * FROM cmpe_skills s join cmpe_users_skill us on  s.skillid = us.skillid AND us.userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [currentuserid], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({success:true, data:JSON.stringify(rowsOfTable)});
+        }
+    });
+
+}
+
 module.exports = {
     testlogin,
     getTesterProjects,
     getProjectUrl,
     getNewProjects,
-    postJoinRequest
+    postJoinRequest,
+    tester_getProfile,
+    tester_getskills
 };
