@@ -11,7 +11,11 @@ class JoinRequests extends Component {
     constructor(){
         super();
         this.state = {  
-            requests : []
+            requests : [],
+            displayAckAccept : false,
+            successAccept: false,
+            displayAckDecline: false,
+            successDecline: false
         }
     }  
 
@@ -38,20 +42,116 @@ class JoinRequests extends Component {
             });
     }
 
+    acceptRequest = async (event,requestid,projectid,testerid) => {
+        event.preventDefault();
+        let token = localStorage.getItem('jwtToken');
+        await axios({
+            method: 'post',
+            url: 'http://'+hostaddress+':3001/pm/request/accept',     
+            data: {requestid: requestid, projectid: projectid, testerid:testerid},
+            config: { headers: { 'Content-Type': 'application/json' } },
+            headers: {"Authorization" : `Bearer ${token}`}
+        })
+            .then((response) => {
+                if(response.status != 200){
+                    this.setState({
+                        displayAckAccept: true,
+                        successAccept: false
+                    });
+                }
+                if (response.status >= 500) {
+                    throw new Error("Bad response from server");
+                }
+                console.log(response);
+                return response.data;
+            })
+            .then((responseData) => {
+                //swal(responseData.responseMessage);
+                this.setState({
+                    displayAckAccept: true,
+                    successAccept: true
+                });
+                //window.location.reload();
+            }).catch(function (err) {
+                console.log(err)
+            }); 
+    }
+    
+    
+    declineRequest = async (event,requestid) => {
+        event.preventDefault();
+        let token = localStorage.getItem('jwtToken');
+        await axios({
+            method: 'post',
+            url: 'http://'+hostaddress+':3001/pm/request/decline',     
+            data: {requestid: requestid},
+            config: { headers: { 'Content-Type': 'application/json' } },
+            headers: {"Authorization" : `Bearer ${token}`}
+        })
+            .then((response) => {
+                if(response.status != 200){
+                    this.setState({
+                        displayAckDecline: true,
+                        successDecline: false
+                    });
+                }
+                if (response.status >= 500) {
+                    throw new Error("Bad response from server");
+                }
+                console.log(response);
+                return response.data;
+            })
+            .then((responseData) => {
+                //swal(responseData.responseMessage);
+                this.setState({
+                    displayAckDecline: true,
+                    successDecline: true
+                });
+                //window.location.reload();
+            }).catch(function (err) {
+                console.log(err)
+            }); 
+    }
    
 
     render() {
         
-        //iterate over courses to create a table row
+        let ackDiv = null;
+        if(this.state.displayAckAccept && this.state.successAccept){
+            console.log("**********");
+            ackDiv = <div class="alert alert-success">
+            <strong>Success!</strong> Successfully accepted the request.
+          </div>;
+        }
+        if(this.state.displayAckAccept && !this.state.successAccept){
+            console.log("0000000000000");
+            ackDiv = <div class="alert alert-warning">
+                Unable to accept request. Please try again later.
+            </div>;
+        }
+        if(this.state.displayAckDecline && this.state.successDecline){
+            console.log("-------------------");
+            ackDiv = <div class="alert alert-info">
+            Successfully declined the request!
+          </div>;
+        }
+        if(this.state.displayAckDecline && !this.state.successDecline){
+            console.log("++++++++++++++++++++++");
+            ackDiv = <div class="alert alert-warning">
+                Unable to decline request. Please try again later.
+            </div>;
+        }
+
+        //iterate over requests to create a table rows
         let requestsDiv = this.state.requests.map(record => {
             let profileURL = 'http://'+hostaddress+':3000/tester/'+record.userid+'/profile';
-            let projectURL = 'http://'+hostaddress+':3000/pm/project'+record.projectid;
+            let projectURL = 'http://'+hostaddress+':3000/pm/project/'+record.projectid;
             return(
                 <tr key={record.requestid}>
                     <td><a href={profileURL}>{record.userid}</a></td>
-                    <td><a href={profileURL}>{record.projectid}</a></td>
+                    <td><a href={projectURL}>{record.projectid}</a></td>
                     <td>{record.projectname}</td>
-                    <td><input type="button" className="btn btn-success btn-sm" onClick={(e)=>this.acceptRequest(e,record.requestid,record.projectid,record.testerid)} value="Accept"/></td>
+                    <td><input type="button" className="btn btn-success btn-sm" onClick={(e)=>this.acceptRequest(e,record.requestid,record.projectid,record.userid)} value="Accept"/></td>
                     <td><input type="button" className="btn btn-danger btn-sm" onClick={(e)=>this.declineRequest(e,record.requestid)} value="Decline"/></td>
                 </tr>
             )
@@ -64,6 +164,7 @@ class JoinRequests extends Component {
                             <div className="border-bottom row" style={{ marginBottom: "3%" }}>
                                 <h3>Project Join Requests from Testers</h3>
                             </div>
+                    {ackDiv}
                     {this.state.requests.length > 0 ?
                         <div className="col-10">
                                     <div>

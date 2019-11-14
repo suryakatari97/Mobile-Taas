@@ -86,7 +86,7 @@ const getProjectJoinRequests = (req,res,next) =>{
     console.log(req.query);
     var pmid = req.query.id;
     const mysqlconnection = req.db;
-    mysqlconnection.query('SELECT j.userid,j.projectid,p.projectname FROM cmpe_join_request as j LEFT JOIN cmpe_project as p ON j.projectid = p.projectid WHERE p.ownerid=?',
+    mysqlconnection.query('SELECT j.requestid,j.userid,j.projectid,p.projectname FROM cmpe_join_request as j LEFT JOIN cmpe_project as p ON j.projectid = p.projectid WHERE p.ownerid=?',
       [pmid] , (err, rowsOfTable, fieldsOfTable)=>{
             if(err){
                 console.log(err);
@@ -98,8 +98,63 @@ const getProjectJoinRequests = (req,res,next) =>{
     });
 };
 
+const postAcceptJoinRequest = (req, res, next) => {
+    console.log("In post accept join request:");
+    console.log(req.body);
+    let testerid = req.body.testerid;
+    let projectid = req.body.projectid;
+    let requestid = req.body.requestid;
+    const mysqlconnection = req.db;
+    // mysql transaction
+    mysqlconnection.beginTransaction((err) => {
+        if (!err) {
+
+            mysqlconnection.query('DELETE FROM cmpe_join_request WHERE requestid=?', [requestid], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    mysqlconnection.rollback();
+                    res.status(500).json({ success: false, responseMessage: 'Unable to accept request. Please try again!' });
+                } else {
+                    console.log(result);
+                    console.log("Sucessfully deleted request id:"+requestid);
+                    mysqlconnection.query('INSERT INTO cmpe_project_members (userid, projectid) VALUES(?,?)', [testerid, projectid], (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            mysqlconnection.rollback();
+                            res.status(500).json({ success: false, responseMessage: 'Unable to accept request. Please try again!' });
+                        } else {
+                            mysqlconnection.commit();
+                            console.log(result);
+                            res.status(200).json({ success: true, responseMessage: 'Successfully accepted Join Request.' });
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+const postDeclineJoinRequest = (req, res, next) => {
+    console.log("In post accept join request:");
+    console.log(req.body);
+    let requestid = req.body.requestid;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('DELETE FROM cmpe_join_request WHERE requestid=?', [requestid], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ success: false, responseMessage: 'Unable to decline request. Please try again!' });
+        } else {
+            console.log(result);
+            res.status(200).json({ success: true, responseMessage: 'Successfully declined Join Request.' });
+        }
+    });
+}
+
 module.exports = {
     testlogin,
     createProject,
-    getProjectJoinRequests
+    getProjectJoinRequests,
+    postAcceptJoinRequest,
+    postDeclineJoinRequest
 };
