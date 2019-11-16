@@ -22,7 +22,7 @@ const perdayQuery = (req, res, query, testerid) => {
 const projectsPerdayForTester = (req, res) => {
     console.log(req.query);
     var testerid = req.query.id;
-    const query = 'select COUNT(projectid) as count, DATE_FORMAT(`membersince`,"%Y-%m-%d") as member_since FROM cmpe_project_members where userid=? GROUP BY member_since;';
+    const query = 'select COUNT(projectid) as count, DATE_FORMAT(`membersince`,"%Y-%m-%d") as created_day FROM cmpe_project_members where userid=? GROUP BY created_day;';
     perdayQuery(req, res, query, testerid);
 };
 
@@ -77,6 +77,42 @@ const projectsWorkedOnPerCategoryTester = (req,res) => {
     });   
 }
 
+const bugsCategoryTester = (req,res) => {
+    const mysqlconnection = req.db;
+    console.log(req.query);
+    var testerid = req.query.id;
+    var result = [];
+    mysqlconnection.query('select COUNT(bug_id) as countEnhancement FROM bugs where reporter=? and bug_severity="enhancement";', [testerid], (err, rowsOfTable)=>{
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: res});
+        } else {
+            result.push(rowsOfTable[0]);
+            mysqlconnection.query('select COUNT(bug_id) as countCat1 FROM bugs where reporter=? and bug_severity="enhancement";', [testerid], (err, rowsOfTable)=>{
+                if(err) {
+                    console.log(err);
+                    res.status(500);
+                    res.send({success:false, data: res});
+                } else {
+                    result.push(rowsOfTable[0]);
+                    mysqlconnection.query('select COUNT(bug_id) as countCat2 FROM bugs where reporter=? and bug_severity="enhancement";', [testerid], (err, rowsOfTable)=>{
+                        if(err) {
+                            console.log(err);
+                            res.status(500);
+                            res.send({success:false, data: dataArr});
+                        } else {
+                            result.push(rowsOfTable[0]);
+                            console.log(result);
+                            res.send({success:true, data: result});
+                        }
+                    });   
+                }
+            });   
+        }
+    });   
+}
+
 module.exports = {
-    projectsPerdayForTester, testsPerdayForTester, bugsPerdayForTester, projectsWorkedOnPerCategoryTester
+    projectsPerdayForTester, testsPerdayForTester, bugsPerdayForTester, projectsWorkedOnPerCategoryTester, bugsCategoryTester
 };

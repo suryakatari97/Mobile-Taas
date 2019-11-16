@@ -11,6 +11,8 @@ import ProjectsPerDayTesterGraph from './dashboard/TesterGraphs/ProjectPerDayTes
 import TestsPerDayTesterGraph from './dashboard/TesterGraphs/TestsPerdayForTesterGraph';
 import BugsPerDayTesterGraph from './dashboard/TesterGraphs/BugsPerdayForTesterGraph';
 import ProjectsWorkedOnPerCategoryTesterGraph from './dashboard/TesterGraphs/ProjectsWorkedOnPerCategoryTesterGraph';
+import BugsDiscoveredCategoryTesterGraph from './dashboard/TesterGraphs/BugsDiscoveredCategoryTesterGraph';
+import TesterDashboard from './dashboard/TesterDashboard';
 
 class Main extends Component {
     render(){
@@ -23,12 +25,14 @@ class Main extends Component {
                     <Route exact path="/tester/newProjects" component={NewProjects} />
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
                     <Route exact path="/pm/requests" component={JoinRequests}/>
-
-                    //for testing purpose only. To be removed later
+                    <Route exact path="/tester/dashboard" component={TesterDashboard}/>
+                    
+                    {/* Below routes are for testing purpose only. To be removed later */}
                     <Route exact path="/tester/graph1" component={ProjectsPerDayTesterGraph}/>
                     <Route exact path="/tester/graph2" component={TestsPerDayTesterGraph}/>
                     <Route exact path="/tester/graph3" component={BugsPerDayTesterGraph}/>
                     <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph}/>
+                    <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph}/>
                 </div>
             )
         } else {
