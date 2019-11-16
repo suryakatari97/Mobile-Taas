@@ -111,6 +111,116 @@ const tester_getskills = (req, res) => {
 
 }
 
+const tester_updateProfile = (req,res) =>{
+    console.log("In update method of profile");
+    const query = 'UPDATE cmpe_users SET firstname = ?, lastname = ?, contactno = ? WHERE userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var contactno = req.body.contactno;
+    console.log(query);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [firstname,lastname,contactno,currentuserid], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+            //res.send({success:true, data:"Profile updated successfully"});
+            tester_updateSkills(req,res);
+        }
+    });
+}
+
+const tester_updateSkills = (req,res) =>{
+    console.log("In update method of skills");
+    const query = 'DELETE FROM cmpe_users_skill where userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+
+    var query2 = 'SELECT 1;';
+    console.log(req.body)
+    if(req.body.skills !== undefined && req.body.skills !== null){
+        req.body.skills.map((skill) => {
+                query2 += 'INSERT INTO cmpe_users_skill(userid,skillid) VALUES(' + currentuserid + ',' + skill.skillid + ');';
+        })
+    }
+    console.log(query2);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [currentuserid], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+
+            mysqlconnection.query(query2, [], (err, rowsOfTable)=>{
+                const dataArr = [];
+                if(err) {
+                    console.log(err);
+                    res.status(500);
+                    res.send({success:false, data: dataArr});
+                } else {
+                    res.send({success:true, data:"Skills updated successfully"});
+                }
+            });
+        }
+    });
+}
+
+const get_allSkills = (req,res) => {
+    console.log("In get method of all types of skills");
+    const query = 'select * FROM cmpe_skills;';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({success:true, data:JSON.stringify(rowsOfTable)});
+        }
+    });
+}
+
+const get_profileImage = async function(req, res) {
+    var currentuserid = req.param.userid;
+    const query='SELECT profileimg from cmpe_users where userid=?';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query,[currentuserid],(err,rowsOfTable)=>{
+        if(err){
+            console.log(err);
+            res.send({success:false})
+        }else if(rowsOfTable.length ==1){
+            res.send({success:true, image:rowsOfTable[0].profileimg})
+        } else{
+            res.send({success:false})
+        }
+    });
+}
+
+const post_profileImage = async function(req, res) {
+    const imageData = req.body.image;
+    console.log("In update profile image method in controller");
+    console.log(req.body);
+    const userid = req.params.userid;
+    const query = 'UPDATE cmpe_users SET profileimg = ? where userid=?';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query,[imageData, userid],(err,response)=>{
+        if(err){
+            console.log(err);
+            res.send({success:false})
+        }else{
+            res.send({success:true})
+        }
+    });
+}
+
 module.exports = {
     testlogin,
     getTesterProjects,
@@ -118,5 +228,9 @@ module.exports = {
     getNewProjects,
     postJoinRequest,
     tester_getProfile,
-    tester_getskills
+    tester_getskills,
+    tester_updateProfile,
+    get_allSkills,
+    get_profileImage,
+    post_profileImage
 };
