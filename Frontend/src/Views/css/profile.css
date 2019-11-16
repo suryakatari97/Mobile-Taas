@@ -88,3 +88,51 @@ textarea, input { outline: none; }
     margin-bottom: 50px;
     margin-top: 20px;
 }
+
+.input-profile{
+    display: block;
+    width: 300px;
+    padding: 7px;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    margin-bottom: 10px;
+    font: 16px Arial,Helvetica,sans-serif;
+    height: 40px;
+}
+
+.input-profile:active{
+    border-bottom: 1px solid #0055a2;
+}
+.input-profile:focus{
+    border-bottom: 1px solid #0055a2;
+}
+
+.profile-contain {
+    margin-left: 100px;
+}
+
+.right-style{
+    margin-right: 100px;
+}
+
+.skillset_input{
+    margin-top: 10px;
+}
+.profile-button{
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    background-color: #0055a2;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 50px;
+    margin-left: 250px;
+    margin-bottom: 100px;
+}
+
+input[type=checkbox] {
+    margin: 0px 15px 0px 20px;
+}
