@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import Navigation from './Navigation'
 import { Link,Redirect } from "react-router-dom";
-import '../css/profile.css';
+import '../../styles/profile.css';
 
 class Profile extends Component {
     constructor(props){
@@ -35,7 +35,7 @@ class Profile extends Component {
         //     })
         // }
         // get full profile data from backend
-        const profileRes = await fetch("/tester/testerprofile/"+currentUserId,{
+        const profileRes = await fetch("/tester/profile/"+currentUserId,{
             method:"GET",
             headers:{'Authorization': "bearer " + localStorage.getItem("jwtToken")}
         })
@@ -49,9 +49,10 @@ class Profile extends Component {
                 lastname:data.lastname,
                 email:data.email,
                 phonenumber:data.contactno,
+                preview:data.profileimg
             })
         }
-        const skillRes = await fetch("/tester/testerprofile/"+currentUserId+"/skills",{
+        const skillRes = await fetch("/tester/profile/"+currentUserId+"/skills",{
             method:"GET",
             headers:{'Authorization': "bearer " + localStorage.getItem("jwtToken")}
         })
@@ -68,11 +69,11 @@ class Profile extends Component {
         let updateProfile = null;
         if(this.props.match.params.profileid && this.props.match.params.profileid === String(this.state.userid)) {
             updateProfile = <div className="update-profile-btn">
-                <Link to="/updateprofile" className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
+                <Link to="/tester/updateprofile" className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
             </div>
         } else if(!this.props.match.params.profileid) {
             updateProfile = <div className="update-profile-btn">
-                <Link to="/updateprofile" className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
+                <Link to="/tester/updateprofile" className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
             </div>
         }
         const istyle = {height: '100%', width: '100%', 'object-fit': 'contain'}
@@ -88,46 +89,53 @@ class Profile extends Component {
 
             return(
                 <div className="main-wrapper">
-
-               <div className="content-wrapper">
-                <div className="dash-one">
-                <p className="dash-header-blue"><Link to={"/profile/"+this.state.userid}>
-                <p>{this.state.name}'s Profile</p>
-            </Link></p>
-            <div className="course-card-container">
-                <div className="row">
-                <div className="profile-container">
-                <div className="profile">
-                {profilePreview}
+                    <div className="content-wrapper">
+                        <div className="dash-one">
+                            <p className="dash-header-blue">
+                                <Link to={"/tester/profile/"+this.state.userid}><p>{this.state.firstname}'s Profile</p></Link>
+                            </p>
+                            <div className="course-card-container">
+                                <div className="row">
+                                    <div className="profile-container">
+                                        <div className="profile">{profilePreview}</div>
+                                    </div>
+                                    <div className="profile-form">
+                                        <div className="row row-style">
+                                            <p className="profile-headers">First Name :</p>
+                                            <p>{this.state.firstname}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Last Name :</p>
+                                            <p>{this.state.lastname}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Email :</p>
+                                        <p>{this.state.email}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Contact Number :</p>
+                                        <p>{this.state.phonenumber}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Skill Set :</p>
+                                            <p>
+                                            {
+                                                this.state.skills.map(skill => {
+                                                    return (
+                                                        <p><li>{skill.skillname}</li></p>
+                                                    )
+                                                })
+                                            }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {updateProfile}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                </div>
-
-                <div className="profile-form">
-                <div className="row row-style">
-                <p className="profile-headers">First Name :</p>
-            <p>{this.state.firstname}</p>
-            </div>
-            <div className="row row-style">
-                <p className="profile-headers">Last Name :</p>
-            <p>{this.state.lastname}</p>
-            </div>
-            <div className="row row-style">
-                <p className="profile-headers">Email :</p>
-            <p>{this.state.email}</p>
-            </div>
-            <div className="row row-style">
-                <p className="profile-headers">Contact Number :</p>
-            <p>{this.state.phonenumber}</p>
-            </div>
-            </div>
-            {updateProfile}
-        </div>
-            </div>
-            </div>
-            </div>
-            </div>
-
-        )
+            )
         }
     }
 }
