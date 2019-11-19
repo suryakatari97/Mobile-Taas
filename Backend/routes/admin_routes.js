@@ -4,7 +4,8 @@ var router = express.Router();
 
 // user defined modules
 var {testlogin, addAdmin, usersPerday, projectsPerday, testsPerday, bugsPerday,
-    topProjectsTestCases, topProjectsTesters} = require("../controllers/admin_controller");
+    topProjectsTestCases, topProjectsTesters, getTesters, blockTester, unblockTester,
+    getProjects, blockProject, unblockProject} = require("../controllers/admin_controller");
 
 // test login
 router.post('/testlogin', testlogin)
@@ -19,5 +20,20 @@ router.get('/stats/perday/tests', testsPerday);
 router.get('/stats/perday/bugs', bugsPerday);
 router.get('/stats/topprojects/testcases', topProjectsTestCases);
 router.get('/stats/topprojects/testers', topProjectsTesters);
+
+//get all testers
+router.get('/testers', getTesters);
+
+//block tester
+router.get('/block/tester/:id', blockTester);
+router.get('/unblock/tester/:id', unblockTester);
+
+
+//get all projects
+router.get('/projects', getProjects);
+
+//block project
+router.get('/block/project/:id', blockProject);
+router.get('/unblock/project/:id', unblockProject);
 
 module.exports = router;
