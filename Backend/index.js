@@ -20,7 +20,8 @@ const mysqlconnection = mysql.createConnection({
     host: 'project.cm9my3uvtoam.us-east-1.rds.amazonaws.com',
     user: 'admin',
     password: 'CMPE281PROJECT',
-    database: 'MobileTaas'
+    database: 'MobileTaas',
+    multipleStatements: true
 });
 
 // add database to req object.
