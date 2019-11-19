@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const axios = require('axios');
 const saltRounds = 2;
 
-const {bugzillaToken, bugzillaBaseURL} = require("../config/constants");
+const {bugzillaToken, bugzillaBaseURL, bugzillaProductPrefix} = require("../config/constants");
 
 const testlogin = (req, res, next)=>{
     res.send({userid: req.user.userid, role: req.user.role});
@@ -62,7 +62,7 @@ const topProjects = (req, res, query, limit) => {
                 for(i=0; i < rowsOfTable.length; i++) {
                     dataArr.push({projectid: rowsOfTable[i].projectid,
                         projectname: rowsOfTable[i].projectname,
-                        bugzilla_projectid: rowsOfTable[i].bugzilla_projectid,
+                        bugzilla_projectid: bugzillaProductPrefix + rowsOfTable[i].projectid,
                         status: rowsOfTable[i].status,
                         count: rowsOfTable[i].count});
                 }
@@ -72,15 +72,33 @@ const topProjects = (req, res, query, limit) => {
 }
 
 const topProjectsTestCases = (req, res) => {
-    const query = "select COUNT(artifactid) as count, cp.projectid as projectid, projectname, bugzilla_projectid, `status` FROM cmpe_project cp, cmpe_tester_artifact as cta WHERE cp.projectid=cta.projectid GROUP BY cp.projectid  ORDER BY count DESC LIMIT ?;";
+    const query = "select COUNT(artifactid) as count, cp.projectid as projectid, projectname, `status` FROM cmpe_project cp, cmpe_tester_artifact as cta WHERE cp.projectid=cta.projectid GROUP BY cp.projectid  ORDER BY count DESC LIMIT ?;";
     const limit = parseInt(req.query.limit);
     topProjects(req, res, query, limit);
 }
 
 const topProjectsTesters = (req, res) => {
-    const query = "select COUNT(cpm.userid) as count, cpm.projectid as projectid, projectname, bugzilla_projectid, `status` FROM cmpe_project cp, cmpe_project_members as cpm, cmpe_users cu WHERE cp.projectid=cpm.projectid AND cpm.userid = cu.userid AND cu.isblocked=0 AND cu.role='TESTER' GROUP BY cp.projectid  ORDER BY count DESC LIMIT ?;";
+    const query = "select COUNT(cpm.userid) as count, cpm.projectid as projectid, projectname, `status` FROM cmpe_project cp, cmpe_project_members as cpm, cmpe_users cu WHERE cp.projectid=cpm.projectid AND cpm.userid = cu.userid AND cu.isblocked=0 AND cu.role='TESTER' GROUP BY cp.projectid  ORDER BY count DESC LIMIT ?;";
     const limit = parseInt(req.query.limit);
     topProjects(req, res, query, limit);
+}
+
+const roleShare = (req, res, next) => {
+    const query = "select role, COUNT(userid) as count from cmpe_users GROUP BY role;";
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, (err, rowsOfTable)=>{
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: {}});
+        } else {
+            const data = {}
+            for(let i=0; i < rowsOfTable.length; i++) {
+                data[rowsOfTable[i].role] = rowsOfTable[i].count;
+            }
+            res.send({success:true, data: data});
+        }
+    });
 }
 
 const addAdmin = (req, res, next) => {
@@ -236,5 +254,5 @@ module.exports = {
     getTesters,
     blockTester, unblockTester,
     getProjects,
-    blockProject, unblockProject
+    blockProject, unblockProject, roleShare
 };

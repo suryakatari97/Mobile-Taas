@@ -76,13 +76,16 @@ class SignIn extends Component {
         if(this.state.signinSuccess != null && !this.state.signinSuccess){
             message = <div className="unsuccess-signup"><span>{this.state.signinMessage}</span></div>
         }
+        const spanStyle = {
+            "font-size": "36pt"
+        }
         return (
             <div className="account-parent-container">
                 <div className="account-container">
                     <div className="account-logo-container">
-                        <img className="quora-logo-account" src={Logo} alt="Quora"/>
+                        <span style={spanStyle}>MobileTaas</span>
                     </div>          
-                    <p className="account-tag">A place to share knowledge and better understand the world</p>
+                    <p className="account-tag">Mobile testing as a service platform.</p>
                     <div className="account-sub-container">
                         {message}
                         <div className="signup">
