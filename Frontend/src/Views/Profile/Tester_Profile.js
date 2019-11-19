@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 //import Navigation from './Navigation'
 import { Link,Redirect } from "react-router-dom";
 import '../../styles/profile.css';
+//import ResumeUpload from "./ResumeUploader";
 
 class Profile extends Component {
     constructor(props){
@@ -15,25 +16,17 @@ class Profile extends Component {
             email:null,
             phonenumber:null,
             skills:[],
-            profileUpdated:false
+            profileUpdated:false,
+            resume: null
         }
     }
 
     async componentDidMount(){
         let currentUserId = localStorage.getItem("userid");
-        // if(this.props.match.params.profileid){
-        //     currentUserId = this.props.match.params.profileid
-        // }
-        // get the image from backend
-        // const imageRes = await fetch("/getProfileImage/"+currentUserId,{
-        //     method:"GET"
-        // })
-        // const imageJson = await imageRes.json();
-        // if(imageJson.success) {
-        //     this.setState({
-        //         preview:imageJson.image
-        //     })
-        // }
+        this.setState({
+            userid: currentUserId
+        });
+
         // get full profile data from backend
         const profileRes = await fetch("/tester/profile/"+currentUserId,{
             method:"GET",
@@ -49,7 +42,8 @@ class Profile extends Component {
                 lastname:data.lastname,
                 email:data.email,
                 phonenumber:data.contactno,
-                preview:data.profileimg
+                preview:data.profileimg,
+                resume:data.resume_filename
             })
         }
         const skillRes = await fetch("/tester/profile/"+currentUserId+"/skills",{
@@ -66,21 +60,16 @@ class Profile extends Component {
         }
     }
     render(){
-        let updateProfile = null;
-        if(this.props.match.params.profileid && this.props.match.params.profileid === String(this.state.userid)) {
-            updateProfile = <div className="update-profile-btn">
-                <Link to="/tester/updateprofile" className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
+        let updateLink = '/updateprofile';
+        let profileLink = '/profile';
+        let updateProfile = <div className="update-profile-btn">
+                <Link to={updateLink} className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
             </div>
-        } else if(!this.props.match.params.profileid) {
-            updateProfile = <div className="update-profile-btn">
-                <Link to="/tester/updateprofile" className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
-            </div>
-        }
         const istyle = {height: '100%', width: '100%', 'object-fit': 'contain'}
         if (!this.state.isLoggedIn) {
-            return(<Redirect to="/signin"/>)
+            return(<Redirect to="/"/>)
         } else if(this.state.profileUpdated){
-            return(<Redirect to="/profile"/>)
+            return(<Redirect to={profileLink}/>)
         } else {
             let profilePreview = <img src={this.state.preview} style={istyle} alt="profile pic"/>
             if(this.state.preview == null) {
@@ -92,7 +81,7 @@ class Profile extends Component {
                     <div className="content-wrapper">
                         <div className="dash-one">
                             <p className="dash-header-blue">
-                                <Link to={"/tester/profile/"+this.state.userid}><p>{this.state.firstname}'s Profile</p></Link>
+                                <Link to={profileLink}><p>{this.state.firstname}'s Profile</p></Link>
                             </p>
                             <div className="course-card-container">
                                 <div className="row">
@@ -128,8 +117,15 @@ class Profile extends Component {
                                             }
                                             </p>
                                         </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Resume :</p>
+                                            <a href={this.state.resume} alt="Resume Not Uploaded">Download</a>
+                                            {/*<ResumeUpload />*/}
+                                        </div>
+                                        <div className="row row-style">
+                                            {updateProfile}
+                                        </div>
                                     </div>
-                                    {updateProfile}
                                 </div>
                             </div>
                         </div>
