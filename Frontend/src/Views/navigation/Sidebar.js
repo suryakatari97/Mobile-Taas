@@ -39,7 +39,7 @@ class Navigation extends Component {
               <Link to='/profile'>
                 <div className="icon-container">
                   <i className="far fa-user fa-lg"></i>
-                  <div className="icon-text">Account</div>
+                  <div className="icon-text">Profile</div>
                 </div>
               </Link>
             </li>
