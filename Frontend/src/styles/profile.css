@@ -20,6 +20,7 @@
     color: #008ee2;
     font-size: 18px;
     padding-left: 17px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #C7CDD1;
 }
 .dash-header-blue a{
@@ -87,6 +88,7 @@ textarea, input { outline: none; }
     border-radius: 5px;
     margin-bottom: 50px;
     margin-top: 20px;
+    margin-left: 0px;
 }
 
 .input-profile{
@@ -135,4 +137,8 @@ textarea, input { outline: none; }
 
 input[type=checkbox] {
     margin: 0px 15px 0px 20px;
+}
+
+select-list-box option:checked {
+    background-color: blue;
 }
