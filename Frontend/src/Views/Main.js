@@ -17,6 +17,7 @@ import UpdateProfile from "./Profile/UpdateProfile";
 import profile from "./Profile/Profile";
 import testers from "./adminViews/Testers";
 import projects from "./adminViews/Projects";
+import Header from "./Header";
 
 
 class Main extends Component {
@@ -25,6 +26,7 @@ class Main extends Component {
             return(
                 <div>
                     <Route exact path = "/" component = {Dashboard} />
+                    <Route exact path = "/header" component = {Header} />
                     <Route path = "/dashboard" component = {Dashboard} />
                     <Route exact path="/tester/home" component={TesterHome} />
                     <Route exact path="/tester/newProjects" component={NewProjects} />
