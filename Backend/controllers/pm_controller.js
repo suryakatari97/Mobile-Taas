@@ -151,10 +151,75 @@ const postDeclineJoinRequest = (req, res, next) => {
     });
 }
 
+const getManagerProfile = (req, res) => {
+    console.log("In get method of tester profile");
+    const query = 'select * FROM cmpe_users WHERE userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [currentuserid], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({success:true, data:JSON.stringify(rowsOfTable)});
+        }
+    });
+}
+
+const postManagerProfile = (req,res) =>{
+    console.log("In update method of pm profile");
+    const query = 'UPDATE cmpe_users SET firstname = ?, lastname = ?, contactno = ? WHERE userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var contactno = req.body.contactno;
+    console.log(currentuserid);
+    console.log(query);
+    console.log(req.body);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [firstname,lastname,contactno,currentuserid], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+            console.log(JSON.stringify(rowsOfTable));
+            res.send({success:true, data:"Profile updated successfully"});
+        }
+    });
+}
+
+const postManagerProfileImage = async function(req, res) {
+    const imageData = req.body.image;
+    console.log("In update profile image method in controller");
+    console.log(req.body);
+    const userid = req.params.userid;
+    const query = 'UPDATE cmpe_users SET profileimg = ? where userid=?';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query,[imageData, userid],(err,response)=>{
+        if(err){
+            console.log(err);
+            res.send({success:false})
+        }else{
+            res.send({success:true})
+        }
+    });
+}
+
+
 module.exports = {
     testlogin,
     createProject,
     getProjectJoinRequests,
     postAcceptJoinRequest,
-    postDeclineJoinRequest
+    postDeclineJoinRequest,
+    getManagerProfile,
+    postManagerProfile,
+    postManagerProfileImage
 };
