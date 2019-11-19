@@ -13,8 +13,11 @@ import BugsPerDayTesterGraph from './dashboard/TesterGraphs/BugsPerdayForTesterG
 import ProjectsWorkedOnPerCategoryTesterGraph from './dashboard/TesterGraphs/ProjectsWorkedOnPerCategoryTesterGraph';
 import BugsDiscoveredCategoryTesterGraph from './dashboard/TesterGraphs/BugsDiscoveredCategoryTesterGraph';
 import TesterDashboard from './dashboard/TesterDashboard';
-import TesterProfile from "./Profile/Tester_Profile";
-import UpdateTesterProfile from "./Profile/Update_Tester_Profile";
+import UpdateProfile from "./Profile/UpdateProfile";
+import profile from "./Profile/Profile";
+import testers from "./adminViews/Testers";
+import projects from "./adminViews/Projects";
+
 
 class Main extends Component {
     render(){
@@ -36,8 +39,13 @@ class Main extends Component {
                     <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph}/>
                     <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph}/>
                     <Route path="/tester/home" component={TesterHome} />
-                    <Route path="/tester/profile" component={TesterProfile} />
-                    <Route path="/tester/updateprofile" component={UpdateTesterProfile} />
+
+                    <Route exact path="/updateprofile" component={UpdateProfile} />
+                    <Route exact path="/profile" component={profile} />
+
+                    <Route exact path="/administration/testers" component={testers} />
+                    <Route exact path="/administration/projects" component={projects} />
+
                 </div>
             )
         } else {
