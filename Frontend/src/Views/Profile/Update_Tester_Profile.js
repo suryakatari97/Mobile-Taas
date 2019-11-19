@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom'
 import Avatar from 'react-avatar-edit'
 import '../../styles/profile.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 class UpdateProfile extends Component {
     constructor(props){
@@ -21,7 +23,9 @@ class UpdateProfile extends Component {
                 skillname:null,
                 userid:null
             }],
-            profileUpdated:false
+            file: null,
+            profileUpdated:false,
+            resumeUploaded: false
         }
         this.onCrop = this.onCrop.bind(this)
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this)
@@ -73,7 +77,27 @@ class UpdateProfile extends Component {
 
         const success = updateProfile.success;
         //&& updateImage.success;
-        this.setState({profileUpdated:success});
+
+        //----------------------Resume upload--------------------------
+        if(this.state.file !== null) {
+            const formData = new FormData();
+            formData.append('file', this.state.file[0]);
+            const uploadResumeRes = await fetch("/tester/resume/" + currentuserid, {
+                body: formData,
+                method: 'POST',
+                headers: {'Authorization': "bearer " + localStorage.getItem("jwtToken")}
+            })
+
+            const uploadResume = await uploadResumeRes.json();
+
+            const uploadSuccess = uploadResume.success;
+            //&& updateImage.success;
+            if (success) {
+                this.setState({profileUpdated:success});
+            }
+        } else {
+            this.setState({profileUpdated:success});
+        }
     }
     onCrop(preview) {
         this.setState({preview:preview, imageChanged:true})
@@ -99,23 +123,45 @@ class UpdateProfile extends Component {
             email:e.target.value
         })
     }
+
+    handleResumeUpload = (event) => {
+        this.setState({file: event.target.files});
+    }
+
     changeSkillsHandler(e){
         //this is current user skills
-        let skills = this.state.skills;
+        //let skills = this.state.skills;
         //If skill is checked, push into user skills
-        if(e.target.checked) {
-            skills.push({
-                skillid: parseInt(e.target.name),
-                skillname: e.target.value
-            })
-        } else {
-            //If skill is unchecked, remove from user skills
-            var skillIndex = -1;
-            skills.forEach((skill, index) => {
-                if (skill.skillid === parseInt(e.target.name))
-                    skillIndex = index;
-            })
-            if (skillIndex !== -1) skills.splice(skillIndex, 1);
+        // if(e.target.checked) {
+        //     skills.push({
+        //         skillid: parseInt(e.target.name),
+        //         skillname: e.target.value
+        //     })
+        // } else {
+        //     //If skill is unchecked, remove from user skills
+        //     var skillIndex = -1;
+        //     skills.forEach((skill, index) => {
+        //         if (skill.skillid === parseInt(e.target.name))
+        //             skillIndex = index;
+        //     })
+        //     if (skillIndex !== -1) skills.splice(skillIndex, 1);
+        // }
+        var options = e.target.options;
+        let skills = [];
+        for(var i=0;i<options.length;i++){
+            if(options[i].selected) {
+                    skills.push({
+                        skillid: parseInt(options[i].value)
+                    })
+                }else {
+                    //If skill is unchecked, remove from user skills
+                    var skillIndex = -1;
+                    skills.forEach((skill, index) => {
+                        if (skill.skillid === parseInt(options[i].value))
+                            skillIndex = index;
+                    })
+                    if (skillIndex !== -1) skills.splice(skillIndex, 1);
+                }
         }
 
         //update user skills
@@ -219,12 +265,15 @@ class UpdateProfile extends Component {
             })
 
             //-----------For user skills end---------------
+            //     return(
+            //         <div className="skillset_input">
+            //             <label>
+            //             <input type="checkbox" name={skill.skillid} onChange={this.changeSkillsHandler} value={skill.skillname} checked={isChecked}/> {skill.skillname}
+            //         </label>
+            //         </div>
+            //     )
                 return(
-                    <div className="skillset_input">
-                        <label>
-                        <input type="checkbox" name={skill.skillid} onChange={this.changeSkillsHandler} value={skill.skillname} checked={isChecked}/> {skill.skillname}
-                    </label>
-                    </div>
+                    <option value={skill.skillid}  selected={isChecked}> {skill.skillname}</option>
                 )
         }
     })
@@ -235,8 +284,9 @@ class UpdateProfile extends Component {
         // if (!this.state.isLoggedIn) {
         //     return(<Redirect to="/signin"/>)
         // } else
+        let profileLink = '/profile';
         if(this.state.profileUpdated){
-            return(<Redirect to="/tester/profile"/>)
+            return(<Redirect to={profileLink} />)
         } else {
         const istyle = {height: '100%', width: '100%', 'object-fit': 'contain'}
         let profilePreview = <img src={this.state.preview} style={istyle} alt="profile pic"/>
@@ -247,7 +297,7 @@ class UpdateProfile extends Component {
             <div className="main-wrapper">
                 <div className="content-wrapper">
                     <div className="dash-one">
-                        <p className="dash-header-blue"><Link to={"/profile"}>
+                        <p className="dash-header-blue"><Link to="/profile">
                             <p>{this.state.firstname}'s Profile</p></Link></p>
                     </div>
 
@@ -277,9 +327,15 @@ class UpdateProfile extends Component {
                                 <p className="profile-headers">Phone Number</p>
                                 <input className="input-profile" type="phone" name="phonenumber" value={this.state.phonenumber} onChange={this.changePhoneNumberHandler}></input>
                             </div>
+                            <div className="row">
+                                <p className="profile-headers">Resume</p>
+                                <input label='upload file' type='file' onChange={this.handleResumeUpload} />
+                            </div>
                             <div className="row skillset-input">
                                 <p className="profile-headers">Skillset</p>
+                                <select multiple data-style="bg-white rounded-pill px-4 py-3 shadow-sm " onChange={this.changeSkillsHandler} className='form-control w-25' autofocus >
                                 {this.renderSkillSet()}
+                                </select>
                             </div>
                             <div className="row">
                                 <button className="profile-button" type="submit">Submit</button>
