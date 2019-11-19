@@ -24,7 +24,7 @@ class Main extends Component {
         if (localStorage.getItem("jwtToken")!== null) {
             return(
                 <div>
-                    <Route exact path = "/" component = {Sidebar} />
+                    <Route exact path = "/" component = {Dashboard} />
                     <Route path = "/dashboard" component = {Dashboard} />
                     <Route exact path="/tester/home" component={TesterHome} />
                     <Route exact path="/tester/newProjects" component={NewProjects} />
