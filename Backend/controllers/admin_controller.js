@@ -156,10 +156,103 @@ const addAdmin = (req, res, next) => {
         })
 }
 
+const getTesters = (req,res) => {
+    console.log("In get method of all testers by admin");
+    const query = 'SELECT userid, email, firstname, lastname, role, isblocked FROM cmpe_users WHERE role=?;';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, ['TESTER'], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({success:true, data:JSON.stringify(rowsOfTable)});
+        }
+    });
+}
+
+const blockTester = (req,res) => {
+    console.log("In get method block tester by admin");
+    changeTesterBlockedStatus(1, req, res)
+}
+
+const unblockTester = (req,res) => {
+    console.log("In get method unblock tester by admin");
+    changeTesterBlockedStatus(0, req, res)
+}
+
+const changeTesterBlockedStatus = (status, req, res) => {
+    const query = 'UPDATE cmpe_users SET isblocked=? WHERE userid=?;';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [status, req.params.id], (err, rowsOfTable)=>{
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false});
+        } else {
+            console.log("Changed Tester isBlocked to: " + status);
+            res.send({success:true});
+        }
+    });
+}
+
+const getProjects = (req,res) => {
+    console.log("In get method of all projects by admin");
+    const query = 'select projectid, projectname, firstname, lastname, email, p.isblocked from cmpe_users u join cmpe_project p on u.userid = p.ownerid;';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [], (err, rowsOfTable)=>{
+        const dataArr = [];
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false, data: dataArr});
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({success:true, data:JSON.stringify(rowsOfTable)});
+        }
+    });
+}
+
+const blockProject = (req,res) => {
+    console.log("In get method block project by admin");
+    changeProjectBlockedStatus(1, req, res)
+}
+
+const unblockProject = (req,res) => {
+    console.log("In get method unblock project by admin");
+    changeProjectBlockedStatus(0, req, res)
+}
+
+const changeProjectBlockedStatus = (status, req, res) => {
+    const query = 'UPDATE cmpe_project SET isblocked=? WHERE projectid=?;';
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [status, req.params.id], (err, rowsOfTable)=>{
+        if(err) {
+            console.log(err);
+            res.status(500);
+            res.send({success:false});
+        } else {
+            console.log("Changed isBlocked to: " + status);
+            res.send({success:true});
+        }
+    });
+}
+
+
 
 module.exports = {
     testlogin,
     addAdmin,
     usersPerday, projectsPerday, testsPerday, bugsPerday,
-    topProjectsTestCases, topProjectsTesters, roleShare
+    topProjectsTestCases, topProjectsTesters,
+    getTesters,
+    blockTester, unblockTester,
+    getProjects,
+    blockProject, unblockProject, roleShare
 };
