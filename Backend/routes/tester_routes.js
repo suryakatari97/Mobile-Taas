@@ -7,6 +7,7 @@ var {testlogin, tester_getProfile, tester_getskills, getTesterProjects, getProje
 var {postTests} = require("../controllers/test_runner_controller");
 var {projectsPerdayForTester, testsPerdayForTester, bugsPerdayForTester, projectsWorkedOnPerCategoryTester, bugsCategoryTester} = require("../controllers/tester_stats_controller");
 var {testlogin,tester_getProfile, tester_getskills} = require("../controllers/tester_controller");
+var {resumeUploadToS3,getResume} = require("../controllers/tester_resume_controller");
 
 
 // test login
@@ -39,5 +40,7 @@ router.get('/profile/:userid/skills', tester_getskills);
 
 router.get('/profileimage/:userid', get_profileImage);
 router.post('/profileimage/:userid', post_profileImage);
+
+router.post('/resume/:userid', resumeUploadToS3);
 
 module.exports = router;
