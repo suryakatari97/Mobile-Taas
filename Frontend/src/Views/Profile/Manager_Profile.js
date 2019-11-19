@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link,Redirect } from "react-router-dom";
 import '../../styles/profile.css';
+import {chatHost} from "../../config/settings";
 
 class Profile extends Component {
     constructor(props){
@@ -45,9 +46,14 @@ class Profile extends Component {
     render(){
         let updateLink = '/updateprofile';
         let profileLink = '/profile';
+        const chatUrl = chatHost+"?userId=" + chatUserId + "&resumeToken=" + chatUserToken
+
         let updateProfile = <div className="update-profile-btn">
                 <Link to={updateLink} className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
             </div>
+        let launchChat = <div className="update-profile-btn ml-2">
+            <a className="link" style={{textDecoration: "none"}} target="_blank" href={chatUrl}><i class="fas fa-user-edit"></i> Community Chat </a>
+        </div>
         const istyle = {height: '100%', width: '100%', 'object-fit': 'contain'}
         if (!this.state.isLoggedIn) {
             return(<Redirect to="/"/>)
@@ -89,7 +95,7 @@ class Profile extends Component {
                                             <p>{this.state.phonenumber}</p>
                                         </div>
                                         <div className="row row-style">
-                                            {updateProfile}
+                                            {updateProfile}                                             {launchChat}
                                         </div>
                                     </div>
                                 </div>
