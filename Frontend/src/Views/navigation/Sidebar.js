@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import '../../App.css';
+import ChatLink from '../chatLink/ChatLink';
 
 class Navigation extends Component {
   constructor(props){
@@ -80,6 +81,9 @@ class Navigation extends Component {
               </div>
             </li>
             <li>
+            <ChatLink />
+            </li>
+            <li>
               <Link to='/signin'>
                 <div onClick = {this.logoutHandler} className="icon-container">
                 <i className="fas fa-sign-out-alt fa-lg"></i>
@@ -87,7 +91,7 @@ class Navigation extends Component {
                 </div>
               </Link>
             </li>
-          </ul>
+            </ul>
         </nav>
       </div>
     )
