@@ -17,27 +17,33 @@ import UpdateProfile from "./Profile/UpdateProfile";
 import profile from "./Profile/Profile";
 import testers from "./adminViews/Testers";
 import projects from "./adminViews/Projects";
+import ManagerHome from "./home/ManagerHome";
+import Viewproject from "./Projects/ViewManagerProject";
+import AddProject from "./Projects/AddProject";
 
 
 class Main extends Component {
-    render(){
-        if (localStorage.getItem("jwtToken")!== null) {
-            return(
+    render() {
+        if (localStorage.getItem("jwtToken") !== null) {
+            return (
                 <div>
-                    <Route exact path = "/" component = {Sidebar} />
-                    <Route path = "/dashboard" component = {Dashboard} />
+                    <Route exact path="/" component={Sidebar} />
+                    <Route path="/dashboard" component={Dashboard} />
                     <Route exact path="/tester/home" component={TesterHome} />
+                    <Route exact path="/manager/home" component={ManagerHome} />
+                    <Route exact path="/pm/viewproject/:projectID" component={Viewproject} />
+                    <Route exact path="/pm/addproject" component={AddProject} />
                     <Route exact path="/tester/newProjects" component={NewProjects} />
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
-                    <Route exact path="/pm/requests" component={JoinRequests}/>
-                    <Route exact path="/tester/dashboard" component={TesterDashboard}/>
+                    <Route exact path="/pm/requests" component={JoinRequests} />
+                    <Route exact path="/tester/dashboard" component={TesterDashboard} />
 
                     {/* Below routes are for testing purpose only. To be removed later */}
-                    <Route exact path="/tester/graph1" component={ProjectsPerDayTesterGraph}/>
-                    <Route exact path="/tester/graph2" component={TestsPerDayTesterGraph}/>
-                    <Route exact path="/tester/graph3" component={BugsPerDayTesterGraph}/>
-                    <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph}/>
-                    <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph}/>
+                    <Route exact path="/tester/graph1" component={ProjectsPerDayTesterGraph} />
+                    <Route exact path="/tester/graph2" component={TestsPerDayTesterGraph} />
+                    <Route exact path="/tester/graph3" component={BugsPerDayTesterGraph} />
+                    <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph} />
+                    <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph} />
                     <Route path="/tester/home" component={TesterHome} />
 
                     <Route exact path="/updateprofile" component={UpdateProfile} />
@@ -49,9 +55,9 @@ class Main extends Component {
                 </div>
             )
         } else {
-            return(
+            return (
                 <div>
-                    <Route path = "/" component = {Signin} />
+                    <Route path="/" component={Signin} />
                 </div>
             )
         }
