@@ -6,7 +6,63 @@ const testlogin = (req, res, next) => {
     res.send({ userid: req.user.userid, role: req.user.role });
 };
 
+const updateProjectStatus = (req, res) => {
+    const status = req.body.status;
+    const projectId = req.body.projectid;
+    const userid = req.user.userid;
+    console.log("req user");
+    console.log(req.user);
+    console.log("req body")
+    console.log(req.body);
 
+    const mysqlconnection = req.db;
+    // mysql transaction
+    // mysqlconnection.connect(function (err) {
+    // 	if (err) {
+    // 		console.error('error connecting: ' + err.stack);
+    // 		res.end({ success: false, message: 'Failed to update a project' });
+    // 	}
+    // 	console.log('connected as id ' + mysqlconnection.threadId);
+    // });
+    mysqlconnection.beginTransaction((err) => {
+        if (!err) {
+            // get the email fo current user, needed for bugzilla
+            mysqlconnection.query('SELECT email from cmpe_users WHERE userid=?', [userid], (err, rowsOfTable) => {
+                if (err || rowsOfTable == 0) {
+                    console.log(err);
+                    mysqlconnection.rollback();
+                    res.end({ success: false, message: 'Failed to update a project' });
+                } else {
+                    mysqlconnection.query(
+                        'UPDATE cmpe_project set status=? where projectid=? ',
+                        [status, projectId],
+                        (err, result) => {
+                            if (err) {
+                                console.log('err', err);
+                                mysqlconnection.rollback();
+                                res.send({ success: false, message: 'Failed to update a project' });
+                            } else {
+                                console.log('result', result);
+
+                                mysqlconnection.commit();
+                                // res.writeHead(200, {
+                                //     "Content-type": "application/json"
+                                // });
+                                // console.log("deleted project");
+                                res.send({ success: true, message: 'successfully updated a project' });
+                            }
+                        }
+                    );
+
+                }
+            });
+        }
+        else {
+            res.send({ success: false, message: 'updated failed' })
+        }
+    });
+
+}
 const getPmProjectDetails = (req, res, next) => {
     console.log(req.query);
     var projectid = req.query.id;
@@ -313,5 +369,6 @@ module.exports = {
     postManagerProfileImage,
     getManagerProjects,
     getPmProjectDetails,
-    addpmproject
+    addpmproject,
+    updateProjectStatus
 };

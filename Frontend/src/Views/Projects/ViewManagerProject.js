@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { hostaddress } from '../../config/settings';
+import swal from 'sweetalert';
 
 
 class ViewManagerProject extends Component {
@@ -34,14 +35,49 @@ class ViewManagerProject extends Component {
 
     }
     handleStatusChange = (status, projectid) => {
-        // const data = {
-        //     status: status,
-        //     projectid: projectid
-        // }
+        const data = {
+            status: status,
+            projectid: projectid
+        }
         this.setState({
-            status: status
+            status: status,
+            projectid: projectid
         }
         )
+        const url = 'http://' + hostaddress + ':3001/pm/updateProjectStatus';
+        let token = localStorage.getItem('jwtToken');
+        axios({
+            method: 'post',
+            url: url,
+            data: data,
+            //params: { id: managerid },
+            config: { headers: { 'Content-Type': 'application/json' } },
+            headers: { Authorization: `Bearer ${token}` }
+        }).then((response) => {
+
+            if (response.data.success) {
+                console.log('updated project status successful');
+                swal({
+                    title: "Success",
+                    text: "Project status updated successfully!",
+                    icon: "success",
+                    // buttons: true,
+                    dangerMode: false,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location.reload()
+                        } else {
+                            swal("Your project updated. Please reload the page!");
+                        }
+                    });
+            } else {
+                console.log('add project 2xx response, but failed');
+            }
+        })
+            .catch((error) => {
+                console.log('add project not 2xx response');
+            });
     }
     render() {
         let title = null
