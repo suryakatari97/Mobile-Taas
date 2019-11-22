@@ -3,7 +3,7 @@ var express = require("express");
 var router = express.Router();
 
 // user defined modules
-var { testlogin, createProject, getPmProjectDetails, getProjectJoinRequests, updateProjectStatus, addpmproject, postAcceptJoinRequest, postDeclineJoinRequest, getManagerProjects, getManagerProfile, postManagerProfile, postManagerProfileImage } = require("../controllers/pm_controller");
+var { testlogin, createProject, getPmProjectDetails, getProjectJoinRequests, deletepmProject, updateProjectStatus, addpmproject, postAcceptJoinRequest, postDeclineJoinRequest, getManagerProjects, getManagerProfile, postManagerProfile, postManagerProfileImage } = require("../controllers/pm_controller");
 
 // test login
 router.post('/testlogin', testlogin);
@@ -19,5 +19,6 @@ router.get('/home', getManagerProjects);
 router.post('/getpmprojectdetails', getPmProjectDetails);
 router.post('/addpmproject', addpmproject);
 router.post('/updateprojectstatus', updateProjectStatus);
+router.post('/deletepmproject', deletepmProject)
 
 module.exports = router;

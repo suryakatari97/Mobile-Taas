@@ -5,6 +5,56 @@ const { bugzillaToken, bugzillaBaseURL,
 const testlogin = (req, res, next) => {
     res.send({ userid: req.user.userid, role: req.user.role });
 };
+const deletepmProject = (req, res, next) => {
+    const userid = req.user.userid;
+    const projectid = req.body.projectid;
+
+    // delete from mysqlDB
+    const mysqlconnection = req.db;
+    // mysql transaction
+    mysqlconnection.connect(function (err) {
+        if (err) {
+            // console.error('error connecting: ' + err.stack);
+            res.send({ success: false, message: 'Failed to create a project' });
+        }
+        console.log('connected as id ' + mysqlconnection.threadId);
+    });
+    mysqlconnection.beginTransaction((err) => {
+        if (!err) {
+            // get the email fo current user, needed for bugzilla
+            mysqlconnection.query('SELECT email from cmpe_users WHERE userid=?', [userid], (err, rowsOfTable) => {
+                if (err || rowsOfTable == 0) {
+                    console.log(err);
+                    mysqlconnection.rollback();
+                    res.send({ success: false, message: 'Failed to delete a project' });
+                } else {
+                    const useremail = rowsOfTable[0].email;
+                    // insert into projects table
+                    mysqlconnection.query(
+                        'DELETE from cmpe_project where projectid =(?)',
+                        [projectid],
+                        (err, result) => {
+                            if (err) {
+                                console.log('err', err);
+                                mysqlconnection.rollback();
+                                res.send({ success: false, message: 'Failed to delete a project' });
+                            } else {
+                                console.log('result', result);
+
+                                mysqlconnection.commit();
+                                // res.writeHead(200, {
+                                //     "Content-type": "application/json"
+                                // });
+                                // console.log("deleted project");
+                                res.end({ success: true, message: 'successfully deleted a project' });
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    });
+};
 
 const updateProjectStatus = (req, res) => {
     const status = req.body.status;
@@ -370,5 +420,6 @@ module.exports = {
     getManagerProjects,
     getPmProjectDetails,
     addpmproject,
-    updateProjectStatus
+    updateProjectStatus,
+    deletepmProject
 };
