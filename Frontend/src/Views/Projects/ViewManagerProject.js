@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import { hostaddress } from '../../config/settings';
 import swal from 'sweetalert';
-import  {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
+import '../../styles/ManagerHome.css'
 
-let redirectvar= null;
+let redirectvar = null;
 class ViewManagerProject extends Component {
     constructor() {
         super()
         this.state = {
             projectdata: null,
-            status: null
+            status: null,
+            participants: null
         }
     };
 
@@ -18,6 +20,7 @@ class ViewManagerProject extends Component {
         const projectid = this.props.match.params.projectID;
         console.log(projectid);
         let url = 'http://' + hostaddress + ':3001/pm/getpmprojectdetails';
+        let url1 = 'http://' + hostaddress + ':3001/pm/getpmprojectParticipants';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
         axios({
@@ -31,9 +34,22 @@ class ViewManagerProject extends Component {
             this.setState({
                 projectdata: response.data.projectdata[0]
             });
+
             console.log(this.state.projectdata);
         });
+        axios({
+            method: 'get',
+            url: url1,
+            params: { "id": projectid },
+            config: { headers: { 'Content-Type': 'application/json' } },
+            headers: { Authorization: `Bearer ${token}` }
+        }).then((response) => {
+            this.setState({
+                participants: response.data.participants
+            });
 
+            console.log(this.state.participants);
+        });
     }
     handleStatusChange = (status, projectid) => {
         const data = {
@@ -116,8 +132,8 @@ class ViewManagerProject extends Component {
 
                                 //getting updated data and setting the state
                                 window.location.replace("http://" + hostaddress + ":3000/manager/home");
-                                
-                                
+
+
                             } else {
                                 console.log('delete project 2xx response, but failed');
                             }
@@ -138,6 +154,21 @@ class ViewManagerProject extends Component {
         let project_url = null
         let status = null
         let projectid = null
+        let projectparticipant = null
+        if (this.state.participants) {
+            projectparticipant = this.state.participants.map(member => {
+
+                return (
+                    <div className="card" key={member.firstname} >
+                        <div className="card-body" >
+
+                            <p className="card-text">{member.firstname}&nbsp;{member.lastname}</p>
+
+                        </div>
+                    </div>
+                )
+            });
+        }
         if (this.state.projectdata) {
             title = this.state.projectdata.projectname
             console.log(title);
@@ -152,40 +183,47 @@ class ViewManagerProject extends Component {
             status = this.state.status
         }
         console.log(redirectvar);
-        
+
         return (
             <div className='row'>
                 {redirectvar}
                 <div className='col-1'></div>
-                <div className='col-3 text-center'>Participants</div>
+                <div className='col-3 text-center'>
+                    <div><h4>TESTERS</h4></div>
+                    <div>{projectparticipant}</div>
+                </div>
                 <div class="card col-6" >
                     <div class="card-body">
                         <div className='row'>
                             <div className='col-6'>
                                 <h5 class="card-title">Project Title: {title}</h5>
-                                <p class="card-text">Description: {description}</p>
-                                <p class="card-text">Skills required: {skills}</p>
-                                <p class="card-text">Project Url: {project_url}</p>
                             </div>
                             <div className='col-6'>
                                 <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {status}</button>
-                                <button class="dropdown-item" ></button>
-
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <button onClick={() => this.handleStatusChange("ongoing", projectid)} class="dropdown-item" >ongoing</button>
                                     <button onClick={() => this.handleStatusChange("Completed", projectid)} class="dropdown-item" >Completed</button>
                                 </div>
-                                <div>
-                                <button onClick={() => this.deleteProject(projectid)} className='btn btn-danger'>Delete</button>
+                                <div id='deletebutton'>
+                                    <button onClick={() => this.deleteProject(projectid)} className='btn btn-danger'>Delete</button>
                                 </div>
                             </div>
+                        </div>
+                        <div className='row col-12' id='indproject'>
+                            <p class="card-text">Description: {description}</p>
+                        </div>
+                        <div className='row col-12' id='indproject'>
+                            <p class="card-text">Skills required: {skills}</p>
+                        </div>
+                        <div className='row col-12' id='indproject'>
+                            <p class="card-text">Project Url: {project_url}</p>
                         </div>
                     </div>
                 </div>
                 <div className='col-1'></div>
 
-            </div>
+            </div >
 
         );
     }

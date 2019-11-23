@@ -113,6 +113,23 @@ const updateProjectStatus = (req, res) => {
     });
 
 }
+
+const getpmprojectParticipants =(req, res, next) => {
+    console.log(req.query);
+    var projectid = req.query.id;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('SELECT cu.userid, cu.firstname,cu.lastname FROM cmpe_project_members as cpm JOIN cmpe_users as cu where cpm.userid = cu.userid and cpm.projectid =?;',
+        [projectid], (err, rowsOfTable, fieldsOfTable) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json({ responseMessage: 'Database not responding' });
+            } else {
+                console.log(rowsOfTable);
+                res.status(200).json({ participants: rowsOfTable });
+            }
+        });
+
+}
 const getPmProjectDetails = (req, res, next) => {
     console.log(req.query);
     var projectid = req.query.id;
@@ -421,5 +438,6 @@ module.exports = {
     getPmProjectDetails,
     addpmproject,
     updateProjectStatus,
-    deletepmProject
+    deletepmProject,
+    getpmprojectParticipants
 };
