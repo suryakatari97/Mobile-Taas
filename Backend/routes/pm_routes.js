@@ -3,8 +3,10 @@ var express = require("express");
 var router = express.Router();
 
 // user defined modules
-var { testlogin, createProject, getPmProjectDetails, getProjectJoinRequests, deletepmProject, updateProjectStatus, addpmproject, postAcceptJoinRequest, postDeclineJoinRequest, getManagerProjects, getManagerProfile, postManagerProfile, postManagerProfileImage } = require("../controllers/pm_controller");
-var { ProjectsCreatedPerDay } = require("../controllers/pm_stats_controller");
+var { testlogin, createProject, getPmProjectDetails, getProjectJoinRequests, deletepmProject, updateProjectStatus, 
+    addpmproject, postAcceptJoinRequest, postDeclineJoinRequest, getManagerProjects, getManagerProfile, postManagerProfile, 
+    postManagerProfileImage } = require("../controllers/pm_controller");
+var { ProjectsCreatedPerDay, NumberofTestersPerProject } = require("../controllers/pm_stats_controller");
 // test login
 router.post('/testlogin', testlogin);
 
@@ -23,5 +25,6 @@ router.post('/deletepmproject', deletepmProject);
 
 //for manager dashboard
 router.get('/stats/ProjectsCreatedPerDay', ProjectsCreatedPerDay);
+router.get('/stats/NumberofTestersPerProject', NumberofTestersPerProject);
 
 module.exports = router;
