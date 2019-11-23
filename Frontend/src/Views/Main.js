@@ -20,6 +20,8 @@ import projects from "./adminViews/Projects";
 import ManagerHome from "./home/ManagerHome";
 import Viewproject from "./Projects/ViewManagerProject";
 import AddProject from "./Projects/AddProject";
+import ManagerDashboard from "./dashboard/ManagerDashboard";
+import ProjectsCreatedPerDay from "./dashboard/ManagerGraphs/ProjectsCreatedPerDay"
 
 
 class Main extends Component {
@@ -37,6 +39,7 @@ class Main extends Component {
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
                     <Route exact path="/pm/requests" component={JoinRequests} />
                     <Route exact path="/tester/dashboard" component={TesterDashboard} />
+                    <Route exact path="/manager/dashboard" component={ManagerDashboard} />
 
                     {/* Below routes are for testing purpose only. To be removed later */}
                     <Route exact path="/tester/graph1" component={ProjectsPerDayTesterGraph} />

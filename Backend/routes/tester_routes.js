@@ -31,6 +31,8 @@ router.get('/stats/bugsPerdayForTester', bugsPerdayForTester);
 router.get('/stats/projectCategoriesTester', projectsWorkedOnPerCategoryTester);
 router.get('/stats/bugsCategoryTester', bugsCategoryTester)
 
+
+
 //tester profile
 router.get('/profile/:userid', tester_getProfile);
 router.post('/profile/:userid', tester_updateProfile);
