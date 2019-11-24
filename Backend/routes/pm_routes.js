@@ -7,7 +7,7 @@ var { testlogin, createProject, getPmProjectDetails, getProjectJoinRequests, del
     addpmproject, postAcceptJoinRequest, postDeclineJoinRequest, getManagerProjects, getManagerProfile, postManagerProfile, 
     postManagerProfileImage, getpmprojectParticipants } = require("../controllers/pm_controller");
     
-var { ProjectsCreatedPerDay, NumberofTestersPerProject } = require("../controllers/pm_stats_controller");
+var { ProjectsCreatedPerDay, NumberofTestersPerProject, ProjectStatusPieChart } = require("../controllers/pm_stats_controller");
 // test login
 router.post('/testlogin', testlogin);
 
@@ -28,5 +28,6 @@ router.get('/getpmprojectParticipants', getpmprojectParticipants)
 //for manager dashboard
 router.get('/stats/ProjectsCreatedPerDay', ProjectsCreatedPerDay);
 router.get('/stats/NumberofTestersPerProject', NumberofTestersPerProject);
+router.get('/stats/ProjectStatusPieChart', ProjectStatusPieChart);
 
 module.exports = router;

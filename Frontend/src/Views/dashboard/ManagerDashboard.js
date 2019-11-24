@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ProjectsCreatedPerDay from "./ManagerGraphs/ProjectsCreatedPerDay";
 import NumberofTestersPerProject from "./ManagerGraphs/NumberofTestersPerProject";
+import ProjectStatusPieChart from "./ManagerGraphs/ProjectStatusPieChart";
 
  class ManagerDashboard extends Component {
     render() {
@@ -22,6 +23,12 @@ import NumberofTestersPerProject from "./ManagerGraphs/NumberofTestersPerProject
 
                                 <div className="card-body" >
                                     <NumberofTestersPerProject />
+                                </div>
+                            </div>
+                            <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+
+                                <div className="card-body" >
+                                    <ProjectStatusPieChart />
                                 </div>
                             </div>
                         </div>

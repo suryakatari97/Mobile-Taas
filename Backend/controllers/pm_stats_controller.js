@@ -45,13 +45,53 @@ const ProjectsCreatedPerDay = (req, res) => {
     perdayQuery(req, res, query, managerid);
 };
 
-const NumberofTestersPerProject =(req, res) => {
+const NumberofTestersPerProject = (req, res) => {
     console.log(req.query);
     var managerid = req.query.id;
     const query = 'SELECT COUNT(cpm.userid) as NoOfTesters, cpm.projectid FROM cmpe_project_members as cpm JOIN cmpe_project as cp where cpm.projectid = cp.projectid and cp.ownerid =? Group By projectid;'
-    Testersperproject(req, res, query, managerid);  
+    Testersperproject(req, res, query, managerid);
+};
+
+const ProjectStatusPieChart = (req, res) => {
+    const mysqlconnection = req.db;
+    console.log(req.query);
+    var managerid = req.query.id;
+    var result = [];
+    mysqlconnection.query('SELECT count(ownerid) AS countnew FROM MobileTaas.cmpe_project where status = "NEW" AND ownerid =?;',
+        [managerid], (err, rowsOfTable) => {
+            if (err) {
+                console.log(err);
+                res.status(500);
+                res.send({ success: false, data: res });
+            } else {
+                result.push(rowsOfTable[0]);
+                mysqlconnection.query('SELECT count(ownerid) AS countongoing FROM MobileTaas.cmpe_project where status = "ongoing" AND ownerid =?;'
+                    , [managerid], (err, rowsOfTable) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(500);
+                            res.send({ success: false, data: res });
+                        } else {
+                            result.push(rowsOfTable[0]);
+                            mysqlconnection.query('SELECT count(ownerid) AS countcompleted FROM MobileTaas.cmpe_project where status = "Completed" AND ownerid =?;'
+                                , [managerid], (err, rowsOfTable) => {
+                                    if (err) {
+                                        console.log(err);
+                                        res.status(500);
+                                        res.send({ success: false, data: dataArr });
+                                    } else {
+                                        result.push(rowsOfTable[0]);
+                                        console.log(result);
+                                        res.send({ success: true, data: result });
+                                    }
+                                });
+                        }
+                    });
+            }
+        });
+
 };
 
 module.exports = {
-    ProjectsCreatedPerDay, NumberofTestersPerProject
+    ProjectsCreatedPerDay, NumberofTestersPerProject, ProjectStatusPieChart
 };
