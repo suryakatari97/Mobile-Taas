@@ -3,7 +3,7 @@ var express = require("express");
 var router = express.Router();
 
 // user defined modules
-var {testlogin, tester_getProfile, tester_getskills, getTesterProjects, getProjectUrl, getNewProjects, postJoinRequest,get_allSkills,get_profileImage, post_profileImage, tester_updateProfile} = require("../controllers/tester_controller");
+var { testlogin, tester_getProfile, tester_getskills, TesterNotifications, getTesterProjects, getProjectUrl, getNewProjects, postJoinRequest,get_allSkills,get_profileImage, post_profileImage, tester_updateProfile} = require("../controllers/tester_controller");
 var {postTests} = require("../controllers/test_runner_controller");
 var {projectsPerdayForTester, testsPerdayForTester, bugsPerdayForTester, projectsWorkedOnPerCategoryTester, bugsCategoryTester} = require("../controllers/tester_stats_controller");
 var {testlogin,tester_getProfile, tester_getskills} = require("../controllers/tester_controller");
@@ -29,8 +29,9 @@ router.get('/stats/projectsPerDayForTester', projectsPerdayForTester);
 router.get('/stats/testsPerdayForTester', testsPerdayForTester);
 router.get('/stats/bugsPerdayForTester', bugsPerdayForTester);
 router.get('/stats/projectCategoriesTester', projectsWorkedOnPerCategoryTester);
-router.get('/stats/bugsCategoryTester', bugsCategoryTester)
+router.get('/stats/bugsCategoryTester', bugsCategoryTester);
 
+router.get('/TesterNotifications', TesterNotifications);
 
 
 //tester profile

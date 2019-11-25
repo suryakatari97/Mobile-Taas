@@ -155,7 +155,7 @@ class ManagerHome extends Component {
                         <div className="color-div" style={{ padding: "4rem", background: "wheat" }}>
                         </div>
                         <div className="card-body" >
-                            
+
                             <p className="card-text"><a href={url}>{project.projectid}&nbsp;{project.projectname}</a></p>
                             <i className="fa fa-bullhorn fa-list" aria-hidden="true"></i>
                             <i className="fa fa-file-text fa-list" aria-hidden="true"></i>
@@ -167,18 +167,28 @@ class ManagerHome extends Component {
             });
         }
         return (
-            <div>
-                <button id="add-project-button" onClick={this.showModal} className="btn btn-success">Add New Project</button>
-                <AddProject
-                    handleTitleChange={this.handleTitleChange}
-                    handleDescChange={this.handleDescChange}
-                    handleURLChange={this.handleURLChange}
-                    handleSkillChange={this.handleSkillChange}
-                    AddNewProject={this.AddNewProject}
-                    toggle={this.showModal}
-                    modal={this.state.modal}
-                />
-                {projectsDiv}
+            <div className="row">
+
+                <div className="col-10">
+                    <br />
+                    <div className="row">
+                        {projectsDiv}
+                    </div>
+                </div>
+
+                <div className="col-2">
+                    <br />
+                    <button id="add-project-button" onClick={this.showModal} className="btn btn-success">Add New Project</button>
+                    <AddProject
+                        handleTitleChange={this.handleTitleChange}
+                        handleDescChange={this.handleDescChange}
+                        handleURLChange={this.handleURLChange}
+                        handleSkillChange={this.handleSkillChange}
+                        AddNewProject={this.AddNewProject}
+                        toggle={this.showModal}
+                        modal={this.state.modal}
+                    />
+                </div>
             </div>
         )
     }

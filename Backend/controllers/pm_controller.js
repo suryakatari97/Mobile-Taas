@@ -298,7 +298,7 @@ const getProjectJoinRequests = (req, res, next) => {
     console.log(req.query);
     var pmid = req.query.id;
     const mysqlconnection = req.db;
-    mysqlconnection.query('SELECT j.requestid,j.userid,j.projectid,p.projectname FROM cmpe_join_request as j LEFT JOIN cmpe_project as p ON j.projectid = p.projectid WHERE p.ownerid=?',
+    mysqlconnection.query('SELECT j.requestid,j.userid,j.projectid,p.projectname FROM cmpe_join_request as j LEFT JOIN cmpe_project as p ON j.projectid = p.projectid WHERE p.ownerid=? and j.status="pending"',
         [pmid], (err, rowsOfTable, fieldsOfTable) => {
             if (err) {
                 console.log(err);
@@ -321,14 +321,14 @@ const postAcceptJoinRequest = (req, res, next) => {
     mysqlconnection.beginTransaction((err) => {
         if (!err) {
 
-            mysqlconnection.query('DELETE FROM cmpe_join_request WHERE requestid=?', [requestid], (err, result) => {
+            mysqlconnection.query('UPDATE cmpe_join_request SET status="Approved" where requestid=? ', [requestid], (err, result) => {
                 if (err) {
                     console.log(err);
                     mysqlconnection.rollback();
                     res.status(500).json({ success: false, responseMessage: 'Unable to accept request. Please try again!' });
                 } else {
                     console.log(result);
-                    console.log("Sucessfully deleted request id:" + requestid);
+                    console.log("Sucessfully updated the status of request id:" + requestid);
                     mysqlconnection.query('INSERT INTO cmpe_project_members (userid, projectid) VALUES(?,?)', [testerid, projectid], (err, result) => {
                         if (err) {
                             console.log(err);
@@ -352,7 +352,7 @@ const postDeclineJoinRequest = (req, res, next) => {
     console.log(req.body);
     let requestid = req.body.requestid;
     const mysqlconnection = req.db;
-    mysqlconnection.query('DELETE FROM cmpe_join_request WHERE requestid=?', [requestid], (err, result) => {
+    mysqlconnection.query('UPDATE cmpe_join_request SET status="Declined" where requestid=? ', [requestid], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).json({ success: false, responseMessage: 'Unable to decline request. Please try again!' });

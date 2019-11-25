@@ -22,6 +22,7 @@ import Viewproject from "./Projects/ViewManagerProject";
 import AddProject from "./Projects/AddProject";
 import ManagerDashboard from "./dashboard/ManagerDashboard";
 import ProjectsCreatedPerDay from "./dashboard/ManagerGraphs/ProjectsCreatedPerDay"
+import TesterNotifications from "./home/TesterNotifications"
 
 
 class Main extends Component {
@@ -48,6 +49,7 @@ class Main extends Component {
                     <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph} />
                     <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph} />
                     <Route path="/tester/home" component={TesterHome} />
+                    <Route path="/tester/notifications" component={TesterNotifications} />
 
                     <Route exact path="/updateprofile" component={UpdateProfile} />
                     <Route exact path="/profile" component={profile} />

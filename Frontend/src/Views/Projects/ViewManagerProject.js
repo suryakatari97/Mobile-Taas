@@ -185,46 +185,52 @@ class ViewManagerProject extends Component {
         console.log(redirectvar);
 
         return (
-            <div className='row'>
-                {redirectvar}
-                <div className='col-1'></div>
-                <div className='col-3 text-center'>
-                    <div><h4>TESTERS</h4></div>
-                    <div>{projectparticipant}</div>
-                </div>
-                <div class="card col-6" >
-                    <div class="card-body">
-                        <div className='row'>
-                            <div className='col-6'>
-                                <h5 class="card-title">Project Title: {title}</h5>
-                            </div>
-                            <div className='col-6'>
-                                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {status}</button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <button onClick={() => this.handleStatusChange("ongoing", projectid)} class="dropdown-item" >ongoing</button>
-                                    <button onClick={() => this.handleStatusChange("Completed", projectid)} class="dropdown-item" >Completed</button>
+            <div className="container-fluid" id="managerbg">
+                <div className='row'>
+                    {redirectvar}
+                    <div className='col-1'></div>
+                    <div className='col-3 text-center'>
+                        <br />
+                        <div><h4><mark>TESTERS</mark></h4></div>
+                        <div>{projectparticipant}</div>
+                    </div>
+                    <div className="col-5">
+                        <br />
+                        <div class="card shadow" >
+                            <img src="https://www.fingent.com/blog/assets/uploads/2015/09/Devlopers-Vs-Testers-01.png" class="card-img-top" alt="..."></img>
+                            <div class="card-body">
+                                <div className='row'>
+                                    <div className='col-6'>
+                                        <h5 class="card-title">Project Title: {title}</h5>
+                                    </div>
+                                    <div className='col-6'>
+                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {status}</button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button onClick={() => this.handleStatusChange("ongoing", projectid)} class="dropdown-item" >ongoing</button>
+                                            <button onClick={() => this.handleStatusChange("Completed", projectid)} class="dropdown-item" >Completed</button>
+                                        </div>
+                                        <div id='deletebutton'>
+                                            <button onClick={() => this.deleteProject(projectid)} className='btn btn-danger'>Delete</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id='deletebutton'>
-                                    <button onClick={() => this.deleteProject(projectid)} className='btn btn-danger'>Delete</button>
+                                <div className='row col-12' id='indproject'>
+                                    <p class="card-text">Description: {description}</p>
+                                </div>
+                                <div className='row col-12' id='indproject'>
+                                    <p class="card-text">Skills required: {skills}</p>
+                                </div>
+                                <div className='row col-12' id='indproject'>
+                                    <p class="card-text">Project Url: {project_url}</p>
                                 </div>
                             </div>
-                        </div>
-                        <div className='row col-12' id='indproject'>
-                            <p class="card-text">Description: {description}</p>
-                        </div>
-                        <div className='row col-12' id='indproject'>
-                            <p class="card-text">Skills required: {skills}</p>
-                        </div>
-                        <div className='row col-12' id='indproject'>
-                            <p class="card-text">Project Url: {project_url}</p>
                         </div>
                     </div>
-                </div>
-                <div className='col-1'></div>
+                    <div className='col-1'></div>
 
-            </div >
-
+                </div >
+            </div>
         );
     }
 }
