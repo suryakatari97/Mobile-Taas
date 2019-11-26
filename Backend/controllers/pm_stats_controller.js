@@ -52,6 +52,13 @@ const NumberofTestersPerProject = (req, res) => {
     Testersperproject(req, res, query, managerid);
 };
 
+const TotalBugsPerProject =(req, res) => {
+    console.log(req.query);
+    var managerid = req.query.id;
+    const query = 'SELECT COUNT(cpm.userid) as NoOfTesters, cpm.projectid FROM cmpe_project_members as cpm JOIN cmpe_project as cp where cpm.projectid = cp.projectid and cp.ownerid =? Group By projectid;'
+    Testersperproject(req, res, query, managerid);    
+};
+
 const ProjectStatusPieChart = (req, res) => {
     const mysqlconnection = req.db;
     console.log(req.query);
@@ -93,5 +100,5 @@ const ProjectStatusPieChart = (req, res) => {
 };
 
 module.exports = {
-    ProjectsCreatedPerDay, NumberofTestersPerProject, ProjectStatusPieChart
+    ProjectsCreatedPerDay, NumberofTestersPerProject, ProjectStatusPieChart, TotalBugsPerProject
 };
