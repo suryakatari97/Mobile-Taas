@@ -58,13 +58,8 @@ class TesterHome extends Component {
                                 </div>
             )
         });
-        let redirectVar = '';
-        /*if (!cookie.load('cookie1')) {
-            redirectVar = <Redirect to="/login" />
-        }*/
         return (
             <div>
-                {redirectVar}
                
                 <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
                     <div className="container">

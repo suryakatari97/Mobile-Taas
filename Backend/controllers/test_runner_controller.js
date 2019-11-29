@@ -27,6 +27,11 @@ const postTests = (req,res,next) => {
             var expected = scripts[i].expected;
             await testTitle(expected);
         }
+        if(scripts[i].id == 2){
+            var username = "akhilasanka@gmail.com";
+            var password = "Akhila@123";
+            await testLogin(username,password);
+        }
     }
     callback();
 }
@@ -48,12 +53,48 @@ const testTitle = async (expected) => {
       });
     }catch(err){
         console.log(err);
-        res.status(500).json({errorMsg:"Can't "});
+        res.status(500).json({errorMsg:"Server not responding"});
     }
      finally {
       console.log(results);
       await driver.quit();
     }
+  }
+
+  const testLogin = async(username,password) => {
+    let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
+    try {
+        await driver.get("http://localhost:3000/");
+        var email =  await driver.findElement(By.id("email")); 
+        await email.sendKeys("akhila.sanka@email.com");
+        var password = await  driver.findElement(By.id("password"));
+        await password.sendKeys("welcome123");
+        await driver.findElement(By.id("login") ).click()
+        setTimeout(async () => { },1000);
+        //var elem = await driver.findElement(By.id("nav-sidebar"));
+        var elem = await driver.getCurrentUrl();
+        console.log("url:"+elem);
+        /* driver.findElement(By.id("email")).then(function(email){
+            email.sendKeys("akhila.sanka@email.com");
+            driver.findElement(By.id("password")).then(function(password){
+                password.sendKeys("welcome123");
+                driver.findElement(By.id("login") ).click().then(setTimeout (function(){
+                    driver.findElement(By.id("nav-sidebar")).then(function(div){
+                        console.log("passed");
+                    }).catch((err) => {
+                        console.log("failed");
+                        console.log(err);
+                    })
+                }),10000);
+            });
+        });*/
+      }catch(err){
+          console.log(err);
+          res.status(500).json({errorMsg:"Server not responding"});
+      }
+       finally {
+        console.log(results);
+      }
   }
 
 runTests(() => {
