@@ -24,12 +24,13 @@ class UploadArtifact extends Component {
     uploadFile = async (event) => {
         event.preventDefault();
         let token = localStorage.getItem('jwtToken');
+        let currentUserId = localStorage.getItem("userid");
         if(this.state.file !== null) {
             const formData = new FormData();
             formData.append('file', this.state.file[0]);
             await axios({
                 method: 'post',
-                url: 'http://' + hostaddress + ':3001/tester/upload',     
+                url: 'http://' + hostaddress + ':3001/tester/upload/'+ currentUserId ,     
                 data: formData,
                 config: { headers: { 'Content-Type': 'multipart/form-data' } },
                 headers: { "Authorization": `Bearer ${token}` }
