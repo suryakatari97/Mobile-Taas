@@ -4,6 +4,7 @@ import ProjectPerDayTesterGraph from "./TesterGraphs/ProjectPerDayTesterGraph";
 import TestsPerdayForTesterGraph from "./TesterGraphs/TestsPerdayForTesterGraph";
 import ProjectsWorkedOnPerCategoryTesterGraph from "./TesterGraphs/ProjectsWorkedOnPerCategoryTesterGraph";
 import BugsDiscoveredCategoryTesterGraph from "./TesterGraphs/BugsDiscoveredCategoryTesterGraph";
+import Header from "../Header"
 
 class TesterDashboard extends Component {
     constructor(props){
@@ -13,7 +14,8 @@ class TesterDashboard extends Component {
 
         return (
             <div>
-            <h1 style={{fontWeight: "700", margin: "0.5em"}}>Tester Dashboard</h1>
+                <Header/>
+            <h1 style={{fontWeight: "500", "margin-top": "75px", "text-align":"center"}}>Tester Dashboard</h1>
             <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
                 
                 <div className="container">

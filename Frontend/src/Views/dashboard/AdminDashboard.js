@@ -6,6 +6,7 @@ import BugsPerDayGraph from "./BugsPerDayGraph";
 import ProjectsTopTestCases from "./ProjectsTopTestCases";
 import ProjectsMostTesters from "./ProjectsMostTesters";
 import UserPieChart from "./UserPieChart";
+import Header from "../Header"
 
 class AdminDashboard extends Component {
     constructor(props){
@@ -15,7 +16,8 @@ class AdminDashboard extends Component {
 
         return (
             <div>
-            <h1 style={{fontWeight: "700", margin: "0.5em"}}>Administrator Dashboard</h1>
+                <Header/>
+            <h1 style={{fontWeight: "500", "margin-top": "75px", "text-align":"center"}}>Administrator Dashboard</h1>
             <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
                 
                 <div className="container">

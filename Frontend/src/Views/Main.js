@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route } from "react-router-dom";
-import Sidebar from './navigation/Sidebar';
 import TesterHome from './home/TesterHome';
 import Signin from "./auth/Signin";
 import Dashboard from "./dashboard/Dashboard";
@@ -26,6 +25,7 @@ import ProjectsCreatedPerDay from "./dashboard/ManagerGraphs/ProjectsCreatedPerD
 import TesterNotifications from "./home/TesterNotifications";
 import ManagerArtifact from "./projectManagerViews/ManagerArtifact";
 import ViewArtifact from './testerViews/ViewArtifact';
+import Header from "./Header";
 
 
 class Main extends Component {
@@ -33,8 +33,9 @@ class Main extends Component {
         if (localStorage.getItem("jwtToken") !== null) {
             return (
                 <div>
-                    <Route exact path="/" component={Sidebar} />
-                    <Route path="/dashboard" component={Dashboard} />
+                    <Route exact path = "/" component = {Dashboard} />
+                    <Route exact path = "/header" component = {Header} />
+                    <Route path = "/dashboard" component = {Dashboard} />
                     <Route exact path="/tester/home" component={TesterHome} />
                     <Route exact path="/manager/home" component={ManagerHome} />
                     <Route exact path="/pm/viewproject/:projectID" component={Viewproject} />
