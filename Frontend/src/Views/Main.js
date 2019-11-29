@@ -18,16 +18,25 @@ import profile from "./Profile/Profile";
 import testers from "./adminViews/Testers";
 import projects from "./adminViews/Projects";
 import UploadArtifact from "./testerViews/UploadArtifact";
+import ManagerHome from "./home/ManagerHome";
+import Viewproject from "./Projects/ViewManagerProject";
+import AddProject from "./Projects/AddProject";
+import ManagerDashboard from "./dashboard/ManagerDashboard";
+import ProjectsCreatedPerDay from "./dashboard/ManagerGraphs/ProjectsCreatedPerDay"
+import TesterNotifications from "./home/TesterNotifications"
 
 
 class Main extends Component {
-    render(){
-        if (localStorage.getItem("jwtToken")!== null) {
-            return(
+    render() {
+        if (localStorage.getItem("jwtToken") !== null) {
+            return (
                 <div>
-                    <Route exact path = "/" component = {Sidebar} />
-                    <Route path = "/dashboard" component = {Dashboard} />
+                    <Route exact path="/" component={Sidebar} />
+                    <Route path="/dashboard" component={Dashboard} />
                     <Route exact path="/tester/home" component={TesterHome} />
+                    <Route exact path="/manager/home" component={ManagerHome} />
+                    <Route exact path="/pm/viewproject/:projectID" component={Viewproject} />
+                    <Route exact path="/pm/addproject" component={AddProject} />
                     <Route exact path="/tester/newProjects" component={NewProjects} />
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
                     <Route exact path="/pm/requests" component={JoinRequests}/>
@@ -40,6 +49,10 @@ class Main extends Component {
                     <Route exact path="/tester/graph3" component={BugsPerDayTesterGraph}/>
                     <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph}/>
                     <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph}/>
+                    
+                    <Route exact path="/manager/dashboard" component={ManagerDashboard} />
+
+                    <Route path="/tester/notifications" component={TesterNotifications} />
 
                     <Route exact path="/updateprofile" component={UpdateProfile} />
                     <Route exact path="/profile" component={profile} />
@@ -50,9 +63,9 @@ class Main extends Component {
                 </div>
             )
         } else {
-            return(
+            return (
                 <div>
-                    <Route path = "/" component = {Signin} />
+                    <Route path="/" component={Signin} />
                 </div>
             )
         }
