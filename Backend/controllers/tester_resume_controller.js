@@ -77,17 +77,18 @@ const upload_file = async function (request,response){
             console.log(files.file[0])
             const path = files.file[0].path;
             const buffer = fs.readFileSync(path);
+            const originalFilename = files.file[0].originalFilename;
+            const fileName = files.file[0].originalFilename.split('.')[0] + '-' + Date.now();
+            console.log(fileName);
             const type = fileType(buffer);
-            var timestamp = Date.now();
-            const fileName = userid + timestamp + '/TesterArtifacts' ;
-            const data = await uploadFile(buffer, fileName, type);
-
+            const filePath = userid + '/TesterArtifacts/' + fileName ;
+            const data = await uploadFile(buffer, filePath, type);
             console.log("Updating link to database");
 
             console.log(data.Location);
-            const query = 'INSERT INTO cmpe_tester_artifact (uploadurl, testerid) VALUES (?,?)';
+            const query = 'INSERT INTO cmpe_tester_artifact (uploadurl, testerid, filename) VALUES (?,?,?)';
             const mysqlconnection = request.db;
-            mysqlconnection.query(query,[data.Location, userid],(err,res)=>{
+            mysqlconnection.query(query,[data.Location, userid, originalFilename],(err,res)=>{
                 if(err){
                     console.log(err);
                     response.send({success:false})
