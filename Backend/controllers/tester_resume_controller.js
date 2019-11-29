@@ -105,9 +105,47 @@ const upload_file = async function (request,response){
     });
 }
 
+const manager_upload_file = async function (request, response) {
+    console.log("In upload manager artifact method");
+    const form = new multiparty.Form();
+    form.parse(request, async (error, fields, files) => {
+        if (error) throw new Error(error);
+        try {
+            const userid = request.params.userid;
+            console.log(files.file[0])
+            const path = files.file[0].path;
+            const buffer = fs.readFileSync(path);
+            const originalFilename = files.file[0].originalFilename;
+            const fileName = files.file[0].originalFilename.split('.')[0] + '-' + Date.now();
+            console.log(fileName);
+            const type = fileType(buffer);
+            const filePath = userid + '/ManagerArtifacts/' + fileName;
+            const data = await uploadFile(buffer, filePath, type);
+            console.log("Updating link to database");
+
+            console.log(data.Location);
+            const query = 'INSERT INTO cmpe_manager_artifact (uploadurl, managerid, filename) VALUES (?,?,?)';
+            const mysqlconnection = request.db;
+            mysqlconnection.query(query, [data.Location, userid, originalFilename], (err, res) => {
+                if (err) {
+                    console.log(err);
+                    response.send({ success: false })
+                } else {
+                    console.log("uploaded successfully");
+                    response.send({ success: true })
+                }
+            });
+            //return response.status(200).send(JSON.stringify({success:true,data:data}));;
+        } catch (error) {
+            console.log(error)
+            return response.status(400).send(error);
+        }
+    });
+}
 
 
 module.exports = {
     resumeUploadToS3,
-    upload_file
+    upload_file,
+    manager_upload_file
 };

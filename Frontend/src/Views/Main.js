@@ -23,7 +23,8 @@ import Viewproject from "./Projects/ViewManagerProject";
 import AddProject from "./Projects/AddProject";
 import ManagerDashboard from "./dashboard/ManagerDashboard";
 import ProjectsCreatedPerDay from "./dashboard/ManagerGraphs/ProjectsCreatedPerDay"
-import TesterNotifications from "./home/TesterNotifications"
+import TesterNotifications from "./home/TesterNotifications";
+import ManagerArtifact from "./projectManagerViews/ManagerArtifact";
 
 
 class Main extends Component {
@@ -39,17 +40,18 @@ class Main extends Component {
                     <Route exact path="/pm/addproject" component={AddProject} />
                     <Route exact path="/tester/newProjects" component={NewProjects} />
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
-                    <Route exact path="/pm/requests" component={JoinRequests}/>
-                    <Route exact path="/tester/dashboard" component={TesterDashboard}/>
+                    <Route exact path="/pm/requests" component={JoinRequests} />
+                    <Route exact path="/tester/dashboard" component={TesterDashboard} />
                     <Route exact path="/tester/upload" component={UploadArtifact} />
+                    <Route exact path="/manager/upload" component={ManagerArtifact} />
 
                     {/* Below routes are for testing purpose only. To be removed later */}
-                    <Route exact path="/tester/graph1" component={ProjectsPerDayTesterGraph}/>
-                    <Route exact path="/tester/graph2" component={TestsPerDayTesterGraph}/>
-                    <Route exact path="/tester/graph3" component={BugsPerDayTesterGraph}/>
-                    <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph}/>
-                    <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph}/>
-                    
+                    <Route exact path="/tester/graph1" component={ProjectsPerDayTesterGraph} />
+                    <Route exact path="/tester/graph2" component={TestsPerDayTesterGraph} />
+                    <Route exact path="/tester/graph3" component={BugsPerDayTesterGraph} />
+                    <Route exact path="/tester/graph4" component={ProjectsWorkedOnPerCategoryTesterGraph} />
+                    <Route exact path="/tester/graph5" component={BugsDiscoveredCategoryTesterGraph} />
+
                     <Route exact path="/manager/dashboard" component={ManagerDashboard} />
 
                     <Route path="/tester/notifications" component={TesterNotifications} />
