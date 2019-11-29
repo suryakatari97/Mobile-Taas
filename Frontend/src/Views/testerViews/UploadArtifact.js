@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { hostaddress } from '../../config/settings';
 import '../../styles/testRunner.css';
+import swal from 'sweetalert';
 
 class UploadArtifact extends Component {
 
@@ -37,6 +38,7 @@ class UploadArtifact extends Component {
             })
             .then((response) => {
                 console.log(response.data);
+                swal("Done!","Sucessfully Uploaded!","success");
             });
         }
     }

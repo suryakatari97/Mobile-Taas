@@ -77,7 +77,6 @@ class NewProjects extends Component {
 
     render() {
         
-        //iterate over courses to create a table row
         let projectsDiv = this.state.projects.map(project => {
             let str = project.timestamp;
             console.log(str);

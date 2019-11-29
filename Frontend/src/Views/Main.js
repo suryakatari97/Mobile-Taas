@@ -25,6 +25,7 @@ import ManagerDashboard from "./dashboard/ManagerDashboard";
 import ProjectsCreatedPerDay from "./dashboard/ManagerGraphs/ProjectsCreatedPerDay"
 import TesterNotifications from "./home/TesterNotifications";
 import ManagerArtifact from "./projectManagerViews/ManagerArtifact";
+import ViewArtifact from './testerViews/ViewArtifact';
 
 
 class Main extends Component {
@@ -44,6 +45,7 @@ class Main extends Component {
                     <Route exact path="/tester/dashboard" component={TesterDashboard} />
                     <Route exact path="/tester/upload" component={UploadArtifact} />
                     <Route exact path="/manager/upload" component={ManagerArtifact} />
+                    <Route exact path="/tester/artifact" component={ViewArtifact} />
 
                     {/* Below routes are for testing purpose only. To be removed later */}
                     <Route exact path="/tester/graph1" component={ProjectsPerDayTesterGraph} />
@@ -61,7 +63,7 @@ class Main extends Component {
 
                     <Route exact path="/administration/testers" component={testers} />
                     <Route exact path="/administration/projects" component={projects} />
-
+                    
                 </div>
             )
         } else {

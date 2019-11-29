@@ -238,6 +238,23 @@ const post_profileImage = async function (req, res) {
     });
 }
 
+
+const get_artifacts = (req, res, next) => {
+    console.log(req.query);
+    var testerid = req.query.id;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('SELECT * FROM cmpe_tester_artifact WHERE testerid=?',
+        [testerid], (err, rowsOfTable, fieldsOfTable) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json({ responseMessage: 'Database not responding' });
+            } else {
+                console.log(rowsOfTable);
+                res.status(200).json({ results: rowsOfTable });
+            }
+        });
+};
+
 module.exports = {
     testlogin,
     getTesterProjects,
@@ -250,5 +267,6 @@ module.exports = {
     get_allSkills,
     get_profileImage,
     post_profileImage,
-    TesterNotifications
+    TesterNotifications,
+    get_artifacts
 };
