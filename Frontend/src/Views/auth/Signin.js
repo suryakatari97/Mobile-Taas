@@ -133,13 +133,13 @@ class SignIn extends Component {
                             <p className="signup-text">Login</p>
                             <form className="form" onSubmit={this.submitSignIn}>
                                 <div className="input-email">
-                                    <input className="email account-input" type="email" name="email" required></input>
+                                    <input className="email account-input" id="email" type="email" name="email" required></input>
                                 </div>
                                 <div className="input-email">
-                                    <input className="email account-input email-top" type="password" name="password" minlength="8" required></input>
+                                    <input className="email account-input email-top" id="password" type="password" name="password" minlength="8" required></input>
                                 </div>
                                 <div className="row">
-                                    <button type="submit" className="account-btn-login">Login</button>
+                                    <button type="submit" id="login" className="account-btn-login">Login</button>
                                 </div>
                             </form>
                         </div>

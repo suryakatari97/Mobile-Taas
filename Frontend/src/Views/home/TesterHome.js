@@ -59,13 +59,8 @@ class TesterHome extends Component {
                 </div>
             )
         });
-        let redirectVar = '';
-        /*if (!cookie.load('cookie1')) {
-            redirectVar = <Redirect to="/login" />
-        }*/
         return (
             <div>
-                {redirectVar}
 
                 <div className="col-4">
                     <Link to="/tester/notifications" >Notifications</Link>
