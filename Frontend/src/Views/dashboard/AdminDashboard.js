@@ -15,62 +15,61 @@ class AdminDashboard extends Component {
     render() {
 
         return (
-            <div>
+            <div className="main-wrapper">
                 <Header/>
-            <h1 style={{fontWeight: "500", "margin-top": "75px", "text-align":"center"}}>Administrator Dashboard</h1>
-            <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
-                
-                <div className="container">
-                    <div className="row mt-4">
-                        <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+                <div className="content-wrapper">
+                    <div className="dash-one">
+                        <p className="dash-header">Administrator Dashboard</p>
+                    </div>
+                    <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
+                        <div className="container">
+                            <div className="row mt-4">
+                                <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+                                    <div className="card-body" >
+                                        <UserPieChart />
+                                    </div>
+                                </div>
+                                <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+                                    <div className="card-body" >
+                                        <UsersPerDayGraph />
+                                    </div>
+                                </div>
 
-                            <div className="card-body" >
-                                <UserPieChart />
-                            </div>
-                        </div>
+                                <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
 
-                        <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+                                    <div className="card-body" >
+                                        <ProjectsPerDayGraph />
+                                    </div>
+                                </div>
 
-                            <div className="card-body" >
-                                <UsersPerDayGraph />
-                            </div>
-                        </div>
+                                <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
 
-                        <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+                                    <div className="card-body" >
+                                        <TestsPerDayGraph />
+                                    </div>
+                                </div>
 
-                            <div className="card-body" >
-                                <ProjectsPerDayGraph />
-                            </div>
-                        </div>
+                                <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+                                    <div className="card-body" >
+                                        <BugsPerDayGraph />
+                                    </div>
+                                </div>
+                                <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
 
-                        <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
+                                    <div className="card-body" >
+                                        <ProjectsTopTestCases/>
+                                    </div>
+                                </div>
+                                <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
 
-                            <div className="card-body" >
-                                <TestsPerDayGraph />
-                            </div>
-                        </div>
-
-                        <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
-
-                            <div className="card-body" >
-                                <BugsPerDayGraph />
-                            </div>
-                        </div>
-                        <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
-
-                            <div className="card-body" >
-                                <ProjectsTopTestCases/>
-                            </div>
-                        </div>
-                        <div className="card card-custom mx-4 mb-5" style={{ boxShadow: "2px 2px 2px #888888", "height": "18em", "width": "30em" }}>
-
-                            <div className="card-body" >
-                                <ProjectsMostTesters/>
+                                    <div className="card-body" >
+                                        <ProjectsMostTesters/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         )
     }

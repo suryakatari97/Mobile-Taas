@@ -13,9 +13,12 @@ class TesterDashboard extends Component {
     render() {
 
         return (
-            <div>
-                <Header/>
-            <h1 style={{fontWeight: "500", "margin-top": "75px", "text-align":"center"}}>Tester Dashboard</h1>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
+                <div className="dash-one">
+                    <p className="dash-header">Tester Dashboard</p>
+                </div>
             <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
                 
                 <div className="container">
@@ -56,6 +59,7 @@ class TesterDashboard extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             </div>
         )

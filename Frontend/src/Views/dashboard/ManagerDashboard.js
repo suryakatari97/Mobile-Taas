@@ -3,12 +3,17 @@ import ProjectsCreatedPerDay from "./ManagerGraphs/ProjectsCreatedPerDay";
 import NumberofTestersPerProject from "./ManagerGraphs/NumberofTestersPerProject";
 import ProjectStatusPieChart from "./ManagerGraphs/ProjectStatusPieChart";
 import TotalBugsPerProject from "./ManagerGraphs/TotalBugsPerProject";
+import Header from "../Header"
 
  class ManagerDashboard extends Component {
     render() {
         return (
-            <div>
-                <h1 style={{ fontWeight: "700", margin: "0.5em" }}>Manager Dashboard</h1>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
+                <div className="dash-one">
+                    <p className="dash-header">Project Manager Dashboard</p>
+                </div>
                 <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
 
                     <div className="container">
@@ -41,8 +46,8 @@ import TotalBugsPerProject from "./ManagerGraphs/TotalBugsPerProject";
                         </div>
                     </div>
                 </div>
-
-            </div>
+                </div>
+                </div>
         )
     }
 }
