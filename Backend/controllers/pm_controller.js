@@ -199,6 +199,21 @@ const addpmproject = (req, res, next) => {
 
 }
 
+const getManagerArtifacts = (req,res,next) => {
+    console.log(req.query);
+    var managerid = req.query.id;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('SELECT * FROM cmpe_manager_artifact WHERE managerid=?',
+        [managerid], (err, rowsOfTable, fieldsOfTable) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json({ responseMessage: 'Database not responding' });
+            } else {
+                console.log(rowsOfTable);
+                res.status(200).json({ results: rowsOfTable });
+            }
+        });
+}
 // Sample implementation for project
 // If changing the implementation, please keep the bugzilla code as is.
 // Otherwise bugzilla will break;
@@ -439,5 +454,6 @@ module.exports = {
     addpmproject,
     updateProjectStatus,
     deletepmProject,
-    getpmprojectParticipants
+    getpmprojectParticipants,
+    getManagerArtifacts    
 };

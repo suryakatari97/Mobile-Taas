@@ -44,7 +44,9 @@ class TesterHome extends Component {
 
         //iterate over courses to create a table row
         let projectsDiv = this.state.projects.map(project => {
-            let url = "http://" + hostaddress + ":3000/tester/project/" + project.projectid;
+            console.log(project.projectid);
+            
+            let url = "http://" + hostaddress + ":3000/tester/ViewTesterProject/" + project.projectid;
             return (
                 <div className="card card-custom mx-5 mb-5" key={project.projectid} style={{ boxShadow: "2px 2px 2px #888888" }}>
                     <div className="color-div" style={{ padding: "4rem", background: "wheat" }}>

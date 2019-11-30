@@ -239,6 +239,22 @@ const post_profileImage = async function (req, res) {
 }
 
 
+const gettesterprojectdetails = (req, res) => {
+    console.log(req.query);
+    let projectid = req.query.id;
+    const mysqlconnection = req.db;
+    mysqlconnection.query('SELECT * FROM cmpe_project as p WHERE p.projectid =?',
+        [projectid], (err, rowsOfTable, fieldsOfTable) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json({ responseMessage: 'Database not responding' });
+            } else {
+                console.log(rowsOfTable);
+                res.status(200).json({ projectdata: rowsOfTable });
+            }
+        });
+};
+
 const get_artifacts = (req, res, next) => {
     console.log(req.query);
     var testerid = req.query.id;
@@ -268,5 +284,6 @@ module.exports = {
     get_profileImage,
     post_profileImage,
     TesterNotifications,
-    get_artifacts
+    get_artifacts,
+    gettesterprojectdetails
 };

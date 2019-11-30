@@ -3,7 +3,7 @@ var express = require("express");
 var router = express.Router();
 
 // user defined modules
-var { testlogin, tester_getProfile, tester_getskills, TesterNotifications, getTesterProjects, getProjectUrl, getNewProjects, postJoinRequest,get_allSkills,get_profileImage, post_profileImage, tester_updateProfile, get_artifacts} = require("../controllers/tester_controller");
+var { testlogin, tester_getProfile, tester_getskills, gettesterprojectdetails, TesterNotifications, getTesterProjects, getProjectUrl, getNewProjects, postJoinRequest,get_allSkills,get_profileImage, post_profileImage, tester_updateProfile, get_artifacts} = require("../controllers/tester_controller");
 var {postTests} = require("../controllers/test_runner_controller");
 var {projectsPerdayForTester, testsPerdayForTester, bugsPerdayForTester, projectsWorkedOnPerCategoryTester, bugsCategoryTester} = require("../controllers/tester_stats_controller");
 var {resumeUploadToS3,getResume,  upload_file} = require("../controllers/tester_resume_controller");
@@ -20,6 +20,7 @@ router.post('/joinRequest', postJoinRequest);
 router.get('/skills/all', get_allSkills);
 router.post('/upload/:userid', upload_file);
 router.get('/artifacts', get_artifacts);
+router.get('/gettesterprojectdetails', gettesterprojectdetails);
 
 //for testrunner
 router.post('/testRunner', postTests);
