@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AdminDashboard from "./AdminDashboard"
 import TesterDashboard from "./TesterDashboard"
+import ManagerDashboard from './ManagerDashboard';
 
 class Dashboard extends Component {
     constructor(props){
@@ -13,8 +14,7 @@ class Dashboard extends Component {
         } else if(role === "TESTER") {
             return(<TesterDashboard/>);
         } else {
-            // to be implemented
-            return(<div><h1 style={{fontWeight: "700", margin: "0.5em"}}>Project Manager Dashboard</h1></div>)
+            return(<ManagerDashboard/>)
         }
     }
 }

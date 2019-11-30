@@ -18,6 +18,14 @@ class Header extends Component {
     }
 
     render() {
+        var role = localStorage.getItem("role");
+        if(role === "ADMIN") {
+        } else if(role === "TESTER") {
+        } else {
+        }
+        // Manager: Dashboard, profile, Projects, Testers, logout
+        // Testers: Home, Dashboard, profile, Community, Join Project, Artifacts, logout
+        // PM: Home, Dashboard, profile, Community, Requests, Artifacts, logout
       return (
         <div>
             <div className="header" >
