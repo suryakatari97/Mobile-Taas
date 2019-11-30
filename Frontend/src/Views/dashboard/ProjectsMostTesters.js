@@ -21,9 +21,9 @@ class ProjectsMostTesters extends Component {
         let tableContents = this.state.data.map((project) => {
             return(
                 <tr>
-                    <td>project.projectname</td>
-                    <td>project.status</td>
-                    <td>project.count</td>
+                    <td>{project.projectname}</td>
+                    <td>{project.status}</td>
+                    <td>{project.count}</td>
                 </tr>
             )
         })
