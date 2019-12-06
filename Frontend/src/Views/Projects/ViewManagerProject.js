@@ -23,8 +23,10 @@ class ViewManagerProject extends Component {
         let url1 = 'http://' + hostaddress + ':3001/pm/getpmprojectParticipants';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
+
+
         axios({
-            method: 'post',
+            method: 'get',
             url: url,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },

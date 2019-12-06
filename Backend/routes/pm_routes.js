@@ -22,7 +22,7 @@ router.get('/profile/:userid', getManagerProfile);
 router.post('/profile/:userid', postManagerProfile);
 router.post('/profileimage/:userid', postManagerProfileImage);
 router.get('/home', getManagerProjects);
-router.post('/getpmprojectdetails', getPmProjectDetails);
+router.get('/getpmprojectdetails', getPmProjectDetails);
 router.post('/addpmproject', addpmproject);
 router.post('/updateprojectstatus', updateProjectStatus);
 router.post('/deletepmproject', deletepmProject);
