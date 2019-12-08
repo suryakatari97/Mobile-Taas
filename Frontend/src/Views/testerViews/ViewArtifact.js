@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { hostaddress } from '../../config/settings';
 import '../../styles/testRunner.css';
+import Header from "../Header";
 
 class ViewArtifact extends Component {
 
@@ -52,13 +53,15 @@ class ViewArtifact extends Component {
         });
 
         return (
-            <div>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
                 <div className="container">
                     <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
                         <div className="col-12">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3>Artifacts</h3>
-                            </div>
+                        <div className="dash-one">
+                    <p className="dash-header">Artifacts</p>
+                </div>
                             {this.state.results.length > 0 ?
                         <div className="col-10">
                                     <div>
@@ -87,7 +90,7 @@ class ViewArtifact extends Component {
                     </div>
                 </div>
             </div>
-
+            </div>
         )
     }
 }

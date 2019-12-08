@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { hostaddress } from '../../config/settings';
 import axios from 'axios';
+import Header from "../Header";
 
 class TesterNotifications extends Component {
 
@@ -52,13 +53,15 @@ class TesterNotifications extends Component {
             )
         });
         return (
-            <div>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
                 <div className="container">
-                    <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
+                    <div className="row justify-content-center align-items-center">
                         <div className="col-12">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3>Notifications</h3>
-                            </div>
+                        <div className="dash-one">
+                    <p className="dash-header">Notifications</p>
+                </div>
                             {/* {ackDiv} */}
                             {this.state.Notifications.length > 0 ?
                                 <div className="col-10">
@@ -87,6 +90,7 @@ class TesterNotifications extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         )
     }
