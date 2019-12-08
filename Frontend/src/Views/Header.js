@@ -22,7 +22,8 @@ class Header extends Component {
     const role = localStorage.getItem("role");
     let homepage = null;
     let isProfile = true;
-    let sidebarLinks = null
+    let sidebarLinks = null;
+    let notifications = null;
     if (role === "ADMIN") {
       isProfile = false;
       sidebarLinks = <div>
@@ -46,16 +47,24 @@ class Header extends Component {
 
     } else if (role === "TESTER") {
       homepage = <li>
-        <Link to='/home'>
+        <Link to='/tester/home'>
           <div className="icon-container">
             <i className="fas fa-home fa-lg"></i>
             <span className="icon-text">Home</span>
           </div></Link>
       </li>;
 
+      notifications = <li>
+        <Link to='/tester/notifications'>
+          <div className="icon-container">
+            <i className="fas fa-bell fa-lg"></i>
+            <span className="icon-text">Notifications</span>
+          </div></Link>
+      </li>;
+
       sidebarLinks = <div>
         <li>
-          <Link to='/addcourse'>
+          <Link to='/tester/newProjects'>
             <div className="icon-container">
               <i className="fas fa-plus-square fa-lg"></i>
               <span className="icon-text">Join Project</span>
@@ -63,7 +72,7 @@ class Header extends Component {
           </Link>
         </li>
         <li>
-          <Link to='/addcourse'>
+          <Link to='/tester/artifact'>
             <div className="icon-container">
               <i className="fas fa-file-archive fa-lg"></i>
               <span className="icon-text">Artifacts</span>
@@ -149,6 +158,7 @@ class Header extends Component {
                 </div>
               </Link>
             </li>
+            {notifications}
             {sidebarLinks}
             <li>
               <a href={bugzillaURL} target="_blank">

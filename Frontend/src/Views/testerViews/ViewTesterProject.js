@@ -4,7 +4,7 @@ import { hostaddress } from '../../config/settings';
 import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom'
 import '../../styles/ManagerHome.css'
-
+import Header from "../Header";
 
 let redirectvar = null;
 class ViewTesterProject extends Component {
@@ -55,10 +55,16 @@ class ViewTesterProject extends Component {
 
         }
 
-
+        this.redirectToTestRunner = async () => {
+            let url = "/tester/project/"+this.props.match.params.projectID+"/testRunner";
+            this.props.history.push(url);
+        }
 
 
         return (
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
             <div className="container-fluid" id="managerbg">
                 <div className='row'>
                     {redirectvar}
@@ -83,11 +89,16 @@ class ViewTesterProject extends Component {
                                 <div className='row col-12' id='indproject'>
                                     <p class="card-text">Project Url: {project_url}</p>
                                 </div>
+                                <div className='row col-12' id='indproject'>
+                                    <button type="button" className="btn btn-primary" onClick={this.redirectToTestRunner}>Test Runner</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className='col-1'></div>
                 </div >
+                </div>
+            </div>
             </div>
         )
     }

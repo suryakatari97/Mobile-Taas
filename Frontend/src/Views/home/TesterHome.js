@@ -4,7 +4,9 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { hostaddress } from '../../config/settings';
 import '../../styles/testerHome.css';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Header from "../Header";
+
 
 
 class TesterHome extends Component {
@@ -62,11 +64,9 @@ class TesterHome extends Component {
             )
         });
         return (
-            <div>
-
-                <div className="col-4">
-                    <Link to="/tester/notifications" >Notifications</Link>
-                </div>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
 
                 <div className='rowC' style={{ display: "flex", flexDirection: "row" }}>
 
@@ -83,6 +83,7 @@ class TesterHome extends Component {
                         }
                     </div>
                 </div>
+            </div>
             </div>
         )
     }
