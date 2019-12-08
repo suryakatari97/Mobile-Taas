@@ -8,6 +8,7 @@ import Passed from '../../images/check-circle-regular.svg';
 import TestCase from '../../images/file-alt-regular.svg';
 import TestSuite from '../../images/copy-solid.svg';
 import '../../styles/testRunner.css';
+import Header from "../Header";
 
 class TestRunner extends Component {
 
@@ -117,15 +118,17 @@ class TestRunner extends Component {
         }
 
         return (
-            <div>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
                 <div className="container">
                 {this.state.showResults==false ?
-                    <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
+                    <div className="row justify-content-center align-items-center" >
                         <div className="col-12">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3 >Test Runner</h3>
-                            </div>
-                            <form onSubmit={this.runTestRunner} method="post">
+                        <div className="dash-one">
+                    <p className="dash-header">Test Runner</p>
+                </div>
+                            <form onSubmit={this.runTestRunner} method="post" style={{marginLeft:"2em"}}>
                                 <div className="form-group row">
                                     <label htmlFor="url" className="col-sm-2 col-form-label">Project URL:</label>
                                     <div className="col-sm-5">
@@ -156,11 +159,12 @@ class TestRunner extends Component {
                         </div>
                     </div>
                     :
-                    <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
+                    <div className="row justify-content-center align-items-center">
+                    <div className="dash-one">
+                    <p className="dash-header">Test Results</p>
+                </div>
                         <div className="col-10">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3>Test Suite Results</h3>
-                            </div>
+                        
                             <div className="row">
                             <img className="imageResult" style={{marginLeft:"1em"}} src={TestSuite} alt="testsuite"/>&nbsp;<label className="labelResult">Test Suites: 1</label>
                             <img className="imageResult" src={TestCase} alt="testcases"/>&nbsp;<label className="labelResult">Test Cases: {this.state.results.total}</label>
@@ -174,6 +178,7 @@ class TestRunner extends Component {
                     </div>
                 }
                 </div>
+            </div>
             </div>
 
         )
