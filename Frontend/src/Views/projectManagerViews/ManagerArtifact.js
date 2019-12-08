@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { hostaddress } from '../../config/settings';
+import Header from "../Header";
 
 export class ManagerArtifact extends Component {
     constructor() {
@@ -42,27 +43,32 @@ export class ManagerArtifact extends Component {
     render() {
         console.log(this.state.file);
         return (
-            <div>
-                <div className="container">
-                    <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
-                        <div className="col-12">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3 >Upload Artifacts</h3>
-                            </div>
-                            <form onSubmit={this.uploadFile} method="post">
-                                <div className="form-group row">
-                                    <label htmlFor="url" className="col-sm-2 col-form-label">Upload File:</label>
-                                    <div className="col-sm-5">
-                                        <input label='upload file' type='file' required onChange={this.handleUpload} />
+            <div className="main-wrapper" >
+                <Header />
+                <div className="content-wrapper">
+                    <div>
+                        <div className="container">
+                            <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
+                                <div className="col-12">
+                                    <div className="border-bottom row" style={{ marginBottom: "3%" }}>
+                                        <h3 >Upload Artifacts</h3>
                                     </div>
-                                </div>
-                                <div className="form-group row text-center">
-                                    <div className="col-sm-5">
-                                        <button type="submit" class="btn btn-primary align-center" style={{ marginTop: "2em" }}>Upload</button>
-                                    </div>
-                                </div>
-                            </form>
+                                    <form onSubmit={this.uploadFile} method="post">
+                                        <div className="form-group row">
+                                            <label htmlFor="url" className="col-sm-2 col-form-label">Upload File:</label>
+                                            <div className="col-sm-5">
+                                                <input label='upload file' type='file' required onChange={this.handleUpload} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row text-center">
+                                            <div className="col-sm-5">
+                                                <button type="submit" class="btn btn-primary align-center" style={{ marginTop: "2em" }}>Upload</button>
+                                            </div>
+                                        </div>
+                                    </form>
 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

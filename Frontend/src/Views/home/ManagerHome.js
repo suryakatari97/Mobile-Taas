@@ -5,6 +5,7 @@ import { hostaddress } from '../../config/settings';
 import '../../styles/ManagerHome.css';
 import AddProject from '../Projects/AddProject';
 import swal from 'sweetalert';
+import Header from "../Header";
 
 class ManagerHome extends Component {
 
@@ -151,6 +152,7 @@ class ManagerHome extends Component {
                 let url = "http://" + hostaddress + ":3000/pm/viewproject/" + project.projectid;
 
                 return (
+
                     <div className="card card-custom mx-5 mb-5" key={project.projectid} style={{ boxShadow: "2px 2px 2px #888888" }}>
                         <div className="color-div" style={{ padding: "4rem", background: "wheat" }}>
                         </div>
@@ -163,31 +165,37 @@ class ManagerHome extends Component {
                             <i className="fa fa-folder-o" aria-hidden="true"></i>
                         </div>
                     </div>
+
                 )
             });
         }
         return (
-            <div className="row">
-
-                <div className="col-10">
-                    <br />
+            <div className="main-wrapper" >
+                <Header />
+                <div className="content-wrapper">
                     <div className="row">
-                        {projectsDiv}
-                    </div>
-                </div>
 
-                <div className="col-2">
-                    <br />
-                    <button id="add-project-button" onClick={this.showModal} className="btn btn-success">Add New Project</button>
-                    <AddProject
-                        handleTitleChange={this.handleTitleChange}
-                        handleDescChange={this.handleDescChange}
-                        handleURLChange={this.handleURLChange}
-                        handleSkillChange={this.handleSkillChange}
-                        AddNewProject={this.AddNewProject}
-                        toggle={this.showModal}
-                        modal={this.state.modal}
-                    />
+                        <div className="col-10">
+                            <br />
+                            <div className="row">
+                                {projectsDiv}
+                            </div>
+                        </div>
+
+                        <div className="col-2">
+                            <br />
+                            <button id="add-project-button" onClick={this.showModal} className="btn btn-success">Add New Project</button>
+                            <AddProject
+                                handleTitleChange={this.handleTitleChange}
+                                handleDescChange={this.handleDescChange}
+                                handleURLChange={this.handleURLChange}
+                                handleSkillChange={this.handleSkillChange}
+                                AddNewProject={this.AddNewProject}
+                                toggle={this.showModal}
+                                modal={this.state.modal}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         )
