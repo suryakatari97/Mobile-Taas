@@ -44,7 +44,7 @@ class Main extends Component {
                     <Route exact path="/pm/addproject" component={AddProject} />
                     <Route exact path="/tester/newProjects" component={NewProjects} />
                     <Route exact path="/tester/project/:projectID/testRunner" component={TestRunner} />
-                    <Route exact path="/pm/requests" component={JoinRequests} />
+                    <Route exact path="/pm/requests" component={JoinRequests}/>
                     <Route exact path="/tester/dashboard" component={TesterDashboard} />
                     <Route exact path="/tester/upload" component={UploadArtifact} />
                     <Route exact path="/manager/upload" component={ManagerArtifact} />
