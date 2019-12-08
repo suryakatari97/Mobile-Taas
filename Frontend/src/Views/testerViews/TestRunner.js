@@ -96,7 +96,8 @@ class TestRunner extends Component {
                                 </div>
                             </a>
                         </div>
-                        <div id={id} class="collapse" data-parent="#accordion">
+                        {record.testCaseType==1 &&
+                            <div id={id} class="collapse" data-parent="#accordion">
                             <div class="card-body">
                             <table class="table">
                             <tbody>
@@ -111,8 +112,52 @@ class TestRunner extends Component {
                                 </tbody>
                                 </table>
                             </div>
+                            </div>
+                        }
+                        {record.testCaseType==2 &&
+                            <div id={id} class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                            <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Exists:</td>
+                                    <td>{record.status=="Passed"?"Yes":"No"}</td>
+                                    
+                                </tr>
+                                {record.status=="Failed" &&
+                                <tr>
+                                <td>Error:</td>
+                                    <td>{record.status=="Passed"?"":record.error}</td>
+                                </tr>
+                                }
+                                </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        }   
+                        {record.testCaseType==3 &&
+                            <div id={id} class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                            <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Exists:</td>
+                                    <td>{record.status=="Passed"?"Yes":"No"}</td>
+                                    
+                                </tr>
+                                {record.status=="Failed" &&
+                                <tr>
+                                <td>Error:</td>
+                                    <td>{record.status=="Passed"?"":record.error}</td>
+                                </tr>
+                                }
+                                </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        }   
                         </div>
-                    </div>
+                        
                 )
             });
         }
