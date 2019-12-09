@@ -51,14 +51,14 @@ class TesterHome extends Component {
             let url = "http://" + hostaddress + ":3000/tester/ViewTesterProject/" + project.projectid;
             return (
                 <div className="card card-custom mx-5 mb-5" key={project.projectid} style={{ boxShadow: "2px 2px 2px #888888" }}>
-                    <div className="color-div" style={{ padding: "4rem", background: "wheat" }}>
+                    <div className="color-div" style={{ padding: "4rem", background: "#5D6D7E" }}>
                     </div>
                     <div className="card-body" >
-                        <p className="card-text"><a href={url}>{project.projectid}&nbsp;{project.projectname}</a></p>
-                        <i className="fa fa-bullhorn fa-list" aria-hidden="true"></i>
-                        <i className="fa fa-file-text fa-list" aria-hidden="true"></i>
-                        <i className="fa fa-comments-o fa-list" aria-hidden="true"></i>
-                        <i className="fa fa-folder-o" aria-hidden="true"></i>
+                        <p className="card-text" style={{height:"30px"}}><a href={url}>{project.projectid}&nbsp;{project.projectname}</a></p>
+                        <i className="fa fa-bell icons" aria-hidden="true"></i>
+                        <i className="fas fa-folder-plus icons" aria-hidden="true"></i>
+                        <i className="fa fa-file-archive icons" aria-hidden="true"></i>
+                        <i className="fa fa-bug icons" aria-hidden="true"></i>
                     </div>
                 </div>
             )
