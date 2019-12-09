@@ -89,22 +89,58 @@ const bugsCategoryTester = (req,res) => {
             res.send({success:false, data: res});
         } else {
             result.push(rowsOfTable[0]);
-            mysqlconnection.query('select COUNT(bug_id) as countCat1 FROM bugs where reporter=? and bug_severity="enhancement";', [testerid], (err, rowsOfTable)=>{
+            mysqlconnection.query('select COUNT(bug_id) as countBlocker FROM bugs where reporter=? and bug_severity="blocker";', [testerid], (err, rowsOfTable)=>{
                 if(err) {
                     console.log(err);
                     res.status(500);
                     res.send({success:false, data: res});
                 } else {
                     result.push(rowsOfTable[0]);
-                    mysqlconnection.query('select COUNT(bug_id) as countCat2 FROM bugs where reporter=? and bug_severity="enhancement";', [testerid], (err, rowsOfTable)=>{
+                    mysqlconnection.query('select COUNT(bug_id) as countCritical FROM bugs where reporter=? and bug_severity="critical";', [testerid], (err, rowsOfTable)=>{
                         if(err) {
                             console.log(err);
                             res.status(500);
                             res.send({success:false, data: dataArr});
                         } else {
                             result.push(rowsOfTable[0]);
-                            console.log(result);
-                            res.send({success:true, data: result});
+                            mysqlconnection.query('select COUNT(bug_id) as countMajor FROM bugs where reporter=? and bug_severity="major";', [testerid], (err, rowsOfTable)=>{
+                                if(err) {
+                                    console.log(err);
+                                    res.status(500);
+                                    res.send({success:false, data: dataArr});
+                                } else {
+                                    result.push(rowsOfTable[0]);
+                                    mysqlconnection.query('select COUNT(bug_id) as countNormal FROM bugs where reporter=? and bug_severity="normal";', [testerid], (err, rowsOfTable)=>{
+                                        if(err) {
+                                            console.log(err);
+                                            res.status(500);
+                                            res.send({success:false, data: dataArr});
+                                        } else {
+                                            result.push(rowsOfTable[0]);
+                                            mysqlconnection.query('select COUNT(bug_id) as countMinor FROM bugs where reporter=? and bug_severity="minor";', [testerid], (err, rowsOfTable)=>{
+                                                if(err) {
+                                                    console.log(err);
+                                                    res.status(500);
+                                                    res.send({success:false, data: dataArr});
+                                                } else {
+                                                    result.push(rowsOfTable[0]);
+                                                    mysqlconnection.query('select COUNT(bug_id) as countTrivial FROM bugs where reporter=? and bug_severity="trivial";', [testerid], (err, rowsOfTable)=>{
+                                                        if(err) {
+                                                            console.log(err);
+                                                            res.status(500);
+                                                            res.send({success:false, data: dataArr});
+                                                        } else {
+                                                            result.push(rowsOfTable[0]);
+                                                            console.log(result);
+                                                            res.send({success:true, data: result});
+                                                        }
+                                                    });   
+                                                }
+                                            });   
+                                        }
+                                    });   
+                                }
+                            });   
                         }
                     });   
                 }

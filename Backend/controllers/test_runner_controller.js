@@ -28,9 +28,13 @@ const postTests = (req,res,next) => {
             await testTitle(expected);
         }
         if(scripts[i].id == 2){
-            var username = "akhilasanka@gmail.com";
-            var password = "Akhila@123";
-            await testLogin(username,password);
+            var elemID = scripts[i].elemID;
+            await testElementByID(elemID);
+        }
+        if(scripts[i].id == 3){
+            console.log(scripts[i]);
+            var elemName = scripts[i].elemName;
+            await testElementByName(elemName);
         }
     }
     callback();
@@ -43,11 +47,11 @@ const testTitle = async (expected) => {
       await driver.getTitle().then(function(title){
           console.log(title);
         if(title == expected){
-            results.push({name:"Verify Title",status: "Passed", expected: title, actual: title});
+            results.push({name:"Verify Title",status: "Passed", expected: title, actual: title, testCaseType:1});
             passed = passed + 1;
         }
         else{
-            results.push({name:"Verify Title",status: "Failed", expected: expected, actual: title});
+            results.push({name:"Verify Title",status: "Failed", expected: expected, actual: title, testCaseType:1});
             failed = failed + 1;
         }
       });
@@ -61,42 +65,45 @@ const testTitle = async (expected) => {
     }
   }
 
-  const testLogin = async(username,password) => {
+  const testElementByID = async(elemId) => {
     let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
     try {
-        await driver.get("http://localhost:3000/");
-        var email =  await driver.findElement(By.id("email")); 
-        await email.sendKeys("akhila.sanka@email.com");
-        var password = await  driver.findElement(By.id("password"));
-        await password.sendKeys("welcome123");
-        await driver.findElement(By.id("login") ).click()
-        setTimeout(async () => { },1000);
-        //var elem = await driver.findElement(By.id("nav-sidebar"));
-        var elem = await driver.getCurrentUrl();
-        console.log("url:"+elem);
-        /* driver.findElement(By.id("email")).then(function(email){
-            email.sendKeys("akhila.sanka@email.com");
-            driver.findElement(By.id("password")).then(function(password){
-                password.sendKeys("welcome123");
-                driver.findElement(By.id("login") ).click().then(setTimeout (function(){
-                    driver.findElement(By.id("nav-sidebar")).then(function(div){
-                        console.log("passed");
-                    }).catch((err) => {
-                        console.log("failed");
-                        console.log(err);
-                    })
-                }),10000);
-            });
-        });*/
+        await driver.get(url);
+        var elem =  await driver.findElement(By.id(elemId));
+        results.push({name:"Verify if Element By ID exists",status: "Passed",  testCaseType:2});
+        console.log("elem:"+elem);
+        passed = passed + 1;
       }catch(err){
+        results.push({name:"Verify if Element By ID exists",status: "Failed",error: err.name, testCaseType:2});
+          console.log("Can't find elem");
           console.log(err);
-          res.status(500).json({errorMsg:"Server not responding"});
+          failed = failed + 1;
       }
        finally {
         console.log(results);
+        await driver.quit();
       }
   }
 
+  const testElementByName = async(elemName) => {
+    let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
+    try {
+        await driver.get(url);
+        var elem =  await driver.findElement(By.name(elemName));
+        results.push({name:"Verify if Element By Name exists",status: "Passed",  testCaseType:3});
+        console.log("elem:"+elem);
+        passed = passed + 1;
+      }catch(err){
+        results.push({name:"Verify if Element By Name exists",status: "Failed",error: err.name, testCaseType:3});
+          console.log("Can't find elem");
+          console.log(err);
+          failed = failed + 1;
+      }
+       finally {
+        console.log(results);
+        await driver.quit();
+      }
+  }
 runTests(() => {
     console.log("Sending status....");
     res.status(200).json({results:results,"total":scripts.length,"passed":passed,"failed":failed});
