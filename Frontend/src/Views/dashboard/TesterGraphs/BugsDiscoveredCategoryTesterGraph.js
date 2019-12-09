@@ -29,11 +29,12 @@ class BugsDiscoveredCategoryTesterGraph extends Component {
               console.log(response.data);
                 let countArr = [];
                 countArr.push(response.data.data[0].countEnhancement);
-                countArr.push(response.data.data[1].countCritical);
-                countArr.push(response.data.data[2].countMajor);
-                countArr.push(response.data.data[3].countNormal);
-                countArr.push(response.data.data[4].countMinor);
-                countArr.push(response.data.data[5].countTrivial);
+                countArr.push(response.data.data[1].countBlocker);
+                countArr.push(response.data.data[2].countCritical);
+                countArr.push(response.data.data[3].countMajor);
+                countArr.push(response.data.data[4].countNormal);
+                countArr.push(response.data.data[5].countMinor);
+                countArr.push(response.data.data[6].countTrivial);
                 this.setState({count: countArr});
             }
         })
@@ -41,7 +42,7 @@ class BugsDiscoveredCategoryTesterGraph extends Component {
 
     render() {
         const data = {
-            labels: ["Enhancement", "Critical", "Major", "Normal", "Minor", "Trivial"],
+            labels: ["Enhancement","Blocker", "Critical", "Major", "Normal", "Minor", "Trivial"],
             datasets: [
               {
                 label: 'Total Bugs Discovered Per Category',
