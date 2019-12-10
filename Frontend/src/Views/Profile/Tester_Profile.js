@@ -4,6 +4,7 @@ import { Link,Redirect } from "react-router-dom";
 import '../../styles/profile.css';
 import ChatLink from "../chatLink/ChatLink";
 import {chatHost} from "../../config/settings";
+import Header from "../Header";
 //import ResumeUpload from "./ResumeUploader";
 
 class Profile extends Component {
@@ -88,6 +89,7 @@ class Profile extends Component {
 
             return(
                 <div className="main-wrapper">
+                    <Header />
                     <div className="content-wrapper">
                         <div className="dash-one">
                             <p className="dash-header-blue">

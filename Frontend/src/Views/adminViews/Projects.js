@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect,Link } from "react-router-dom";
 import './../../App.css';
+import Header from "../Header";
 
 class Projects extends Component {
     constructor(props){
@@ -73,6 +74,7 @@ class Projects extends Component {
 
         return(
             <div className="main-wrapper">
+                <Header/>
                 <div className="content-wrapper">
                     <div className="dash-one w-100">
                         {header}
