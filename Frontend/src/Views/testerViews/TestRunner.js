@@ -53,7 +53,7 @@ class TestRunner extends Component {
         await axios("/tester/testRunner",{
             method: 'post',
             //url: 'http://' + hostaddress + ':3001/tester/testRunner',     
-            data: {"url":this.state.url,"browser": browser,"scripts":JSON.parse(scripts)},
+            data: {"url":this.state.url,"browser": "firefox","scripts":JSON.parse(scripts)},
             config: { headers: { 'Content-Type': 'multipart/form-data' } },
             headers: { "Authorization": `Bearer ${token}` }
         })
@@ -185,7 +185,7 @@ class TestRunner extends Component {
                                     <div className="col-sm-5">
                                         <select className="form-control" name="browser" style={{ padding: "0em", width: "50%" }}>
                                             <option value="chrome">Chrome</option>
-                                            <option value="firefox">Firebox</option>
+                                            <option value="firefox">Firefox</option>
                                         </select>
                                     </div>
                                 </div>

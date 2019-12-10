@@ -88,7 +88,10 @@ class NewProjects extends Component {
                     <td>{project.projectid}</td>
                     <td>{project.projectname}</td>
                     <td>{project.description}</td>
+                    <td>{project.Skills}</td>
+                    <td><a href={project.project_url} target="_blank">link</a></td>
                     <td>{date} &nbsp; {time}</td>
+                    
                     <td><input type="button" className="btn btn-primary btn-sm" onClick={(e)=>this.sendRequest(e,project.projectid)} value="Send Request"/></td>
                 </tr>
             )
@@ -124,6 +127,8 @@ class NewProjects extends Component {
                                             <th>Project ID</th>
                                             <th>Name</th>
                                             <th>Project Description</th>
+                                            <th>Skills Required</th>
+                                            <th>Website URL</th>
                                             <th>Created On</th>
                                             <th></th>
                                         </tr>

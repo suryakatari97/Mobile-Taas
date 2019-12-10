@@ -3,10 +3,18 @@ const chrome = require('selenium-webdriver/chrome');
 let o = new chrome.Options();
 // o.addArguments('start-fullscreen');
 o.addArguments('disable-infobars');
+o.addArguments('--headless');
+o.addArguments('--disable-dev-shm-usage');
 // o.addArguments('headless'); // running test on visual chrome browser
 o.setUserPreferences({ credential_enable_service: false });
 
-const postTests = (req,res,next) => {
+//for firefox
+const firefox = require('selenium-webdriver/firefox');
+let fo = new firefox.Options();
+const binary = new firefox.Binary();
+binary.addArguments("--headless");
+
+const postTests = async (req,res,next) => {
     console.log("Body:");
     console.log(req.body);
 
@@ -40,8 +48,10 @@ const postTests = (req,res,next) => {
     callback();
 }
 
+let driver = await new Builder().setChromeOptions(o).setFirefoxOptions(new firefox.Options().setBinary(binary)).forBrowser(browser).build();
+    
 const testTitle = async (expected) => {
-    let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
+    //let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
     try {
       await driver.get(url);
       await driver.getTitle().then(function(title){
@@ -54,6 +64,8 @@ const testTitle = async (expected) => {
             results.push({name:"Verify Title",status: "Failed", expected: expected, actual: title, testCaseType:1});
             failed = failed + 1;
         }
+      }).catch(error => {
+        console.error('Error during testing tiltle:', error);
       });
     }catch(err){
         console.log(err);
@@ -61,12 +73,12 @@ const testTitle = async (expected) => {
     }
      finally {
       console.log(results);
-      await driver.quit();
+      //await driver.quit();
     }
   }
 
   const testElementByID = async(elemId) => {
-    let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
+    //let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
     try {
         await driver.get(url);
         var elem =  await driver.findElement(By.id(elemId));
@@ -81,12 +93,13 @@ const testTitle = async (expected) => {
       }
        finally {
         console.log(results);
-        await driver.quit();
+        //await driver.quit();
       }
   }
 
   const testElementByName = async(elemName) => {
-    let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
+    //let driver = await new Builder().setChromeOptions(o).forBrowser(browser).build();
+    let driver = await new Builder().setChromeOptions(o).setFirefoxOptions(new firefox.Options().setBinary(binary)).forBrowser(browser).build();
     try {
         await driver.get(url);
         var elem =  await driver.findElement(By.name(elemName));
@@ -101,10 +114,11 @@ const testTitle = async (expected) => {
       }
        finally {
         console.log(results);
-        await driver.quit();
+        //await driver.quit();
       }
   }
-runTests(() => {
+runTests(async () => {
+    await driver.quit();
     console.log("Sending status....");
     res.status(200).json({results:results,"total":scripts.length,"passed":passed,"failed":failed});
 });
