@@ -27,6 +27,7 @@ import ManagerArtifact from "./projectManagerViews/ManagerArtifact";
 import ViewArtifact from './testerViews/ViewArtifact';
 import viewManagerArtifact from './Projects/viewManagerArtifact';
 import ViewTesterProject from './testerViews/ViewTesterProject';
+import ViewTesterProfile from './projectManagerViews/ViewTesterProfile';
 import Header from "./Header";
 
 
@@ -68,6 +69,8 @@ class Main extends Component {
 
                     <Route exact path="/administration/testers" component={testers} />
                     <Route exact path="/administration/projects" component={projects} />
+
+                    <Route exact path="/pm/profile/tester/:testerID" component={ViewTesterProfile} />
                     
                 </div>
             )
