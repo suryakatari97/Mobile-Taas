@@ -145,11 +145,11 @@ class JoinRequests extends Component {
 
         //iterate over requests to create a table rows
         let requestsDiv = this.state.requests.map(record => {
-            let profileURL = 'http://' + hostaddress + ':3000/tester/' + record.userid + '/profile';
+            let profileURL = 'http://' + hostaddress + ':3000/pm/profile/tester/' + record.userid;
             let projectURL = 'http://' + hostaddress + ':3000/pm/viewproject/' + record.projectid;
             return (
                 <tr key={record.requestid}>
-                    <td>{record.userid}</td>
+                    <td><a href={profileURL} target="_blank">{record.userid}</a></td>
                     <td><a href={projectURL} target="_blank">{record.projectid}</a></td>
                     <td>{record.projectname}</td>
                     <td><input type="button" className="btn btn-success btn-sm" onClick={(e) => this.acceptRequest(e, record.requestid, record.projectid, record.userid)} value="Accept" /></td>
