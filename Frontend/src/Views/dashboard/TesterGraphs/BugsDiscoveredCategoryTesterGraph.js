@@ -17,9 +17,9 @@ class BugsDiscoveredCategoryTesterGraph extends Component {
       let url = 'http://'+hostaddress+':3001/tester/stats/bugsCategoryTester';
       let token = localStorage.getItem('jwtToken');
       //console.log(token);
-      axios({
+      axios("/tester/stats/bugsCategoryTester",{
           method: 'get',
-          url: url,
+          //url: url,
           params: { "id": testerid },     
           config: { headers: { 'Content-Type': 'application/json' } },
           headers: {"Authorization" : `Bearer ${token}`}
@@ -29,8 +29,12 @@ class BugsDiscoveredCategoryTesterGraph extends Component {
               console.log(response.data);
                 let countArr = [];
                 countArr.push(response.data.data[0].countEnhancement);
-                countArr.push(response.data.data[1].countCat1);
-                countArr.push(response.data.data[2].countCat2);
+                countArr.push(response.data.data[1].countBlocker);
+                countArr.push(response.data.data[2].countCritical);
+                countArr.push(response.data.data[3].countMajor);
+                countArr.push(response.data.data[4].countNormal);
+                countArr.push(response.data.data[5].countMinor);
+                countArr.push(response.data.data[6].countTrivial);
                 this.setState({count: countArr});
             }
         })
@@ -38,7 +42,7 @@ class BugsDiscoveredCategoryTesterGraph extends Component {
 
     render() {
         const data = {
-            labels: ["Enhancement", "Cat2", "Cat3"],
+            labels: ["Enhancement","Blocker", "Critical", "Major", "Normal", "Minor", "Trivial"],
             datasets: [
               {
                 label: 'Total Bugs Discovered Per Category',

@@ -8,6 +8,7 @@ import Passed from '../../images/check-circle-regular.svg';
 import TestCase from '../../images/file-alt-regular.svg';
 import TestSuite from '../../images/copy-solid.svg';
 import '../../styles/testRunner.css';
+import Header from "../Header";
 
 class TestRunner extends Component {
 
@@ -27,9 +28,9 @@ class TestRunner extends Component {
         let url = 'http://' + hostaddress + ':3001/tester/project/url';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/tester/project/url",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }
@@ -49,9 +50,9 @@ class TestRunner extends Component {
         let scripts = formData.get("testScripts");
         let browser = formData.get("browser");
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/tester/testRunner",{
             method: 'post',
-            url: 'http://' + hostaddress + ':3001/tester/testRunner',     
+            //url: 'http://' + hostaddress + ':3001/tester/testRunner',     
             data: {"url":this.state.url,"browser": browser,"scripts":JSON.parse(scripts)},
             config: { headers: { 'Content-Type': 'multipart/form-data' } },
             headers: { "Authorization": `Bearer ${token}` }
@@ -95,7 +96,8 @@ class TestRunner extends Component {
                                 </div>
                             </a>
                         </div>
-                        <div id={id} class="collapse" data-parent="#accordion">
+                        {record.testCaseType==1 &&
+                            <div id={id} class="collapse" data-parent="#accordion">
                             <div class="card-body">
                             <table class="table">
                             <tbody>
@@ -110,22 +112,68 @@ class TestRunner extends Component {
                                 </tbody>
                                 </table>
                             </div>
+                            </div>
+                        }
+                        {record.testCaseType==2 &&
+                            <div id={id} class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                            <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Exists:</td>
+                                    <td>{record.status=="Passed"?"Yes":"No"}</td>
+                                    
+                                </tr>
+                                {record.status=="Failed" &&
+                                <tr>
+                                <td>Error:</td>
+                                    <td>{record.status=="Passed"?"":record.error}</td>
+                                </tr>
+                                }
+                                </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        }   
+                        {record.testCaseType==3 &&
+                            <div id={id} class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                            <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Exists:</td>
+                                    <td>{record.status=="Passed"?"Yes":"No"}</td>
+                                    
+                                </tr>
+                                {record.status=="Failed" &&
+                                <tr>
+                                <td>Error:</td>
+                                    <td>{record.status=="Passed"?"":record.error}</td>
+                                </tr>
+                                }
+                                </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        }   
                         </div>
-                    </div>
+                        
                 )
             });
         }
 
         return (
-            <div>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
                 <div className="container">
                 {this.state.showResults==false ?
-                    <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
+                    <div className="row justify-content-center align-items-center" >
                         <div className="col-12">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3 >Test Runner</h3>
-                            </div>
-                            <form onSubmit={this.runTestRunner} method="post">
+                        <div className="dash-one">
+                    <p className="dash-header">Test Runner</p>
+                </div>
+                            <form onSubmit={this.runTestRunner} method="post" style={{marginLeft:"2em"}}>
                                 <div className="form-group row">
                                     <label htmlFor="url" className="col-sm-2 col-form-label">Project URL:</label>
                                     <div className="col-sm-5">
@@ -156,11 +204,12 @@ class TestRunner extends Component {
                         </div>
                     </div>
                     :
-                    <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
+                    <div className="row justify-content-center align-items-center">
+                    <div className="dash-one">
+                    <p className="dash-header">Test Results</p>
+                </div>
                         <div className="col-10">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3>Test Suite Results</h3>
-                            </div>
+                        
                             <div className="row">
                             <img className="imageResult" style={{marginLeft:"1em"}} src={TestSuite} alt="testsuite"/>&nbsp;<label className="labelResult">Test Suites: 1</label>
                             <img className="imageResult" src={TestCase} alt="testcases"/>&nbsp;<label className="labelResult">Test Cases: {this.state.results.total}</label>
@@ -174,6 +223,7 @@ class TestRunner extends Component {
                     </div>
                 }
                 </div>
+            </div>
             </div>
 
         )

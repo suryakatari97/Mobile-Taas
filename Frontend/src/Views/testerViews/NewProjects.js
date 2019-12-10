@@ -4,7 +4,7 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import swal from 'sweetalert';
 import {hostaddress} from '../../config/settings';
-
+import Header from "../Header";
 
 class NewProjects extends Component {
 
@@ -24,9 +24,9 @@ class NewProjects extends Component {
         let url = 'http://'+hostaddress+':3001/tester/newProjects';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/tester/newProjects",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": testerid },     
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: {"Authorization" : `Bearer ${token}`}
@@ -44,9 +44,9 @@ class NewProjects extends Component {
         event.preventDefault();
         let testerid = localStorage.getItem('userid');
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/tester/joinRequest",{
             method: 'post',
-            url: 'http://'+hostaddress+':3001/tester/joinRequest',     
+            //url: 'http://'+hostaddress+':3001/tester/joinRequest',     
             data: {testerid : testerid, projectid : projectid},
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: {"Authorization" : `Bearer ${token}`}
@@ -105,13 +105,15 @@ class NewProjects extends Component {
             </div>;
         }
         return (
-            <div>
+            <div className="main-wrapper">
+            <Header/>
+            <div className="content-wrapper">
                 <div className="container">
                 <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
                 <div className="col-12">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3>New Projects Open to Join</h3>
-                            </div>
+                <div className="dash-one">
+                    <p className="dash-header">New Projects Open to Join</p>
+                </div>
                     {ackDiv}
                     {this.state.projects.length > 0 ?
                         <div className="col-10">
@@ -139,6 +141,7 @@ class NewProjects extends Component {
                         }
                     </div>
                     </div>
+                </div>
                 </div>
             </div>
         )

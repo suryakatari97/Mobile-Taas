@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { hostaddress } from '../../config/settings';
+import Header from "../Header";
 
 export class viewManagerArtifact extends Component {
 
@@ -18,9 +19,9 @@ export class viewManagerArtifact extends Component {
         let url = 'http://' + hostaddress + ':3001/pm/viewartifacts';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/pm/viewartifacts",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": managerid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }
@@ -51,41 +52,47 @@ export class viewManagerArtifact extends Component {
         });
 
         return (
-            <div>
-                <div className="container">
-                    <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
-                        <div className="col-12">
-                            <div className="border-bottom row" style={{ marginBottom: "3%" }}>
-                                <h3>Artifacts</h3>
-                            </div>
-                            {this.state.results.length > 0 ?
-                                <div className="col-10">
-                                    <div>
-                                        <table className="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Artifact</th>
-                                                    <th>Uploaded On</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {resultsDiv}
-                                            </tbody>
-                                        </table>
+            
+            <div className="main-wrapper" >
+                <Header />
+                <div className="content-wrapper">
+                    <div>
+                        <div className="container">
+                            <div className="row justify-content-center align-items-center" style={{ height: '75vh' }}>
+                                <div className="col-12">
+                                    <div className="border-bottom row" style={{ marginBottom: "3%" }}>
+                                        <h3>Artifacts</h3>
                                     </div>
+                                    {this.state.results.length > 0 ?
+                                        <div className="col-10">
+                                            <div>
+                                                <table className="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Artifact</th>
+                                                            <th>Uploaded On</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {resultsDiv}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div>
+                                            <h4 style={{ margin: "3em" }}>No uploads yet. Click upload to add new files!</h4>
+                                        </div>
+                                    }
+                                    <form action="/manager/upload">
+                                        <input type="submit" value="Upload Artifact" className="btn btn-primary" style={{ float: "right", margin: "3em" }} />
+                                    </form>
                                 </div>
-                                :
-                                <div>
-                                    <h4 style={{ margin: "3em" }}>No uploads yet. Click upload to add new files!</h4>
-                                </div>
-                            }
-                            <form action="/manager/upload">
-                                <input type="submit" value="Upload Artifact" className="btn btn-primary" style={{ float: "right", margin: "3em" }} />
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
 
         )
     }

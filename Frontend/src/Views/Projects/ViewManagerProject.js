@@ -3,7 +3,8 @@ import axios from 'axios'
 import { hostaddress } from '../../config/settings';
 import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom'
-import '../../styles/ManagerHome.css'
+import '../../styles/ManagerHome.css';
+import Header from "../Header";
 
 let redirectvar = null;
 class ViewManagerProject extends Component {
@@ -23,9 +24,11 @@ class ViewManagerProject extends Component {
         let url1 = 'http://' + hostaddress + ':3001/pm/getpmprojectParticipants';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
-            method: 'post',
-            url: url,
+
+
+        axios("/pm/getpmprojectdetails",{
+            method: 'get',
+            //url: url,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { Authorization: `Bearer ${token}` }
@@ -37,9 +40,9 @@ class ViewManagerProject extends Component {
 
             console.log(this.state.projectdata);
         });
-        axios({
+        axios("/pm/getpmprojectParticipants",{
             method: 'get',
-            url: url1,
+            //url: url1,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { Authorization: `Bearer ${token}` }
@@ -63,9 +66,9 @@ class ViewManagerProject extends Component {
         )
         const url = 'http://' + hostaddress + ':3001/pm/updateProjectStatus';
         let token = localStorage.getItem('jwtToken');
-        axios({
+        axios("/pm/updateProjectStatus",{
             method: 'post',
-            url: url,
+            //url: url,
             data: data,
             //params: { id: managerid },
             config: { headers: { 'Content-Type': 'application/json' } },
@@ -116,9 +119,9 @@ class ViewManagerProject extends Component {
                     console.log(data);
                     let url = 'http://' + hostaddress + ':3001/pm/deletepmProject';
                     let token = localStorage.getItem('jwtToken');
-                    axios({
+                    axios("/pm/deletepmProject",{
                         method: 'post',
-                        url: url,
+                        //url: url,
                         data: data,
                         params: { id: managerid },
                         config: { headers: { 'Content-Type': 'application/json' } },
@@ -185,51 +188,56 @@ class ViewManagerProject extends Component {
         console.log(redirectvar);
 
         return (
-            <div className="container-fluid" id="managerbg">
-                <div className='row'>
-                    {redirectvar}
-                    <div className='col-1'></div>
-                    <div className='col-3 text-center'>
-                        <br />
-                        <div><h4><mark>TESTERS</mark></h4></div>
-                        <div>{projectparticipant}</div>
-                    </div>
-                    <div className="col-5">
-                        <br />
-                        <div class="card shadow" >
-                            <img src="https://www.fingent.com/blog/assets/uploads/2015/09/Devlopers-Vs-Testers-01.png" class="card-img-top" alt="..."></img>
-                            <div class="card-body">
-                                <div className='row'>
-                                    <div className='col-6'>
-                                        <h5 class="card-title">Project Title: {title}</h5>
-                                    </div>
-                                    <div className='col-6'>
-                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {status}</button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <button onClick={() => this.handleStatusChange("ongoing", projectid)} class="dropdown-item" >ongoing</button>
-                                            <button onClick={() => this.handleStatusChange("Completed", projectid)} class="dropdown-item" >Completed</button>
+            <div className="main-wrapper" >
+                <Header />
+                <div className="content-wrapper">
+                    <div className="container-fluid" id="managerbg">
+                        <div className='row'>
+                            {redirectvar}
+                            <div className='col-1'></div>
+                            <div className='col-3 text-center'>
+                                <br />
+                                <div><h4><mark>TESTERS</mark></h4></div>
+                                <div>{projectparticipant}</div>
+                            </div>
+                            <div className="col-5">
+                                <br />
+                                <div class="card shadow" >
+                                    <img src="https://www.fingent.com/blog/assets/uploads/2015/09/Devlopers-Vs-Testers-01.png" class="card-img-top" alt="..."></img>
+                                    <div class="card-body">
+                                        <div className='row'>
+                                            <div className='col-6'>
+                                                <h5 class="card-title">Project Title: {title}</h5>
+                                            </div>
+                                            <div className='col-6'>
+                                                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {status}</button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <button onClick={() => this.handleStatusChange("ongoing", projectid)} class="dropdown-item" >ongoing</button>
+                                                    <button onClick={() => this.handleStatusChange("Completed", projectid)} class="dropdown-item" >Completed</button>
+                                                </div>
+                                                <div id='deletebutton'>
+                                                    <button onClick={() => this.deleteProject(projectid)} className='btn btn-danger'>Delete</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div id='deletebutton'>
-                                            <button onClick={() => this.deleteProject(projectid)} className='btn btn-danger'>Delete</button>
+                                        <div className='row col-12' id='indproject'>
+                                            <p class="card-text">Description: {description}</p>
+                                        </div>
+                                        <div className='row col-12' id='indproject'>
+                                            <p class="card-text">Skills required: {skills}</p>
+                                        </div>
+                                        <div className='row col-12' id='indproject'>
+                                            <p class="card-text">Project Url: {project_url}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div className='row col-12' id='indproject'>
-                                    <p class="card-text">Description: {description}</p>
-                                </div>
-                                <div className='row col-12' id='indproject'>
-                                    <p class="card-text">Skills required: {skills}</p>
-                                </div>
-                                <div className='row col-12' id='indproject'>
-                                    <p class="card-text">Project Url: {project_url}</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className='col-1'></div>
+                            <div className='col-1'></div>
 
-                </div >
+                        </div >
+                    </div>
+                </div>
             </div>
         );
     }

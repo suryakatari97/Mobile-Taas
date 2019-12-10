@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 //import Navigation from './Navigation'
 import { Link,Redirect } from "react-router-dom";
 import '../../styles/profile.css';
+import ChatLink from "../chatLink/ChatLink";
+import {chatHost} from "../../config/settings";
+import Header from "../Header";
 //import ResumeUpload from "./ResumeUploader";
 
 class Profile extends Component {
@@ -60,11 +63,19 @@ class Profile extends Component {
         }
     }
     render(){
+        const chatUserId = localStorage.chatUserId;
+        const chatUserToken = localStorage.chatUserToken;
+        //const chatUrl = 'http://ec2-52-52-38-159.us-west-1.compute.amazonaws.com:3000/home';
+         const chatUrl = chatHost+"?userId=" + chatUserId + "&resumeToken=" + chatUserToken
+
         let updateLink = '/updateprofile';
         let profileLink = '/profile';
         let updateProfile = <div className="update-profile-btn">
                 <Link to={updateLink} className="link"><i class="fas fa-user-edit"></i> Update Profile</Link>
             </div>
+        let launchChat = <div className="update-profile-btn ml-2">
+            <a className="link" style={{textDecoration: "none"}} target="_blank" href={chatUrl}><i class="fas fa-user-edit"></i> Community Chat </a>
+        </div>
         const istyle = {height: '100%', width: '100%', 'object-fit': 'contain'}
         if (!this.state.isLoggedIn) {
             return(<Redirect to="/"/>)
@@ -75,9 +86,10 @@ class Profile extends Component {
             if(this.state.preview == null) {
                 profilePreview =<i class="fa fa-user fa-7x profile-opacity" aria-hidden="true"></i>
             }
-
-            return(
+            let resumeText = (this.state.resume && this.state.resume !== "") ? "Download" : "Resume not yet uploaded"
+             return(
                 <div className="main-wrapper">
+                    <Header />
                     <div className="content-wrapper">
                         <div className="dash-one">
                             <p className="dash-header-blue">
@@ -119,11 +131,12 @@ class Profile extends Component {
                                         </div>
                                         <div className="row row-style">
                                             <p className="profile-headers">Resume :</p>
-                                            <a href={this.state.resume} alt="Resume Not Uploaded">Download</a>
-                                            {/*<ResumeUpload />*/}
+                                            <a href={this.state.resume} alt="Resume Not Uploaded">{resumeText}</a>
                                         </div>
                                         <div className="row row-style">
                                             {updateProfile}
+                                        </div>
+                                        <div className="row row-style">
                                         </div>
                                     </div>
                                 </div>

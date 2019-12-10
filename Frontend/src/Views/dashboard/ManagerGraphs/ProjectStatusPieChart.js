@@ -17,9 +17,9 @@ export class ProjectStatusPieChart extends Component {
         let url = 'http://' + hostaddress + ':3001/pm/stats/ProjectStatusPieChart';
         let token = localStorage.getItem('jwtToken');
         //console.log(token);
-        axios({
+        axios("/pm/stats/ProjectStatusPieChart",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": managerid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }
