@@ -171,8 +171,26 @@ const signup = (req, res, next) => {
         //----------------------Bugzilla end-------------------------
 }
 
+const logout = (req, res, next)=> {
 
-module.exports = {
+    const userIdHeader = req.body.chatUserId
+    const userTokenHeader = req.body.chatUserToken
+    var chatHeader = {
+        headers: {
+            'X-User-Id': userIdHeader,
+            'X-Auth-Token': userTokenHeader
+        }
+    };
+
+    axios.post(chatBaseURL+"/logout", {}, chatHeader )
+        .then((response)=>{
+            console.log("Logout response status: " + response.status)
+        })
+
+}
+
+    module.exports = {
     login,
-    signup
+    signup,
+    logout
 };

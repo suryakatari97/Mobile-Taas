@@ -18,7 +18,7 @@ class Header extends Component {
           chatUserId : localStorage.chatUserId,
           chatUserToken: localStorage.chatUserToken
         }
-        fetch("/logout",{
+        fetch("/user/logout",{
         body: JSON.stringify(data),
         method: 'POST',
         headers:{'Authorization': "bearer " + localStorage.getItem("jwtToken"),
