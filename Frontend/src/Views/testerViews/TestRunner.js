@@ -50,9 +50,9 @@ class TestRunner extends Component {
         let scripts = formData.get("testScripts");
         let browser = formData.get("browser");
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/tester/testRunner",{
             method: 'post',
-            url: 'http://' + hostaddress + ':3001/tester/testRunner',     
+            //url: 'http://' + hostaddress + ':3001/tester/testRunner',     
             data: {"url":this.state.url,"browser": browser,"scripts":JSON.parse(scripts)},
             config: { headers: { 'Content-Type': 'multipart/form-data' } },
             headers: { "Authorization": `Bearer ${token}` }
