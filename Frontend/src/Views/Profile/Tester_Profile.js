@@ -86,8 +86,8 @@ class Profile extends Component {
             if(this.state.preview == null) {
                 profilePreview =<i class="fa fa-user fa-7x profile-opacity" aria-hidden="true"></i>
             }
-
-            return(
+            let resumeText = (this.state.resume && this.state.resume !== "") ? "Download" : "Resume not yet uploaded"
+             return(
                 <div className="main-wrapper">
                     <Header />
                     <div className="content-wrapper">
@@ -131,12 +131,10 @@ class Profile extends Component {
                                         </div>
                                         <div className="row row-style">
                                             <p className="profile-headers">Resume :</p>
-                                            <a href={this.state.resume} alt="Resume Not Uploaded">Download</a>
-                                            {/*<ResumeUpload />*/}
+                                            <a href={this.state.resume} alt="Resume Not Uploaded">{resumeText}</a>
                                         </div>
                                         <div className="row row-style">
-                                            {updateProfile}                                             {launchChat}
-
+                                            {updateProfile}
                                         </div>
                                         <div className="row row-style">
                                         </div>

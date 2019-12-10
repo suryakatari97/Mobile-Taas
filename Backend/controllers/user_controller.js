@@ -107,7 +107,7 @@ const signup = (req, res, next) => {
                     +", now trying to create chat account");
                 //----------------------Chat begin-------------------------
                 var usernameBreakIndex = email.lastIndexOf("@")
-                var chatUsername = email.substring(0, usernameBreakIndex) 
+                var chatUsername = email.substring(0, usernameBreakIndex) + '-'
                 + email.substring(usernameBreakIndex +1, email.indexOf(".", usernameBreakIndex))
                 var chatData = {
                     "email": email, 
