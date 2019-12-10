@@ -146,58 +146,58 @@ const getPmProjectDetails = (req, res, next) => {
         });
 }
 
-const addpmproject = (req, res, next) => {
-    const userid = req.user.userid;
-    const projectname = req.body.projectname;
-    const description = req.body.description;
-    const project_url = req.body.project_url;
-    const Skills = req.body.Skills;
-    console.log(req.body);
+// const addpmproject = (req, res, next) => {
+//     const userid = req.user.userid;
+//     const projectname = req.body.projectname;
+//     const description = req.body.description;
+//     const project_url = req.body.project_url;
+//     const Skills = req.body.Skills;
+//     console.log(req.body);
 
-    const mysqlconnection = req.db;
-    mysqlconnection.connect(function (err) {
-        if (err) {
-            console.error('error connecting: ' + err.stack);
-            res.send({ success: false, message: 'Failed to create a project' });
-        }
-        console.log('connected as id ' + mysqlconnection.threadId);
-    });
+//     const mysqlconnection = req.db;
+//     mysqlconnection.connect(function (err) {
+//         if (err) {
+//             console.error('error connecting: ' + err.stack);
+//             res.send({ success: false, message: 'Failed to create a project' });
+//         }
+//         console.log('connected as id ' + mysqlconnection.threadId);
+//     });
 
-    mysqlconnection.beginTransaction((err) => {
-        if (!err) {
-            // get the email for current user, needed for bugzilla
-            mysqlconnection.query('SELECT email from cmpe_users WHERE userid=?', [userid], (err, rowsOfTable) => {
-                if (err || rowsOfTable == 0) {
-                    console.log(err);
-                    mysqlconnection.rollback();
-                    res.send({ success: false, message: 'Failed to create a project' });
-                } else {
-                    const useremail = rowsOfTable[0].email;
-                    // insert into projects table
-                    mysqlconnection.query(
-                        'INSERT INTO cmpe_project (ownerid, projectname, description,Skills, project_url) VALUES(?,?,?,?,?)',
-                        [userid, projectname, description, Skills, project_url],
-                        (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                mysqlconnection.rollback();
-                                res.send({ success: false, message: 'Failed to create a project' });
-                            } else {
-                                console.log('result', result)
-                                mysqlconnection.commit();
-                                res.end({ success: true, message: 'successfully added a project' });
+//     mysqlconnection.beginTransaction((err) => {
+//         if (!err) {
+//             // get the email for current user, needed for bugzilla
+//             mysqlconnection.query('SELECT email from cmpe_users WHERE userid=?', [userid], (err, rowsOfTable) => {
+//                 if (err || rowsOfTable == 0) {
+//                     console.log(err);
+//                     mysqlconnection.rollback();
+//                     res.send({ success: false, message: 'Failed to create a project' });
+//                 } else {
+//                     const useremail = rowsOfTable[0].email;
+//                     // insert into projects table
+//                     mysqlconnection.query(
+//                         'INSERT INTO cmpe_project (ownerid, projectname, description,Skills, project_url) VALUES(?,?,?,?,?)',
+//                         [userid, projectname, description, Skills, project_url],
+//                         (err, result) => {
+//                             if (err) {
+//                                 console.log(err);
+//                                 mysqlconnection.rollback();
+//                                 res.send({ success: false, message: 'Failed to create a project' });
+//                             } else {
+//                                 console.log('result', result)
+//                                 mysqlconnection.commit();
+//                                 res.end({ success: true, message: 'successfully added a project' });
 
-                            }
-                        }
-                    );
-                }
-            });
-        }
-    });
+//                             }
+//                         }
+//                     );
+//                 }
+//             });
+//         }
+//     });
 
 
 
-}
+// }
 
 const getManagerArtifacts = (req,res,next) => {
     console.log(req.query);
@@ -237,6 +237,7 @@ const createProject = (req, res, next) => {
     const projectname = req.body.projectname;
     const description = req.body.description;
     const project_url = req.body.project_url;
+    const skills = req.body.Skills;
 
     // insert into mysqlDB
     const mysqlconnection = req.db;
@@ -259,8 +260,8 @@ const createProject = (req, res, next) => {
                 } else {
                     const useremail = rowsOfTable[0].email;
                     // insert into projects table
-                    mysqlconnection.query('INSERT INTO cmpe_project (ownerid, projectname, description, project_url) VALUES(?,?,?,?)',
-                        [userid, projectname, description, project_url], (err, result) => {
+                    mysqlconnection.query('INSERT INTO cmpe_project (ownerid, projectname, description, skills, project_url) VALUES(?,?,?,?,?)',
+                        [userid, projectname, description, skills, project_url], (err, result) => {
                             if (err) {
                                 console.log(err);
                                 mysqlconnection.rollback();
