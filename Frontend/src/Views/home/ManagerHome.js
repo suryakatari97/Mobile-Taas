@@ -97,7 +97,7 @@ class ManagerHome extends Component {
 
         console.log(data);
 
-        axios("/pm/addpmproject",{
+        axios("/pm/createProject",{
             method: 'post',
             //url: url,
             data: data,

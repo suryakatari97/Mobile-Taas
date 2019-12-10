@@ -13,7 +13,7 @@ class AddProject extends Component {
                 <Modal isOpen={this.props.modal} toggle={() => this.props.toggle()} className='modal-popup' scrollable>
                     <ModalHeader toggle={() => this.props.toggle()} close={closeBtn}>Add New Project Here</ModalHeader>
                     <ModalBody className="modal-body">
-                        <form>
+                        <form onSubmit={() => this.props.AddNewProject()}>
                             <div className="form-group">
                                 <h4 className="font-weight-bold">PROJECT TITLE: </h4><br />
                                 <input onChange={this.props.handleTitleChange} name='projectTitle' className='form-control' type='text' required></input><br /><br />
@@ -30,7 +30,7 @@ class AddProject extends Component {
                                 <h4 className="font-weight-bold" >PROJECT URL: </h4><br />
                                 <input onChange={this.props.handleURLChange} name='projectTitle' className='form-control' type='text' required></input><br /><br />
                             </div>
-                            <button type='submit' onClick={() => this.props.AddNewProject()} className='btn btn-primary'>Submit</button>
+                            <button type='submit' className='btn btn-primary'>Submit</button>
                         </form>
                     </ModalBody>
                     <ModalFooter>

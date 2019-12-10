@@ -452,7 +452,6 @@ module.exports = {
     postManagerProfileImage,
     getManagerProjects,
     getPmProjectDetails,
-    addpmproject,
     updateProjectStatus,
     deletepmProject,
     getpmprojectParticipants,
