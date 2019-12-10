@@ -91,13 +91,13 @@ class ManagerHome extends Component {
             Skills: this.state.Skills,
 
         };
-        let url = 'http://' + hostaddress + ':3001/pm/addpmproject';
+        // let url = 'http://' + hostaddress + ':3001/pm/addpmproject';
         let token = localStorage.getItem('jwtToken');
         let managerid = localStorage.getItem('userid');
 
         console.log(data);
 
-        axios("/pm/addpmproject",{
+        axios("/pm/createProject",{
             method: 'post',
             //url: url,
             data: data,
