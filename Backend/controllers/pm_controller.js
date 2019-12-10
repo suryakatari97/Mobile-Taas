@@ -439,6 +439,49 @@ const postManagerProfileImage = async function (req, res) {
     });
 }
 
+const pm_tester_getProfile = (req, res) => {
+    console.log("In get method of pm tester profile");
+    const query = 'select * FROM cmpe_users WHERE userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [currentuserid], (err, rowsOfTable) => {
+        const dataArr = [];
+        if (err) {
+            console.log(err);
+            res.status(500);
+            res.send({ success: false, data: dataArr });
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({ success: true, data: JSON.stringify(rowsOfTable) });
+        }
+    });
+}
+
+const pm_tester_getskills = (req, res) => {
+
+    console.log("In get method of pm tester profile");
+    const query = 'select * FROM cmpe_skills s join cmpe_users_skill us on  s.skillid = us.skillid AND us.userid = ?;';
+    var currentuserid = decodeURI(req.params.userid);
+    const mysqlconnection = req.db;
+    mysqlconnection.query(query, [currentuserid], (err, rowsOfTable) => {
+        const dataArr = [];
+        if (err) {
+            console.log(err);
+            res.status(500);
+            res.send({ success: false, data: dataArr });
+        } else {
+
+            console.log(JSON.stringify(rowsOfTable));
+
+            res.send({ success: true, data: JSON.stringify(rowsOfTable) });
+        }
+    });
+
+}
+
+
 
 module.exports = {
     testlogin,
@@ -455,5 +498,8 @@ module.exports = {
     updateProjectStatus,
     deletepmProject,
     getpmprojectParticipants,
-    getManagerArtifacts    
+    getManagerArtifacts ,
+    pm_tester_getProfile,
+    pm_tester_getskills
+
 };
