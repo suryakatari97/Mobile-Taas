@@ -5,7 +5,7 @@ var router = express.Router();
 // user defined modules
 var { testlogin, createProject, getPmProjectDetails, getProjectJoinRequests, deletepmProject, updateProjectStatus,
     addpmproject, postAcceptJoinRequest, postDeclineJoinRequest, getManagerProjects, getManagerProfile, postManagerProfile,
-    postManagerProfileImage, getpmprojectParticipants, getManagerArtifacts  } = require("../controllers/pm_controller");
+    postManagerProfileImage, getpmprojectParticipants, getManagerArtifacts, pm_tester_getProfile, pm_tester_getskills  } = require("../controllers/pm_controller");
 
 var { ProjectsCreatedPerDay, NumberofTestersPerProject, ProjectStatusPieChart, TotalBugsPerProject }
     = require("../controllers/pm_stats_controller");
@@ -29,6 +29,8 @@ router.post('/deletepmproject', deletepmProject);
 router.get('/getpmprojectParticipants', getpmprojectParticipants);
 router.post('/upload/:userid', manager_upload_file);
 router.get('/viewartifacts', getManagerArtifacts)
+router.get('/tester/profile/:userid', pm_tester_getProfile);
+router.get('/tester/profile/:userid/skills', pm_tester_getskills);
 
 //for manager dashboard
 router.get('/stats/ProjectsCreatedPerDay', ProjectsCreatedPerDay);
