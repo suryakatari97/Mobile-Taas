@@ -17,9 +17,9 @@ class BugsDiscoveredCategoryTesterGraph extends Component {
       let url = 'http://'+hostaddress+':3001/tester/stats/bugsCategoryTester';
       let token = localStorage.getItem('jwtToken');
       //console.log(token);
-      axios({
+      axios("/tester/stats/bugsCategoryTester",{
           method: 'get',
-          url: url,
+          //url: url,
           params: { "id": testerid },     
           config: { headers: { 'Content-Type': 'application/json' } },
           headers: {"Authorization" : `Bearer ${token}`}

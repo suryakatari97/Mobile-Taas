@@ -27,9 +27,9 @@ class JoinRequests extends Component {
         let url = 'http://' + hostaddress + ':3001/pm/requests';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/pm/requests",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": pmid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }

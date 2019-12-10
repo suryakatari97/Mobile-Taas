@@ -26,9 +26,9 @@ class ViewManagerProject extends Component {
         console.log(token);
 
 
-        axios({
+        axios("/pm/getpmprojectdetails",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { Authorization: `Bearer ${token}` }
@@ -40,9 +40,9 @@ class ViewManagerProject extends Component {
 
             console.log(this.state.projectdata);
         });
-        axios({
+        axios("/pm/getpmprojectParticipants",{
             method: 'get',
-            url: url1,
+            //url: url1,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { Authorization: `Bearer ${token}` }
@@ -66,9 +66,9 @@ class ViewManagerProject extends Component {
         )
         const url = 'http://' + hostaddress + ':3001/pm/updateProjectStatus';
         let token = localStorage.getItem('jwtToken');
-        axios({
+        axios("/pm/updateProjectStatus",{
             method: 'post',
-            url: url,
+            //url: url,
             data: data,
             //params: { id: managerid },
             config: { headers: { 'Content-Type': 'application/json' } },
@@ -119,9 +119,9 @@ class ViewManagerProject extends Component {
                     console.log(data);
                     let url = 'http://' + hostaddress + ':3001/pm/deletepmProject';
                     let token = localStorage.getItem('jwtToken');
-                    axios({
+                    axios("/pm/deletepmProject",{
                         method: 'post',
-                        url: url,
+                        //url: url,
                         data: data,
                         params: { id: managerid },
                         config: { headers: { 'Content-Type': 'application/json' } },
