@@ -150,7 +150,7 @@ class JoinRequests extends Component {
             return (
                 <tr key={record.requestid}>
                     <td>{record.userid}</td>
-                    <td><a href={projectURL}>{record.projectid}</a></td>
+                    <td><a href={projectURL} target="_blank">{record.projectid}</a></td>
                     <td>{record.projectname}</td>
                     <td><input type="button" className="btn btn-success btn-sm" onClick={(e) => this.acceptRequest(e, record.requestid, record.projectid, record.userid)} value="Accept" /></td>
                     <td><input type="button" className="btn btn-danger btn-sm" onClick={(e) => this.declineRequest(e, record.requestid)} value="Decline" /></td>
