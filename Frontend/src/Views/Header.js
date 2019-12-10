@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import '../styles/Canvas.css';
 import { Link, Redirect } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { bugzillaHost } from "../config/settings"
+import { bugzillaHost, chatHost } from "../config/settings"
 
 
 class Header extends Component {
@@ -12,13 +12,24 @@ class Header extends Component {
     this.logoutHandler = this.logoutHandler.bind(this);
   }
 
-  logoutHandler = () => {
-    console.log("Inside frontend logout")
-    localStorage.clear();
-  }
+    logoutHandler = () => {
+        console.log("Inside frontend logout")
+        const data = {
+          chatUserId : localStorage.chatUserId,
+          chatUserToken: localStorage.chatUserToken
+        }
+        fetch("/user/logout",{
+        body: JSON.stringify(data),
+        method: 'POST',
+        headers:{'Authorization': "bearer " + localStorage.getItem("jwtToken"),
+          'Content-Type': 'application/json'}
+      })
+        localStorage.clear();
+    }
 
   render() {
     const bugzillaURL = bugzillaHost + "/bugzilla";
+    const chatUrl = chatHost+"?userId=" + localStorage.chatUserId + "&resumeToken=" + localStorage.chatUserToken
     const role = localStorage.getItem("role");
     let homepage = null;
     let isProfile = true;
@@ -28,7 +39,7 @@ class Header extends Component {
       isProfile = false;
       sidebarLinks = <div>
         <li>
-          <Link to='/addcourse'>
+          <Link to='/administration/projects'>
             <div className="icon-container">
               <i className="fas fa-project-diagram fa-lg"></i>
               <span className="icon-text">Projects</span>
@@ -36,7 +47,7 @@ class Header extends Component {
           </Link>
         </li>
         <li>
-          <Link to='/addcourse'>
+          <Link to='/administration/testers'>
             <div className="icon-container">
               <i className="fas fa-user-shield fa-lg"></i>
               <span className="icon-text">Testers</span>
@@ -80,12 +91,12 @@ class Header extends Component {
           </Link>
         </li>
         <li>
-          <Link to='/addcourse'>
+          <a href={chatUrl} target="_blank" >
             <div className="icon-container">
               <i className="fas fa-users fa-lg"></i>
               <span className="icon-text">Community</span>
             </div>
-          </Link>
+          </a>
         </li>
       </div>
     } else {
@@ -115,12 +126,12 @@ class Header extends Component {
           </Link>
         </li>
         <li>
-          <Link to='/addcourse'>
+          <a href={chatUrl} target="_blank" >
             <div className="icon-container">
               <i className="fas fa-users fa-lg"></i>
               <span className="icon-text">Community</span>
             </div>
-          </Link>
+          </a>
         </li>
       </div>
 

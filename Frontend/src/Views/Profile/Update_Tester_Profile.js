@@ -3,6 +3,7 @@ import {Redirect,Link} from 'react-router-dom'
 import Avatar from 'react-avatar-edit'
 import '../../styles/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from "../Header";
 
 
 class UpdateProfile extends Component {
@@ -295,6 +296,7 @@ class UpdateProfile extends Component {
         }
         return(
             <div className="main-wrapper">
+                <Header />
                 <div className="content-wrapper">
                     <div className="dash-one">
                         <p className="dash-header-blue"><Link to="/profile">

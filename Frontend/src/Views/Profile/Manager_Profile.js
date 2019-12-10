@@ -64,38 +64,34 @@ class Profile extends Component {
                 <div className="main-wrapper" >
                     <Header />
                     <div className="content-wrapper">
-                        <div className="main-wrapper">
-                            <div className="content-wrapper">
-                                <div className="dash-one">
-                                    <p className="dash-header-blue">
-                                        <Link to={profileLink}><p>{this.state.firstname}'s Profile</p></Link>
-                                    </p>
-                                    <div className="course-card-container">
-                                        <div className="row">
-                                            <div className="profile-container">
-                                                <div className="profile">{profilePreview}</div>
-                                            </div>
-                                            <div className="profile-form">
-                                                <div className="row row-style">
-                                                    <p className="profile-headers">First Name :</p>
-                                                    <p>{this.state.firstname}</p>
-                                                </div>
-                                                <div className="row row-style">
-                                                    <p className="profile-headers">Last Name :</p>
-                                                    <p>{this.state.lastname}</p>
-                                                </div>
-                                                <div className="row row-style">
-                                                    <p className="profile-headers">Email :</p>
-                                                    <p>{this.state.email}</p>
-                                                </div>
-                                                <div className="row row-style">
-                                                    <p className="profile-headers">Contact Number :</p>
-                                                    <p>{this.state.phonenumber}</p>
-                                                </div>
-                                                <div className="row row-style">
-                                                    {updateProfile}
-                                                </div>
-                                            </div>
+                        <div className="dash-one">
+                            <p className="dash-header-blue">
+                                <Link to={profileLink}><p>{this.state.firstname}'s Profile</p></Link>
+                            </p>
+                            <div className="course-card-container">
+                                <div className="row">
+                                    <div className="profile-container">
+                                        <div className="profile">{profilePreview}</div>
+                                    </div>
+                                    <div className="profile-form">
+                                        <div className="row row-style">
+                                            <p className="profile-headers">First Name :</p>
+                                            <p>{this.state.firstname}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Last Name :</p>
+                                            <p>{this.state.lastname}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Email :</p>
+                                            <p>{this.state.email}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            <p className="profile-headers">Contact Number :</p>
+                                            <p>{this.state.phonenumber}</p>
+                                        </div>
+                                        <div className="row row-style">
+                                            {updateProfile}
                                         </div>
                                     </div>
                                 </div>
