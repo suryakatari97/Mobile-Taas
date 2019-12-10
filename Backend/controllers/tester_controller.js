@@ -55,7 +55,7 @@ const getNewProjects = (req, res, next) => {
     console.log(req.query);
     var testerid = req.query.id;
     const mysqlconnection = req.db;
-    mysqlconnection.query('SELECT p.projectid,p.projectname,p.description,p.timestamp FROM cmpe_project as p LEFT JOIN cmpe_project_members as m ON m.projectid = p.projectid LEFT JOIN cmpe_join_request as j ON p.projectid = j.projectid WHERE p.status="new" AND (m.userid IS NULL OR m.userid!=?) AND (j.userid IS NULL OR j.userid!=?)',
+    mysqlconnection.query('SELECT p.projectid,p.projectname,p.description,p.timestamp,p.Skills,p.project_url FROM cmpe_project as p LEFT JOIN cmpe_project_members as m ON m.projectid = p.projectid LEFT JOIN cmpe_join_request as j ON p.projectid = j.projectid WHERE p.status="new" AND (m.userid IS NULL OR m.userid!=?) AND (j.userid IS NULL OR j.userid!=?)',
         [testerid, testerid], (err, rowsOfTable, fieldsOfTable) => {
             if (err) {
                 console.log(err);
