@@ -28,9 +28,9 @@ class TestRunner extends Component {
         let url = 'http://' + hostaddress + ':3001/tester/project/url';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/tester/project/url",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }
@@ -50,9 +50,9 @@ class TestRunner extends Component {
         let scripts = formData.get("testScripts");
         let browser = formData.get("browser");
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/tester/testRunner",{
             method: 'post',
-            url: 'http://' + hostaddress + ':3001/tester/testRunner',     
+            //url: 'http://' + hostaddress + ':3001/tester/testRunner',     
             data: {"url":this.state.url,"browser": browser,"scripts":JSON.parse(scripts)},
             config: { headers: { 'Content-Type': 'multipart/form-data' } },
             headers: { "Authorization": `Bearer ${token}` }

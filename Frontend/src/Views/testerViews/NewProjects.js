@@ -24,9 +24,9 @@ class NewProjects extends Component {
         let url = 'http://'+hostaddress+':3001/tester/newProjects';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/tester/newProjects",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": testerid },     
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: {"Authorization" : `Bearer ${token}`}
@@ -44,9 +44,9 @@ class NewProjects extends Component {
         event.preventDefault();
         let testerid = localStorage.getItem('userid');
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/tester/joinRequest",{
             method: 'post',
-            url: 'http://'+hostaddress+':3001/tester/joinRequest',     
+            //url: 'http://'+hostaddress+':3001/tester/joinRequest',     
             data: {testerid : testerid, projectid : projectid},
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: {"Authorization" : `Bearer ${token}`}

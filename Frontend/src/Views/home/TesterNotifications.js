@@ -20,9 +20,9 @@ class TesterNotifications extends Component {
         let url = 'http://' + hostaddress + ':3001/tester/TesterNotifications';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/tester/TesterNotifications",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": testerid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }

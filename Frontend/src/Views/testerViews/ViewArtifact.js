@@ -20,9 +20,9 @@ class ViewArtifact extends Component {
         let url = 'http://'+hostaddress+':3001/tester/artifacts';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/tester/artifacts",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": testerid },     
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: {"Authorization" : `Bearer ${token}`}

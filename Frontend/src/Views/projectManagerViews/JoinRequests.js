@@ -27,9 +27,9 @@ class JoinRequests extends Component {
         let url = 'http://' + hostaddress + ':3001/pm/requests';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/pm/requests",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": pmid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }
@@ -46,9 +46,9 @@ class JoinRequests extends Component {
     acceptRequest = async (event, requestid, projectid, testerid) => {
         event.preventDefault();
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/pm/request/accept",{
             method: 'post',
-            url: 'http://' + hostaddress + ':3001/pm/request/accept',
+            //url: 'http://' + hostaddress + ':3001/pm/request/accept',
             data: { requestid: requestid, projectid: projectid, testerid: testerid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }
@@ -82,9 +82,9 @@ class JoinRequests extends Component {
     declineRequest = async (event, requestid) => {
         event.preventDefault();
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/pm/request/decline",{
             method: 'post',
-            url: 'http://' + hostaddress + ':3001/pm/request/decline',
+            //url: 'http://' + hostaddress + ':3001/pm/request/decline',
             data: { requestid: requestid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { "Authorization": `Bearer ${token}` }

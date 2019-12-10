@@ -35,9 +35,9 @@ class ManagerHome extends Component {
         let url = 'http://' + hostaddress + ':3001/pm/home';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/pm/home",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": managerid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { Authorization: `Bearer ${token}` }
@@ -97,9 +97,9 @@ class ManagerHome extends Component {
 
         console.log(data);
 
-        axios({
+        axios("/pm/addpmproject",{
             method: 'post',
-            url: url,
+            //url: url,
             data: data,
             params: { id: managerid },
             config: { headers: { 'Content-Type': 'application/json' } },

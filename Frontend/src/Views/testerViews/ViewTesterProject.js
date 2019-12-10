@@ -22,9 +22,9 @@ class ViewTesterProject extends Component {
         let url = 'http://' + hostaddress + ':3001/tester/gettesterprojectdetails';
         let token = localStorage.getItem('jwtToken');
         console.log(token);
-        axios({
+        axios("/tester/gettesterprojectdetails",{
             method: 'get',
-            url: url,
+            //url: url,
             params: { "id": projectid },
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: { Authorization: `Bearer ${token}` }
