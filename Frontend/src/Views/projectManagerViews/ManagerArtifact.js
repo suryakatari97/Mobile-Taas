@@ -27,9 +27,9 @@ export class ManagerArtifact extends Component {
         if (this.state.file !== null) {
             const formData = new FormData();
             formData.append('file', this.state.file[0]);
-            await axios({
+            await axios("/pm/upload/" + currentUserId,{
                 method: 'post',
-                url: 'http://' + hostaddress + ':3001/pm/upload/' + currentUserId,
+                //url: 'http://' + hostaddress + ':3001/pm/upload/' + currentUserId,
                 data: formData,
                 config: { headers: { 'Content-Type': 'multipart/form-data' } },
                 headers: { "Authorization": `Bearer ${token}` }

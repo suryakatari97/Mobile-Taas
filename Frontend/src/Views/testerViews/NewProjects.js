@@ -44,9 +44,9 @@ class NewProjects extends Component {
         event.preventDefault();
         let testerid = localStorage.getItem('userid');
         let token = localStorage.getItem('jwtToken');
-        await axios({
+        await axios("/tester/joinRequest",{
             method: 'post',
-            url: 'http://'+hostaddress+':3001/tester/joinRequest',     
+            //url: 'http://'+hostaddress+':3001/tester/joinRequest',     
             data: {testerid : testerid, projectid : projectid},
             config: { headers: { 'Content-Type': 'application/json' } },
             headers: {"Authorization" : `Bearer ${token}`}
