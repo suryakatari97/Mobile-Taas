@@ -67,6 +67,10 @@ app.use("/tester", requireTester, testerRouter);
 // anyRouter has all endpoints any user can access
 app.use("/any", requireAny, anyRouter);
 
+app.get("/healthcheck", function (req, res) {
+  res.status(200);
+  res.send({success:true});
+});
 
 app.listen(3001, () => {
     console.log('MobileTaaS running on Port:',3001);
