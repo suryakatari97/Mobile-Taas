@@ -1,3 +1,6 @@
+const axios = require('axios');
+const {bugzillaToken, bugzillaBaseURL, bugzillaProductPrefix} = require("../config/constants");
+
 // const projectJoinedPerDayForTester, testsPerdayForTester, bugsPerdayForTester
 const perdayQuery = (req, res, query, testerid) => {
     console.log(testerid);
@@ -35,9 +38,34 @@ const testsPerdayForTester = (req, res) => {
 
 const bugsPerdayForTester = (req, res) => {
     console.log(req.query);
-    var testerid = req.query.id;
-    const query = 'select COUNT(bug_id) as count, DATE_FORMAT(creation_ts,"%Y-%m-%d") as created_day FROM bugs where reporter=? GROUP BY created_day;';
-    perdayQuery(req, res, query, testerid);
+    var testeremail = req.query.id;
+    let dataArr = [];
+    axios.get(bugzillaBaseURL+"/bug?token="+bugzillaToken+"&creator="+testeremail)
+                .then((response)=>{
+                    // any 2xx is fine from bugzilla
+                    console.log(response);
+                    if(response.status >= 200 && response.status <300 ) {
+                       console.log(response.data);
+                       console.log(response.data.bugs.length);
+                       countBugs = response.data.bugs.length;
+                       success = true;
+                       //2019-12-10
+                       console.log(dataArr);
+                       dataArr.push({date: "2019-12-10", count: countBugs});
+                        res.send({success:true, data:dataArr});
+                       
+                    } else {
+                        success = false;
+                        console.log(response);
+                        res.status(500);
+                        res.send({success:false, message:"failed to get from bugzilla account"});
+                    }
+                }).catch((error)=>{
+                    success = false;
+                    console.log(error);
+                    res.status(500);
+                    res.send({success:false, message:"failed to get from bugzilla account, bugzilla error"});
+                });
 };
 
 
@@ -82,53 +110,53 @@ const bugsCategoryTester = (req,res) => {
     console.log(req.query);
     var testerid = req.query.id;
     var result = [];
-    mysqlconnection.query('select COUNT(bug_id) as countEnhancement FROM bugs where reporter=? and bug_severity="enhancement";', [testerid], (err, rowsOfTable)=>{
+    mysqlconnection.query('select COUNT(bug_id) as countEnhancement FROM bugs where bug_severity="enhancement";', (err, rowsOfTable)=>{
         if(err) {
             console.log(err);
             res.status(500);
-            res.send({success:false, data: res});
+            res.send({success:false});
         } else {
             result.push(rowsOfTable[0]);
-            mysqlconnection.query('select COUNT(bug_id) as countBlocker FROM bugs where reporter=? and bug_severity="blocker";', [testerid], (err, rowsOfTable)=>{
+            mysqlconnection.query('select COUNT(bug_id) as countBlocker FROM bugs where bug_severity="blocker";', (err, rowsOfTable)=>{
                 if(err) {
                     console.log(err);
                     res.status(500);
-                    res.send({success:false, data: res});
+                    res.send({success:false});
                 } else {
                     result.push(rowsOfTable[0]);
-                    mysqlconnection.query('select COUNT(bug_id) as countCritical FROM bugs where reporter=? and bug_severity="critical";', [testerid], (err, rowsOfTable)=>{
+                    mysqlconnection.query('select COUNT(bug_id) as countCritical FROM bugs where bug_severity="critical";', (err, rowsOfTable)=>{
                         if(err) {
                             console.log(err);
                             res.status(500);
-                            res.send({success:false, data: dataArr});
+                            res.send({success:false});
                         } else {
                             result.push(rowsOfTable[0]);
-                            mysqlconnection.query('select COUNT(bug_id) as countMajor FROM bugs where reporter=? and bug_severity="major";', [testerid], (err, rowsOfTable)=>{
+                            mysqlconnection.query('select COUNT(bug_id) as countMajor FROM bugs where bug_severity="major";', (err, rowsOfTable)=>{
                                 if(err) {
                                     console.log(err);
                                     res.status(500);
-                                    res.send({success:false, data: dataArr});
+                                    res.send({success:false});
                                 } else {
                                     result.push(rowsOfTable[0]);
-                                    mysqlconnection.query('select COUNT(bug_id) as countNormal FROM bugs where reporter=? and bug_severity="normal";', [testerid], (err, rowsOfTable)=>{
+                                    mysqlconnection.query('select COUNT(bug_id) as countNormal FROM bugs where bug_severity="normal";', (err, rowsOfTable)=>{
                                         if(err) {
                                             console.log(err);
                                             res.status(500);
-                                            res.send({success:false, data: dataArr});
+                                            res.send({success:false});
                                         } else {
                                             result.push(rowsOfTable[0]);
-                                            mysqlconnection.query('select COUNT(bug_id) as countMinor FROM bugs where reporter=? and bug_severity="minor";', [testerid], (err, rowsOfTable)=>{
+                                            mysqlconnection.query('select COUNT(bug_id) as countMinor FROM bugs where bug_severity="minor";', (err, rowsOfTable)=>{
                                                 if(err) {
                                                     console.log(err);
                                                     res.status(500);
-                                                    res.send({success:false, data: dataArr});
+                                                    res.send({success:false});
                                                 } else {
                                                     result.push(rowsOfTable[0]);
-                                                    mysqlconnection.query('select COUNT(bug_id) as countTrivial FROM bugs where reporter=? and bug_severity="trivial";', [testerid], (err, rowsOfTable)=>{
+                                                    mysqlconnection.query('select COUNT(bug_id) as countTrivial FROM bugs where bug_severity="trivial";', (err, rowsOfTable)=>{
                                                         if(err) {
                                                             console.log(err);
                                                             res.status(500);
-                                                            res.send({success:false, data: dataArr});
+                                                            res.send({success:false});
                                                         } else {
                                                             result.push(rowsOfTable[0]);
                                                             console.log(result);
