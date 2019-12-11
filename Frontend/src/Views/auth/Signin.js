@@ -49,6 +49,7 @@ class SignIn extends Component {
                 localStorage.setItem("jwtToken", response.data.token);
                 localStorage.setItem("userid", response.data.userid);
                 localStorage.setItem("role", response.data.role);
+                localStorage.setItem("email",response.data.email);
                 localStorage.setItem("chatUserId", response.data.chatUserId);
                 localStorage.setItem("chatUserToken", response.data.chatUserToken);
 
