@@ -45,7 +45,7 @@ class TestsPerDayTesterGraph extends Component {
             labels: this.state.days,
             datasets: [
               {
-                label: 'No. of tests ran per day this month.',
+                label: 'No. of artifacts created per day this month.',
                 fill: false,
                 lineTension: 0.1,
                 backgroundColor: 'rgba(75,192,192,0.4)',

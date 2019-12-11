@@ -47,7 +47,7 @@ class BugsDiscoveredCategoryTesterGraph extends Component {
               {
                 label: 'Total Bugs Discovered Per Category',
                 data: this.state.count,
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#780000","#CCCC00","wheat","grey"]
               }
             ]
           };

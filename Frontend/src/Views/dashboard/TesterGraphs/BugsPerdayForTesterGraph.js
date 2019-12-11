@@ -14,7 +14,7 @@ class BugsPerDayTesterGraph extends Component {
     }
 
     componentDidMount() {
-        var testerid = localStorage.getItem("userid");
+        var testerid = localStorage.getItem("email");
         //console.log(testerid);
         let url = 'http://'+hostaddress+':3001/tester/stats/bugsPerdayForTester';
         let token = localStorage.getItem('jwtToken');

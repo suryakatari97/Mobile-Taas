@@ -44,7 +44,8 @@ const login = (req, res, next)=>{
                                 console.log("logged in to chat account. UserId: "+chatUserId+" Token: "+chatUserToken); 
                                 res.send({success:true, token: signed_token, 
                                     userid: rowsOfTable[0].userid, role: rowsOfTable[0].role,
-                                    chatUserId: chatUserId, chatUserToken: chatUserToken });
+                                    chatUserId: chatUserId, chatUserToken: chatUserToken,
+                                email: email });
                                 } else {
                                 console.log(response);
                                 res.status(500);
