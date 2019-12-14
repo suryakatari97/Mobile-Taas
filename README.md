@@ -5,7 +5,7 @@
 1. Make sure install node.js in your system
 1. Install chrome web driver and gecko web driver in your local system
 1. Add the web driver installer paths in System variables path 
-(Above two steps are required for running Test Runner)
+  (Steps 2 & 3 are required for running Test Runner)
 1. Go to the root folder and navigate to "Frontend" folder of repository and enter command "npm install" in command prompt
 1. Run command "npm start" for the frontend server to start on 3000 port
 1. Go to the root folder and navigate to "Backend" folder of repository and enter command "npm install" in command prompt
