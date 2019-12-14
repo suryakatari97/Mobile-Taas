@@ -1,6 +1,6 @@
 # MobileTaaS
 
-###Steps to run the application
+## Steps to run the application
 
 1. Make sure install node.js in your system
 1. Install chrome web driver and gecko web driver in your local system
